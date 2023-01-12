@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WebApplication5.Models.Transkripta>
+
+@{
+    ViewData["Title"] = "Transkripta ime";
+}
+<h1>Transkripta</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nota)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.Nota != null)
+            {
+                  <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nota)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    
+                    <a asp-action="Delete" asp-route-id="@item.Id">Anulo</a>|
+
+                </td>
+            </tr>
+            }
+          
+        }
+    </tbody>
+</table>

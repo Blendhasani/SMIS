@@ -1,0 +1,120 @@
+﻿@using WebApplication5.Data.ViewModel;
+@model LoginVM
+
+@{
+	ViewData["Title"] = "Login to your account";
+}
+
+
+@*
+<div class="row">
+	<div class="col-md-6 offset-3">
+		<p>
+			<h4>Login to your account</h4>
+		</p>
+
+		@if (TempData["Error"] != null)
+		{
+				<div class="col-md-12 alert alert-danger">
+					<span><b>Sorry!</b> - @TempData["Error"]</span>
+				</div>
+		}
+		<div class="row">
+			<div class="col-md-8 offset-2">
+				<form asp-action="Login">
+				<div asp-validation-summary="ModelOnly" class="text-danger">
+
+				</div>
+				<div class="form-group">
+					<label asp-for="EmailAddress" class="control-label"></label>
+					<input asp-for="EmailAddress" class="form-control"/>
+					<span asp-validation-for="EmailAddress" class="text-danger"></span>
+
+				</div>
+				<div class="form-group">
+					<label asp-for="Password" class="control-label"></label>
+					<input asp-for="Password" class="form-control"/>
+					<span asp-validation-for="Password" class="text-danger"></span>
+
+				</div>
+				<div class="form-group">
+				<input class="btn btn-outline-success float-right" type="submit" value="Log in"/>
+				<a class="btn btn-outline-secondary" asp-controller="Movies" asp-action="Index">
+					Cancel
+				</a>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>*@
+
+
+<section class="vh-100" style="margin-top:10%;">
+	<div class="container-fluid h-custom">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-md-9 col-lg-6 col-xl-5 ">
+				<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+					 class="img-fluid" alt="Sample image">
+			</div>
+			<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+				<form asp-action="Login">
+					<div asp-validation-summary="ModelOnly" class="text-danger">
+					</div>
+					<div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+						<p class="lead fw-normal mb-2 me-3">Sign in </p>
+						@* <button type="button" class="btn btn-primary btn-floating mx-1">
+						<i class="fab fa-facebook-f"></i>
+						</button>
+
+						<button type="button" class="btn btn-primary btn-floating mx-1">
+						<i class="fab fa-twitter"></i>
+						</button>
+
+						<button type="button" class="btn btn-primary btn-floating mx-1">
+						<i class="fab fa-linkedin-in"></i>
+						</button>*@
+					</div>
+
+
+
+					<!-- Email input -->
+					<div class="form-group mb-4">
+						<label asp-for="EmailAddress" class="control-label"></label>
+						<input asp-for="EmailAddress" type="email" id="form3Example3" class="form-control form-control-lg"
+							   placeholder="Enter a valid email address" />
+						<span asp-validation-for="EmailAddress" class="text-danger"></span>
+					</div>
+
+					<!-- Password input -->
+					<div class="form-group mb-3">
+						<label asp-for="Password" class="control-label"></label>
+						<input asp-for="Password" type="password" id="form3Example4" class="form-control form-control-lg"
+							   placeholder="Enter password" />
+						<span asp-validation-for="Password" class="text-danger"></span>
+					</div>
+
+					@*                    <div class="d-flex justify-content-between align-items-center">
+					<!-- Checkbox -->
+					<div class="form-check mb-0">
+					<input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+					<label class="form-check-label" for="form2Example3">
+					Remember me
+					</label>
+					</div>
+					<a href="#!" class="text-body">Forgot password?</a>
+					</div>*@
+
+					<div class="text-center text-lg-start mt-4 pt-2">
+						<input type="submit" class="btn btn-primary btn-lg"
+							   style="padding-left: 2.5rem; padding-right: 2.5rem;" value="Login"></input>
+						<p class="small fw-bold mt-2 pt-1 mb-0">
+							Don't have an account? <a asp-action="Create" asp-controller="Students"
+													  class="link-danger">Register</a>
+						</p>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
