@@ -23,14 +23,42 @@ namespace WebApplication5.Controllers
         }
 
         // GET: SubjectTeachers
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.SubjectTeacher.Include(s => s.Subject).Include(s => s.Teacher);
-            return View(await applicationDbContext.ToListAsync());
-        }
+        /*      public async Task<IActionResult> Index()
+			  {
+				  var applicationDbContext = _context.SubjectTeacher.Include(s => s.Subject).Include(s => s.Teacher);
+				  return View(await applicationDbContext.ToListAsync());
+			  }*/
 
-        // GET: SubjectTeachers/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+/*        [Authorize(Roles = "ADMIN , Teacher")]
+        public async Task<IActionResult> Students()
+        {
+
+            var applicationDbContext = _context.Students.Where(s => s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
+            return View(applicationDbContext);
+        }
+        public async Task<IActionResult> Index(int id)
+        {
+            var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(t => t.Teacher).Where(s => s.Student.Id == id).ToList();
+            return View(applicationDbContext);
+        }*/
+
+
+        [Authorize(Roles = "ADMIN , Teacher")]
+		public async Task<IActionResult> Teachers()
+		{
+
+			var applicationDbContext = _context.Teachers.Where(s => s.SubjectTeachers.Any(s => s.Teacher.Id == s.TeacherId)).ToList();
+			return View(applicationDbContext);
+		}
+		public async Task<IActionResult> Index(int id)
+		{
+			var applicationDbContext = _context.SubjectTeacher.Include(s => s.Subject).Include(s => s.Teacher).Where(s => s.Teacher.Id == id).ToList();
+			return View(applicationDbContext);
+		}
+
+		// GET: SubjectTeachers/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.SubjectTeacher == null)
             {
@@ -67,7 +95,7 @@ namespace WebApplication5.Controllers
          
                 _context.Add(subjectTeacher);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Teachers));
           
 
         }

@@ -22,10 +22,23 @@ namespace WebApplication5.Controllers
         }
 
         // GET: StudentTeachers
-        public async Task<IActionResult> Index()
+       /* public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(s => s.Teacher);
             return View(await applicationDbContext.ToListAsync());
+        }*/
+
+        [Authorize(Roles = "ADMIN , Teacher")]
+		public async Task<IActionResult> Students()
+		{
+         
+            var applicationDbContext = _context.Students.Where(s => s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
+            return View(applicationDbContext);
+		}
+        public async Task<IActionResult> Index(int id)
+        {
+            var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(t => t.Teacher).Where(s=>s.Student.Id==id).ToList();
+            return View(applicationDbContext);
         }
 
         // GET: StudentTeachers/Details/5
@@ -66,7 +79,7 @@ namespace WebApplication5.Controllers
            
                 _context.Add(studentTeacher);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Students));
     
         }
 

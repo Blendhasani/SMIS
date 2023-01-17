@@ -114,7 +114,7 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,BirthDay,Grade,Email,Phone")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,BirthDay,Grade,Email,Phone,Password")] Teacher teacher)
         {
             if (id != teacher.Id)
             {
@@ -124,7 +124,18 @@ namespace WebApplication5.Controllers
             
                 try
                 {
-                    _context.Update(teacher);
+                var tr = new Teacher()
+                {
+                    Id = teacher.Id,
+                    Name = teacher.Name,
+                    Surname = teacher.Surname,
+                    BirthDay = teacher.BirthDay,
+                    Grade = teacher.Grade,
+                    Email = teacher.Email,
+                    Phone = teacher.Phone,
+                    Password = teacher.Password,
+                };
+                    _context.Update(tr);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

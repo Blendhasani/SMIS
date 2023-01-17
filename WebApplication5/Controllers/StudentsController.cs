@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using WebApplication5.Data;
 using WebApplication5.Data.Services;
 using WebApplication5.Models;
@@ -122,17 +124,45 @@ namespace WebApplication5.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 		[Authorize(Roles = "ADMIN")]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email")] Student student)
+     
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email,Password")] Student student)
         {
+
             if (id != student.Id)
             {
                 return NotFound();
             }
 
+
+       /*     student.Password = _context.Students.Single(x => x.Id == student.Id).Password;
+            student.Email = _context.Students.Single(x => x.Id == student.Id).Email;
+            student.Name = _context.Students.Single(x => x.Id == student.Id).Name;*/
+            var st = new Student()
+            {
+                Id = student.Id,
+                Name= _context.Students.Single(x => x.Id == student.Id).Name,
+                Surname = student.Surname,
+                ParentName = student.ParentName,
+                Gender = student.Gender,
+                Birthday = student.Birthday,
+                Residence = student.Residence,
+                Nationality = student.Nationality,
+                State = student.State,
+                Phone = student.Phone,
+                ImageUrl = student.ImageUrl,
+                Email = _context.Students.Single(x => x.Id == student.Id).Email,
+                Password = _context.Students.Single(x => x.Id == student.Id).Password
+
+
+
+
+        };
            
                 try
-                {
-                    _context.Update(student);
+            {
+         
+                _context.Update(st);
+              
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

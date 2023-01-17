@@ -9,7 +9,7 @@
 
 
 <p>
-	<a asp-action="Create" style="text-decoration:none;">Create New</a>
+	<a asp-action="Create" asp-controller="SubjectTeachers" style="text-decoration:none;">Create</a>
 </p>
 <table class="table">
 	<thead>
@@ -20,18 +20,11 @@
 			<th>
 				@Html.DisplayNameFor(model => model.Surname)
 			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.BirthDay)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Grade)
-			</th>
+		
 			<th>
 				@Html.DisplayNameFor(model => model.Email)
 			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Phone)
-			</th>
+		
 			<th></th>
 		</tr>
 	</thead>
@@ -45,28 +38,20 @@
 				<td>
 					@Html.DisplayFor(modelItem => item.Surname)
 				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.BirthDay)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Grade)
-				</td>
+			
 				<td>
 					@Html.DisplayFor(modelItem => item.Email)
 				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Phone)
-				</td>
+		
 
-				<td class="align-middle" style="display:flex; flex-direction:column;">
+					<td class="align-middle" style="display:flex; flex-direction:column;">
 
 
-					<a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id" style="margin-bottom:10px">Edit</a>
-					<a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id" style="margin-bottom:10px">Details</a>
-					<a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:17px">Delete</a>
+						<a asp-action="Index" class="btn btn-success" asp-controller="SubjectTeachers" asp-route-id="@item.Id">Lidhjet</a>
+						
 
 
-				</td>
+					</td>
 			</tr>
 		}
 	</tbody>

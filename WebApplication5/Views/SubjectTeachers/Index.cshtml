@@ -2,9 +2,20 @@
 
 @{
     ViewData["Title"] = "Index";
+ 
+
+    string emri = "";
+    string mbiemri = "";
+    foreach(var item in Model)
+    {
+        emri = item.Teacher.Name;
+        mbiemri = item.Teacher.Surname;
+    }
+ 
+
 }
 
-<h1>Index</h1>
+<h1>Lidhjet e Profesorit/eshes @emri @mbiemri</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -30,11 +41,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Teacher.Name)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+
+                    <td class="align-middle" style="display:flex; flex-direction:column;">
+
+
+                        <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id" style="margin-bottom:10px">Edit</a>
+                        <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id" style="margin-bottom:10px">Details</a>
+                                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:17px">Delete</a>
+
+
+                    </td>
         </tr>
 }
     </tbody>

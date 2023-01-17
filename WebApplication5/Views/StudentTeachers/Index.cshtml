@@ -2,18 +2,29 @@
 
 @{
     ViewData["Title"] = "Index";
+    string emri = "";
+    string mbiemri = "";
+    foreach(var item in Model)
+    {
+        emri = item.Student.Name;
+        mbiemri = item.Student.Surname;
+    }
+ 
 }
 
-<h1>Index</h1>
+<h1>Lidhjet e Studentit/es @emri @mbiemri</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table align-middle">
     <thead>
-        <tr>
+        <tr class="text-center  align-middle">
             <th>
-                @Html.DisplayNameFor(model => model.Student)
+                @Html.DisplayNameFor(model => model.Student.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student.Surname)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Teacher.Name)
@@ -26,21 +37,29 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr class="text-center  align-middle">
             <td>
                 @Html.DisplayFor(modelItem => item.Student.Name)
+                
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.Surname)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Teacher.Name)
             </td>
                   <td>
                     @Html.DisplayFor(modelItem => item.Teacher.Surname)
                 </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+             <td class="align-items-center "style="display:flex;   flex-direction:column;">
+
+
+                    <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id" style="margin-bottom:10px; width:150px;">Edit</a>
+                    <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id" style="margin-bottom:10px;width:150px;">Details</a>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:17px;width:150px;">Delete</a>
+
+
+                    </td>
         </tr>
 }
     </tbody>

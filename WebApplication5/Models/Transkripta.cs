@@ -20,6 +20,7 @@ namespace WebApplication5.Models
 		[ForeignKey("SubjectId")]
 		public Subject Subject { get; set; }
 
+		public DateTime CreatedDate { get; set; }
 
 		
 

@@ -43,6 +43,33 @@ namespace WebApplication5.Data.Services
 
          /*   return newUser;*/
         }
+
+
+        [HttpPost]
+        public async Task EditUser(string email,Student student)
+        {
+            var users = _context.Users.FirstOrDefault(s=>s.
+            Email == email);
+
+
+            var newUser = new ApplicationUser()
+            {
+                FullName = users.FullName,
+                Email = users.Email,
+                UserName = users.Email
+
+
+            };
+
+            var newUserResponse = await _userManager.UpdateAsync(newUser);
+
+            if (newUserResponse.Succeeded)
+          
+            await _context.SaveChangesAsync();
+
+
+            /*   return newUser;*/
+        }
         [HttpPost]
         public async Task RegisterTeacher(Teacher teacher)
         {

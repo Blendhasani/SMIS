@@ -34,8 +34,15 @@ namespace WebApplication5.Controllers
             return View(users);
         }
 
-        public IActionResult Login() => View(new LoginVM());
 
+        public IActionResult Login()
+        {
+            if(!User.Identity.IsAuthenticated){ 
+
+                return View(new LoginVM());
+            }
+			return View("~/Views/Home/Index.cshtml");
+		}
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM loginVM)
@@ -51,12 +58,17 @@ namespace WebApplication5.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                     if (result.Succeeded)
                     {
+
                         return RedirectToAction("Index", "Home");
+                 
+                       
+                       
                     }
                 }
                 TempData["Error"] = "Wrong credentials. Please, try again!";
                 return View(loginVM);
             }
+         
 
             TempData["Error"] = "Wrong credentials. Please, try again!";
             return View(loginVM);
@@ -93,7 +105,7 @@ namespace WebApplication5.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
 
