@@ -16,5 +16,6 @@ namespace WebApplication5.Data
 		public DbSet<Transkripta> Transkripta { get; set; }
 		public DbSet<Subject> Subjects { get; set; }
 		public DbSet<SubjectTeacher> SubjectTeacher { get; set; }
-	}
+		public DbSet<Afati> Afati { get; set; }
+    }
 }

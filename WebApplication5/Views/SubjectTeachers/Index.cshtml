@@ -2,14 +2,16 @@
 
 @{
     ViewData["Title"] = "Index";
- 
+
 
     string emri = "";
     string mbiemri = "";
+    int id = 0;
     foreach(var item in Model)
     {
         emri = item.Teacher.Name;
         mbiemri = item.Teacher.Surname;
+        id = item.TeacherId;
     }
  
 
@@ -18,7 +20,7 @@
 <h1>Lidhjet e Profesorit/eshes @emri @mbiemri</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create"asp-route-id="@id">Create New</a>
 </p>
 <table class="table">
     <thead>

@@ -62,10 +62,21 @@ namespace WebApplication5.Controllers
         }
 
         // GET: StudentTeachers/Create
-        public IActionResult Create()
+/*        public IActionResult Create()
         {
             ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Name");
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
+            return View();
+        }*/
+
+        public IActionResult Create(int id)
+        {
+            var std = _context.Students.Where(s => s.Id.Equals(id)).ToList();
+            var stds = _context.StudentTeacher.FirstOrDefault(s=>s.StudentId==id);
+            ViewData["StudentId"] = new SelectList(std, "Id", "Name");
+            var data = _context.Teachers.Where(s => s.StudentTeachers.All(t => t.Teacher.Id != stds.TeacherId && t.Student.Id != stds.StudentId)).ToList();
+           // var tcs = _context.Teachers.Include(s => s.StudentTeachers).Where(c => c.Id != stds.TeacherId && c.);
+            ViewData["TeacherId"] = new SelectList(data, "Id", "Name");
             return View();
         }
 
@@ -74,7 +85,7 @@ namespace WebApplication5.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,TeacherId")] StudentTeacher studentTeacher)
+        public async Task<IActionResult> Create([Bind("StudentId,TeacherId")] StudentTeacher studentTeacher)
         {
            
                 _context.Add(studentTeacher);

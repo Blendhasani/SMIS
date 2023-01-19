@@ -78,10 +78,21 @@ namespace WebApplication5.Controllers
         }
 
         // GET: SubjectTeachers/Create
-        public IActionResult Create()
+        /*        public IActionResult Create()
+                {
+                    ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
+                    ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
+                    return View();
+                }*/
+        public IActionResult Create(int id)
         {
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
+            var tcs = _context.Teachers.Where(s => s.Id.Equals(id)).ToList();
+            var tcss = _context.SubjectTeacher.FirstOrDefault(s => s.TeacherId == id);
+          
+            var data = _context.Subjects.Where(s => s.SubjectTeachers.All(t => t.Teacher.Id != tcss.TeacherId && t.Subject.Id != tcss.SubjectId)).ToList();
+      
+            ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
+            ViewData["TeacherId"] = new SelectList(tcs, "Id", "Name");
             return View();
         }
 
@@ -90,7 +101,7 @@ namespace WebApplication5.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SubjectId,TeacherId")] SubjectTeacher subjectTeacher)
+        public async Task<IActionResult> Create([Bind("SubjectId,TeacherId")] SubjectTeacher subjectTeacher)
         {
          
                 _context.Add(subjectTeacher);

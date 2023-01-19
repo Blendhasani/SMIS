@@ -24,3 +24,10 @@ body {
 a {
 text-decoration:none;
 }
+
+/*toastr*/
+#toast-container > .toast-error {
+    opacity: 100%;
+    box-shadow: none;
+    margin-top: 15px;
+}

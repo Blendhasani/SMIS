@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication5.Data;
 using WebApplication5.Models;
 using System.Linq.Expressions;
+using WebApplication5.Migrations;
 
 namespace WebApplication5.Controllers
 {
@@ -121,35 +122,47 @@ namespace WebApplication5.Controllers
         }
 
 
-		// GET: Transkriptas/Create
+	// GET: Transkriptas/Create origjinal
 		[Authorize(Roles = "User")]
         public async Task<IActionResult> Create()
         {
+            var a = _context.Afati.FirstOrDefault();
             var user = await GetCurrentUserAsync();
             var namee = user.FullName;
+
           var st = _context.Students.Single(t => t.Name.Equals(namee));
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", namee);
+            if (a.Hapur == true)
+            {
+                ViewData["StudentId"] = new SelectList(_context.Students, "Id", namee);
 
-            var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();
-            /*
-                        var user = await GetCurrentUserAsync();
-                        var namee = user.FullName;
-                        var st = _context.Students.Single(t=>t.Name.Equals(namee));
+                var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();
+                /*
+                            var user = await GetCurrentUserAsync();
+                            var namee = user.FullName;
+                            var st = _context.Students.Single(t=>t.Name.Equals(namee));
 
-                        ViewData["StudentId"] = new SelectList(_context.Students, "Id", namee);
+                            ViewData["StudentId"] = new SelectList(_context.Students, "Id", namee);
 
-                        var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();
+                            var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();
 
-                        ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
+                            ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
+
+                 mos e nguc qeta posht
+                 var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();*/
+
+                ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
+            }
+            else
+            {
+                ViewData["message"] = "Afati nuk është hapur akoma";
+            }
+          
             
-             mos e nguc qeta posht
-             var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();*/
-
-            ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
 
             return View();
         }
-   
+
+
 
         // POST: Transkriptas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -162,9 +175,15 @@ namespace WebApplication5.Controllers
             var user = await GetCurrentUserAsync();
             var namee = user.FullName;
            var student = _context.Students.Where(s=>s.Name.Equals(namee)).FirstOrDefault();
-/*
-            var studentt = _context.StudentTeacher.Where(s => s.Student.Name.Equals(namee)).FirstOrDefault();*/
+          
 
+
+            var tt = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.Name==student.Name).ToList();
+            /*
+                        var studentt = _context.StudentTeacher.Where(s => s.Student.Name.Equals(namee)).FirstOrDefault();*/
+            int count = 0;
+            List<int> provimet = new List<int>();
+            var afatet = _context.Afati.FirstOrDefault();
             var tr = new Transkripta()
             {
                 Id = transkripta.Id,
@@ -172,13 +191,33 @@ namespace WebApplication5.Controllers
                 StudentId= student.Id,
                 SubjectId= transkripta.SubjectId,
                 CreatedDate= DateTime.Now,
+                AfatiId = afatet.Id
 
             };
+           
        /*   if(student!=null && studentt != null) { }*/
+          
                 _context.Add(tr);
+/*            var a = _context.Afati.Include(t => t.Transkriptas).FirstOrDefault(x => x. == tr.AfatiId);*/
+var a = _context.Afati.FirstOrDefault(x => x.Id == tr.AfatiId);
+
+            if (a.Hapur==true && a.Rregullt.Equals("JO") && tt.Count<=1){
                 await _context.SaveChangesAsync();
-               // return RedirectToAction(nameof(Create));
-            return View("~/Views/Home/Index.cshtml");
+            }
+            else if (a.Hapur == true && a.Rregullt.Equals("PO") && tt.Count <= 9)
+            {
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                TempData["error"] = "Nuk mund te paraqitni me shume provime";
+            }
+
+            return RedirectToAction(nameof(Create));
+            //return View("~/Views/Home/Index.cshtml");
+            //return View();
+
+
         }
 
         // GET: Transkriptas/Edit/5
@@ -202,9 +241,9 @@ namespace WebApplication5.Controllers
                     ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name", transkripta.SubjectId);
                     return View(transkripta);
                 }*/
-    
-    
-       
+
+
+
 
         [Authorize(Roles = "User ,Teacher ,ADMIN")]
         public async Task<IActionResult> Edit(int? id)
@@ -265,8 +304,8 @@ namespace WebApplication5.Controllers
 				return NotFound();
 			}
 
-
-			try
+            var afatet = _context.Afati.FirstOrDefault();
+            try
 			{
                 var transkript = new Transkripta()
                 {
@@ -275,6 +314,7 @@ namespace WebApplication5.Controllers
                     StudentId = transkripta.StudentId,
                     SubjectId = transkripta.SubjectId,
                     CreatedDate = DateTime.Now,
+                    AfatiId= afatet.Id
                 };
                 
 
