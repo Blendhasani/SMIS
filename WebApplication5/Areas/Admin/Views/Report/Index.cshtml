@@ -1,0 +1,63 @@
+﻿@*@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Index</title>
+</head>
+<body>
+	<div>
+		<a asp-action="Generate" asp-controller="Report">Generate</a>
+	</div>
+</body>
+</html>*@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+  <div class="row mt-4" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
+        <div class="card col-md-5">
+
+
+            <div class="card-body ">
+              <h5 class="card-title">Raporti mbi të gjithë studentët</h5>
+              <p class="card-text">Klikoni vegzën për të shkarkuar të gjithë studentët.</p>
+              <a asp-action="GenerateStudent" asp-controller="Report" class="btn btn-primary">Shkarko</a>
+            </div>
+          </div>
+          <div class="card col-md-5">
+
+            <div class="card-body ">
+                <h5 class="card-title">Raporti mbi të gjithë profesorët</h5>
+            <p class="card-text">Klikoni vegzën për të shkarkuar të gjithë profesorët.</p>
+            <a asp-action="GenerateTeacher" asp-controller="Report" class="btn btn-primary">Shkarko</a>
+              </div>
+            </div>
+          </div>
+
+
+    
+      <div class="row mt-5" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
+        <div class="card col-md-5">
+
+
+            <div class="card-body ">
+            <h5 class="card-title">Informata mbi studentët</h5>
+
+            <a asp-action="GenerateStudent" asp-controller="Report" class="btn btn-primary">Detajet</a>
+            </div>
+          </div>
+          <div class="card col-md-5">
+
+            <div class="card-body ">
+            <h5 class="card-title">Informata mbi profesorët</h5>
+          
+            <a asp-action="GenerateTeacher" asp-controller="Report" class="btn btn-primary">Detajet</a>
+              </div>
+            </div>
+          </div>
+
+
+    

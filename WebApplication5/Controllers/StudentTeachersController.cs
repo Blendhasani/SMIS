@@ -62,12 +62,12 @@ namespace WebApplication5.Controllers
         }
 
         // GET: StudentTeachers/Create
-/*        public IActionResult Create()
+ public IActionResult CreateFirst()
         {
             ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Name");
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
             return View();
-        }*/
+        }
 
         public IActionResult Create(int id)
         {

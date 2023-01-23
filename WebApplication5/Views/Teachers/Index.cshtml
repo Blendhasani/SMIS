@@ -14,6 +14,7 @@
 <table class="table">
 	<thead>
 		<tr class="text-center">
+
 			<th>
 				@Html.DisplayNameFor(model => model.Name)
 			</th>
@@ -21,11 +22,24 @@
 				@Html.DisplayNameFor(model => model.Surname)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.BirthDay)
+				@Html.DisplayNameFor(model => model.NrPersonal)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Grade)
+				@Html.DisplayNameFor(model => model.Angazhimi)
 			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Angazhuar)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TitulliShkencor)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Gender)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.BirthDay)
+			</th>
+		
 			<th>
 				@Html.DisplayNameFor(model => model.Email)
 			</th>
@@ -46,11 +60,25 @@
 					@Html.DisplayFor(modelItem => item.Surname)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.BirthDay)
+					@Html.DisplayFor(modelItem => item.NrPersonal)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Grade)
+					@Html.DisplayFor(modelItem => item.Angazhimi)
 				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Angazhuar)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TitulliShkencor)
+				</td>
+
+				<td>
+					@Html.DisplayFor(modelItem => item.Gender)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.BirthDay)
+				</td>
+			
 				<td>
 					@Html.DisplayFor(modelItem => item.Email)
 				</td>

@@ -53,9 +53,15 @@
 						<ul class="navbar-nav flex-grow-1" style="color:white;">
 							@if (User.IsInRole("ADMIN"))
 							{
+								
 								<li class="nav-item" style="list-style:none;">
-									<a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Admin">Paneli i Kontrollit</a>
+									<a class="nav-link text-white" asp-action="Home" asp-controller="Admin" asp-area="Admin">
+										Admin area
+									</a>
 								</li>
+								@*<li class="nav-item" style="list-style:none;">
+									<a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Admin">Paneli i Kontrollit</a>
+								</li>*@
 							}
 					
 							@if (User.IsInRole("Teacher"))

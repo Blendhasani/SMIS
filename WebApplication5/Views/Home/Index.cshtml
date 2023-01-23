@@ -44,14 +44,19 @@
 					<a class="list-group-item list-group-item-action py-2 ripple active">
 						<i class="fas fa-chart-area fa-fw me-3"></i><span>Home</span>
 					</a>
-					<a asp-controller="Students" asp-action="MyProfile" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-lock fa-fw me-3"></i><span>My Profile</span></a>
-					<a asp-controller="Transkriptas" asp-action="MyTranscript" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-line fa-fw me-3"></i><span>Transkripta</span></a>
-					<a asp-controller="Transkriptas" asp-action="Create" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple">
-						<i class="fas fa-chart-pie fa-fw me-3"></i><span>Paraqit provimet</span>
+					<a asp-controller="Students" asp-action="MyProfile" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-lock fa-fw me-3 bi bi-person-fill"></i><span>Profili im</span></a>
+					<a asp-controller="Transkriptas" asp-action="MyTranscript" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-line fa-fw me-3 bi bi-list-task"></i><span>Transkripta</span></a>
+					<a href="#" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-line fa-fw me-3 bi bi-file-earmark"></i><span>Provimet</span></a>
+					
+					<ul style="margin-bottom:0px;">
+	<a asp-controller="Transkriptas" asp-action="Create" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple">
+						<i class="fas fa-chart-pie fa-fw me-3 bi bi-pencil"></i><span>Paraqit provimet</span>
 					</a>
 					<a asp-controller="Transkriptas" asp-action="ProvimetEParaqitura" class="list-group-item nav-item list-group-item-action py-2 ripple">
-						<i class="fas fa-chart-pie fa-fw me-3"></i><span>Provimet e paraqitura</span>
+						<i class="fas fa-chart-pie fa-fw me-3 bi bi-card-list"></i><span>Provimet e paraqitura</span>
 					</a>
+					</ul>
+				
 
 
 

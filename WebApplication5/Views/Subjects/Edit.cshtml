@@ -11,23 +11,89 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Semester" class="control-label"></label>
-                <input asp-for="Semester" class="form-control" />
-                <span asp-validation-for="Semester" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ECTS" class="control-label"></label>
-                <input asp-for="ECTS" class="form-control" />
-                <span asp-validation-for="ECTS" class="text-danger"></span>
-            </div>
+			<div class="form-group mt-2">
+				<label asp-for="Kodi" class="control-label"></label>
+				<input asp-for="Kodi" class="form-control" />
+				<span asp-validation-for="Kodi" class="text-danger"></span>
+			</div>
+			<div class="form-group mt-2">
+				<label asp-for="Name" class="control-label"></label>
+				<input asp-for="Name" class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+			<div class="form-group mt-3">
+				<label asp-for="NameTranslated" class="control-label"></label>
+				<input asp-for="NameTranslated" class="form-control" />
+				<span asp-validation-for="NameTranslated" class="text-danger"></span>
+			</div>
+			<div class="form-group mt-3">
+				<label asp-for="ECTS" class="control-label"></label>
+				<input asp-for="ECTS" class="form-control" />
+				<span asp-validation-for="ECTS" class="text-danger"></span>
+			</div>
+
+
+
+
+
+			<div class="form-group mt-3">
+				<label asp-for="KoheZgjatja" class="control-label"></label>
+				<select class="form-select form-control" asp-for="KoheZgjatja" aria-label="Default select example">
+
+
+					<option selected asp-for="KoheZgjatja" value="1S">1S</option>
+					<option asp-for="KoheZgjatja" value="2S">2S</option>
+					<option asp-for="KoheZgjatja" value="1T">1T</option>
+					<option asp-for="KoheZgjatja" value="2T">2T</option>
+					<option asp-for="KoheZgjatja" value="1V">1V</option>
+					<span asp-validation-for="KoheZgjatja" class="text-danger"></span>
+				</select>
+			</div>
+
+			<div class="form-group mt-3">
+				<label asp-for="GjuhaLigjerimit" class="control-label"></label>
+				<select class="form-select form-control" asp-for="GjuhaLigjerimit" aria-label="Default select example">
+
+
+					<option selected asp-for="GjuhaLigjerimit" value="Shqipe">Shqipe</option>
+					<option asp-for="GjuhaLigjerimit" value="English">English</option>
+
+					<span asp-validation-for="GjuhaLigjerimit" class="text-danger"></span>
+				</select>
+			</div>
+
+			<div class="form-group mt-3">
+				<label asp-for="Semester" class="control-label"></label>
+				<select class="form-select form-control" asp-for="Semester" aria-label="Default select example">
+
+
+					<option selected asp-for="Semester" value=1>Semestri 1</option>
+					<option asp-for="Semester" value=2>Semestri 2</option>
+					<option asp-for="Semester" value=3>Semestri 3</option>
+					<option asp-for="Semester" value=4>Semestri 4</option>
+					<option asp-for="Semester" value=5>Semestri 5</option>
+					<option asp-for="Semester" value=6>Semestri 6 </option>
+					<option asp-for="Semester" value=7>Semestri 7</option>
+					<option asp-for="Semester" value=8>Semestri 8</option>
+					<option asp-for="Semester" value=9>Semestri 9</option>
+					<option asp-for="Semester" value=10>Semestri 10</option>
+					<option asp-for="Semester" value=11>Semestri 11</option>
+					<option asp-for="Semester" value=12>Semestri 12</option>
+					<span asp-validation-for="Semester" class="text-danger"></span>
+				</select>
+			</div>
+			<div class="form-group mt-3">
+				<label asp-for="Kategoria" class="control-label"></label>
+				<select class="form-select form-control" asp-for="Kategoria" aria-label="Default select example">
+
+
+					<option selected asp-for="Kategoria" value="Obligative">Obligative</option>
+					<option asp-for="Kategoria" value="Zgjedhore">Zgjedhore</option>
+					<option asp-for="Kategoria" value="Transfer">Transfer</option>
+
+					<span asp-validation-for="Kategoria" class="text-danger"></span>
+				</select>
+			</div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

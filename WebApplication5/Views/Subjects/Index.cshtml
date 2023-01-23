@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Kodi)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -21,22 +24,40 @@
             <th>
                 @Html.DisplayNameFor(model => model.ECTS)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kategoria)
+            </th>
+            <th>
+             Ndrysho
+            </th>
+            <th>
+                Detajet
+            </th>
+            <th>
+                Fshij
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kodi)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Semester)
+                Semestri @Html.DisplayFor(modelItem => item.Semester)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ECTS)
+                @Html.DisplayFor(modelItem => item.ECTS).00
             </td>
-
+              <td>
+                @Html.DisplayFor(modelItem => item.Kategoria)
+            </td>
+@*
                 <td class="align-middle" style="display:flex; flex-direction:column;">
 
 
@@ -45,6 +66,22 @@
                     <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:17px">Delete</a>
 
 
+                </td>*@
+
+                <td class="align-middle">
+
+
+                    <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id" style="margin-bottom:10px"><i class="bi bi-pencil-square"></i> Ndrysho</a>
+                
+
+
+                </td>
+                <td class="align-middle">
+                    <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id" style="margin-bottom:10px"><i class="bi bi-info-circle"></i> Detajet</a>
+                    
+                </td>
+                <td class="align-middle">
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:17px"><i class="bi bi-trash"></i> Fshij</a>
                 </td>
         </tr>
 }

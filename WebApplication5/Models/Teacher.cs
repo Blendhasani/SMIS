@@ -12,8 +12,7 @@ namespace WebApplication5.Models
         public string Surname { get; set; }
         [Display(Name = "Data e lindjes")]
         public DateTime BirthDay { get; set; }
-        [Display(Name = "Specializimi")]
-        public string Grade { get; set; }
+   
 
         public string Email { get; set; }
         [Display(Name = "NrTel")]
@@ -21,6 +20,27 @@ namespace WebApplication5.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        //pjeset e shtuara
+
+        [Display(Name="Numri Personal")]
+        public string NrPersonal { get; set; }
+
+        [Display(Name="Titulli Shkencor")]
+        public string TitulliShkencor { get; set; }
+
+        [Display(Name="Angazhimi")]
+        public string Angazhimi { get; set; }
+
+        [Display(Name="Angazhuar në")]
+        public string Angazhuar { get; set; }
+
+        [Display(Name="Gjinia")]
+        public Char Gender { get; set; }
+
+
+
+
         public List<SubjectTeacher> SubjectTeachers { get; set; }
 		public List<StudentTeacher> StudentTeachers { get; set; }
 	

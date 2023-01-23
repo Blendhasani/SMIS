@@ -67,7 +67,7 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,BirthDay,Grade,Email,Phone,Password")] Teacher teacher)
+        public async Task<IActionResult> Create([Bind("Id,NrPersonal,Name,Surname,BirthDay,Email,TitulliShkencor,Angazhimi,Angazhuar,Gender,Phone,Password")] Teacher teacher)
         {
 
             await _register.RegisterTeacher(teacher);
@@ -114,7 +114,7 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,BirthDay,Grade,Email,Phone,Password")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NrPersonal,Name,Surname,BirthDay,Email,TitulliShkencor,Angazhimi,Angazhuar,Gender,Phone,Password")] Teacher teacher)
         {
             if (id != teacher.Id)
             {
@@ -130,10 +130,14 @@ namespace WebApplication5.Controllers
                     Name = teacher.Name,
                     Surname = teacher.Surname,
                     BirthDay = teacher.BirthDay,
-                    Grade = teacher.Grade,
                     Email = teacher.Email,
                     Phone = teacher.Phone,
                     Password = teacher.Password,
+                    NrPersonal=teacher.NrPersonal,
+                    TitulliShkencor=teacher.TitulliShkencor,
+                    Angazhimi=teacher.Angazhimi,
+                    Angazhuar=teacher.Angazhuar,
+                    Gender=teacher.Gender,
                 };
                     _context.Update(tr);
                     await _context.SaveChangesAsync();

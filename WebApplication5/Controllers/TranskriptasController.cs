@@ -20,6 +20,8 @@ using WebApplication5.Data;
 using WebApplication5.Models;
 using System.Linq.Expressions;
 using WebApplication5.Migrations;
+using FastReport;
+using System.Xml;
 
 namespace WebApplication5.Controllers
 {
@@ -34,10 +36,10 @@ namespace WebApplication5.Controllers
             _userManager = userManager;
         }
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-
+        
         // GET: Transkriptas
-   
-		[Authorize(Roles = "ADMIN ,Teacher")]
+
+        [Authorize(Roles = "ADMIN ,Teacher")]
 		public async Task<StudentTeacher> MyStudents(string name)
 		{
 			var user = await GetCurrentUserAsync();
@@ -61,20 +63,56 @@ namespace WebApplication5.Controllers
             var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.Name.Equals(name));
             return View(await applicationDbContext.OrderBy(s=>s.CreatedDate).ToListAsync());
         }
+       
+        public async Task<FileResult> GenerateTranscript(String name)
+            {
+            var xDoc = XElement.Load("Transkripta.frx");
+            FastReport.Utils.Config.WebMode = true;
+            Report rep = new Report();
+            string path = Path.Combine("Transkripta.frx");
+            rep.Load(path);
 
-/*  
-
-		[Authorize(Roles = "ADMIN ,Teacher")]
-		public async Task<IActionResult> Index(string name)
-		{
             var user = await GetCurrentUserAsync();
             name = user.FullName;
+            var namee = name;
+
+            var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.Name.Equals(namee));
+            var transkripta = applicationDbContext.OrderBy(s => s.CreatedDate).ToList();
+            /*	rep.SetParameterValue("parm1", "This is first Parameter");
+                rep.SetParameterValue("parm2", "This is second Parameter");*/
+            rep.RegisterData(transkripta, "TranskriptaRef");
+            
+            if (rep.Report.Prepare())
+            {
+                FastReport.Export.PdfSimple.PDFSimpleExport pdfExport = new FastReport.Export.PdfSimple.PDFSimpleExport();
+                pdfExport.ShowProgress = false;
+                pdfExport.Subject = "Subject Report";
+                pdfExport.Title = "Transkripta ime";
+                System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                rep.Report.Export(pdfExport, ms);
+                pdfExport.Dispose();
+                ms.Position = 0;
+                return File(ms, "application/pdf", "transkripta.pdf");
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /*  
+
+                [Authorize(Roles = "ADMIN ,Teacher")]
+                public async Task<IActionResult> Index(string name)
+                {
+                    var user = await GetCurrentUserAsync();
+                    name = user.FullName;
 
 
-            //var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.StudentTeachers.Any(st => st.Teacher.Name == name));
-			var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Subject.SubjectTeachers.Any(st => st.Teacher.Name == name));
-			return View(await applicationDbContext.ToListAsync());
-		}*/
+                    //var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.StudentTeachers.Any(st => st.Teacher.Name == name));
+                    var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Subject.SubjectTeachers.Any(st => st.Teacher.Name == name));
+                    return View(await applicationDbContext.ToListAsync());
+                }*/
 
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Vleresimi(string name)
@@ -330,7 +368,7 @@ var a = _context.Afati.FirstOrDefault(x => x.Id == tr.AfatiId);
                 {
                     using (MailMessage mail = new MailMessage())
                     {
-                        mail.From = new MailAddress("hasaniblend02@gmail.com");
+                        mail.From = new MailAddress("mygganbu@gmail.com");
                         mail.To.Add(students.Email);
                        // mail.To.Add("leadersoftx@gmail.com");
                         mail.Subject = "Nota për lëndën "+subjectt.Name;
@@ -342,7 +380,7 @@ var a = _context.Afati.FirstOrDefault(x => x.Id == tr.AfatiId);
                         mail.IsBodyHtml = true;
                         using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                         {
-                            smtp.Credentials = new System.Net.NetworkCredential("hasaniblend02@gmail.com", "rbrzcljpkjsxazzu");
+                            smtp.Credentials = new System.Net.NetworkCredential("mygganbu@gmail.com", "gqixpluokdrukpof");
                             smtp.EnableSsl = true;
                             smtp.Send(mail);
 

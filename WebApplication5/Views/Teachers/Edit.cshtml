@@ -13,36 +13,93 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BirthDay" class="control-label"></label>
-                <input asp-for="BirthDay" class="form-control" />
-                <span asp-validation-for="BirthDay" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Grade" class="control-label"></label>
-                <input asp-for="Grade" class="form-control" />
-                <span asp-validation-for="Grade" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
+			<div class="form-group mb-4">
+				<label asp-for="NrPersonal" class="control-label"></label>
+				<input asp-for="NrPersonal" class="form-control" />
+				<span asp-validation-for="NrPersonal" class="text-danger"></span>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="Name" class="control-label"></label>
+				<input asp-for="Name" class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="Surname" class="control-label"></label>
+				<input asp-for="Surname" class="form-control" />
+				<span asp-validation-for="Surname" class="text-danger"></span>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="Email" class="control-label"></label>
+				<input asp-for="Email" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="Gender" class="control-label"></label>
+				<select class="form-select form-control" asp-for="Gender" aria-label="Default select example">
+
+
+					<option selected asp-for="Gender" value=M>M</option>
+					<option asp-for="Gender" value=F>F</option>
+					<span asp-validation-for="Gender" class="text-danger"></span>
+				</select>
+			</div>
+
+
+
+			<div class="form-group mb-4">
+				<label asp-for="BirthDay" class="control-label"></label>
+				<input asp-for="BirthDay" class="form-control" />
+				<span asp-validation-for="BirthDay" class="text-danger"></span>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="TitulliShkencor" class="control-label"></label>
+				<select class="form-select form-control" asp-for="TitulliShkencor" aria-label="Default select example">
+
+
+					<option selected asp-for="TitulliShkencor" value="Dr">Dr</option>
+					<option asp-for="TitulliShkencor" value="Msc">Msc</option>
+					<option asp-for="TitulliShkencor" value="PhD">PhD</option>
+					<option asp-for="TitulliShkencor" value="Ass">Ass</option>
+					<option asp-for="TitulliShkencor" value="ProfAsoc">ProfAsoc</option>
+					<span asp-validation-for="TitulliShkencor" class="text-danger"></span>
+				</select>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="Angazhimi" class="control-label"></label>
+				<select class="form-select form-control" asp-for="Angazhimi" aria-label="Default select example">
+
+
+					<option selected asp-for="Angazhimi" value="PartTime">PartTime</option>
+					<option asp-for="Angazhimi" value="FullTime">FullTime</option>
+
+					<span asp-validation-for="Angazhimi" class="text-danger"></span>
+				</select>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="Angazhuar" class="control-label"></label>
+				<select class="form-select form-control" asp-for="Angazhuar" aria-label="Default select example">
+
+
+					<option selected asp-for="Angazhuar" value="Bachelor">Bachelor</option>
+					<option asp-for="Angazhuar" value="Master">Master</option>
+					<option asp-for="Angazhuar" value="PhD">PhD</option>
+					<option asp-for="Angazhuar" value="Profesional">Profesional</option>
+					<span asp-validation-for="Angazhuar" class="text-danger"></span>
+				</select>
+			</div>
+
+
+
+			<div class="form-group mb-4">
+				<label asp-for="Phone" class="control-label"></label>
+				<input asp-for="Phone" class="form-control" />
+				<span asp-validation-for="Phone" class="text-danger"></span>
+			</div>
+			<div class="form-group mb-4">
+				<label asp-for="Password" class="control-label"></label>
+				<input asp-for="Password" class="form-control" />
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

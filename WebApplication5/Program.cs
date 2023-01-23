@@ -58,6 +58,20 @@ app.UseAuthorization();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Account}/{action=Login}/{id?}");
+
+
+app.MapControllerRoute(
+	name: "area",
+	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapControllerRoute(
+	  name: "MyArea",
+	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+	);
+
+});
 /*app.MapRazorPages();*/
 AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 app.Run();

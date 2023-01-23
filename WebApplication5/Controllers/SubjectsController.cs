@@ -62,7 +62,7 @@ namespace WebApplication5.Controllers
 		[Authorize(Roles = "ADMIN")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Semester,ECTS")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,Kodi,Name,NameTranslated,ECTS,KoheZgjatja,GjuhaLigjerimit,Semester,Kategoria")] Subject subject)
         {
             
                 _context.Add(subject);
@@ -101,7 +101,7 @@ namespace WebApplication5.Controllers
 		[Authorize(Roles = "ADMIN")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Semester,ECTS")] Subject subject)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Kodi,Name,NameTranslated,ECTS,KoheZgjatja,GjuhaLigjerimit,Semester,Kategoria")] Subject subject)
         {
             if (id != subject.Id)
             {

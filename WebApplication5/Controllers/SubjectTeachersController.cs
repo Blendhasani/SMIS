@@ -78,12 +78,12 @@ namespace WebApplication5.Controllers
         }
 
         // GET: SubjectTeachers/Create
-        /*        public IActionResult Create()
+               public IActionResult CreateFirst()
                 {
                     ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
                     ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
                     return View();
-                }*/
+                }
         public IActionResult Create(int id)
         {
             var tcs = _context.Teachers.Where(s => s.Id.Equals(id)).ToList();

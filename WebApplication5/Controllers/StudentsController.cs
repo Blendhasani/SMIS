@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -151,12 +152,13 @@ namespace WebApplication5.Controllers
                 Phone = student.Phone,
                 ImageUrl = student.ImageUrl,
                 Email = _context.Students.Single(x => x.Id == student.Id).Email,
-                Password = _context.Students.Single(x => x.Id == student.Id).Password
+				Password = _context.Students.Single(x => x.Id == student.Id).Password
 
 
 
 
-        };
+
+			};
            
                 try
             {
@@ -214,10 +216,53 @@ namespace WebApplication5.Controllers
             {
                 _context.Students.Remove(student);
             }
-            
+           
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var user = await _userManager.FindByEmailAsync(student.Email);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return View("~/Views/Home/Index.cshtml");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+           
+             return RedirectToAction(nameof(Index));
         }
+       /* [HttpPost]
+
+        public async Task<IActionResult> DeleteUser(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with email = {email} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return View("~/Views/Home/Index.cshtml");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View("~/Views/Home/Index.cshtml");
+        }*/
 
         private bool StudentExists(int id)
         {

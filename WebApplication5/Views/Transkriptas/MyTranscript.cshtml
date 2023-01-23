@@ -1,96 +1,159 @@
 ﻿@model IEnumerable<WebApplication5.Models.Transkripta>
 
 @{
-    ViewData["Title"] = "Transkripta ime";
+	ViewData["Title"] = "Transkripta ime";
 
-    List<double?> notat = new List<double?>();
-    List<int> ectss = new List<int>();
+	List<double?> notat = new List<double?>();
+	List<int> ectss = new List<int>();
+	Student s = new Student();
+	int count = 0;
+	int nota = 0;
+	string shkronja = "";
+	switch (nota)
+	{
+		case 10:
+			shkronja = "A";
+			break;
+		case 9:
+			shkronja = "B";
+			break;
+		case 8:
+			shkronja = "C";
+			break;
+		case 7:
+			shkronja = "D";
+			break;
+		default:
+			shkronja = "F";
+			break;
+	}
 
 }
 <h1 class="mt-3">Transkripta</h1>
 <style>
-   
+
 </style>
-<table class="table table-striped" >
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nota)
-            </th>
-         
-        
-            <th>
-                @Html.DisplayNameFor(model => model.Subject.Semester)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject.ECTS)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-
-            @if (item.Nota != null && item.Nota != 5)
-            {
-                notat.Add(item.Nota);
-                ectss.Add(item.Subject.ECTS);
-            }
-            @if (item.Nota != null && item.Nota != 5)
-            {
-                  <tr>
-            
-        
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject.Name)
-                </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nota)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Subject.Semester)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Subject.ECTS)
-                    </td>
-                
-                    
-                     
-                 
-                 
-            
-            </tr>
-          
-            }
-                 
-          
-
-        }
-
-        <tr>
-            <td></td>
-            @if (notat.Count >= 1)
-            {
-                <td>
-                    <b>@String.Format("{0:0.00}", notat.Average())</b>
-                </td>
-                <td></td>
-                if (notat != null)
-                {
-                    <td><b>@ectss.Sum()</b></td>
-                }
-            
-
-            }
-        </tr>
-        
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>
+				#
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Subject.Kodi)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Subject.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Nota)
+			</th>
+			<th>
+				Nota shkronjë
+			</th>
 
 
-    </tbody>
+			<th>
+				@Html.DisplayNameFor(model => model.Subject.Semester)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Subject.ECTS)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			count++;
+
+			@if (item.Nota != null && item.Nota != 5)
+			{
+				notat.Add(item.Nota);
+				ectss.Add(item.Subject.ECTS);
+			}
+			@if (item.Nota != null && item.Nota != 5)
+			{
+				
+				switch (item.Nota)
+				{
+					case 10:
+						shkronja = "A";
+						break;
+					case 9:
+						shkronja = "B";
+						break;
+					case 8:
+						shkronja = "C";
+						break;
+					case 7:
+						shkronja = "D";
+						break;
+					default:
+						shkronja = "F";
+						break;
+				}
+				<tr>
+					<td>
+						@count
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Subject.Kodi)
+					</td>
+
+					<td>
+						@Html.DisplayFor(modelItem => item.Subject.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Nota)
+					</td>
+					<td>
+						@shkronja
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Subject.Semester)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Subject.ECTS)
+					</td>
+
+
+
+
+
+
+				</tr>
+
+			}
+
+
+
+		}
+
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			@if (notat.Count >= 1)
+			{
+				<td>
+					<b>@String.Format("{0:0.00}", notat.Average())</b>
+				</td>
+				<td></td>
+				if (notat != null)
+				{
+					<td><b>@ectss.Sum()</b></td>
+				}
+
+
+			}
+		</tr>
+
+
+
+	</tbody>
 </table>
+
 
 

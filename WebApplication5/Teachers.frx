@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/20/2023 20:28:18" ReportInfo.Modified="01/22/2023 19:41:34" ReportInfo.CreatorVersion="2023.1.0.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="Teachers" ReferenceName="TeachersRef" DataType="null" Enabled="true">
+      <Column Name="Name" DataType="System.String"/>
+      <Column Name="Surname" DataType="System.String"/>
+      <Column Name="Email" DataType="System.String"/>
+      <Column Name="Titulli Shkencor" DataType="System.String"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="66.15" Border.Lines="Top, Bottom">
+      <TextObject Name="Text1" Left="245.7" Top="18.9" Width="189" Height="18.9" Text="RAPORTI I PROFESORËVE" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text2" Left="585.9" Top="18.9" Width="113.4" Height="18.9" Text="[Date]" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="70.15" Width="718.2" Height="37.8">
+      <TextObject Name="Text5" Left="66.15" Top="9.45" Width="94.5" Height="18.9" Text="Name" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="207.9" Top="9.45" Width="94.5" Height="18.9" Text="Surname" Font="Arial, 10pt"/>
+      <TextObject Name="Text9" Left="359.1" Top="9.45" Width="94.5" Height="18.9" Text="Email" Font="Arial, 10pt"/>
+      <TextObject Name="Text11" Left="548.1" Top="9.45" Width="122.85" Height="18.9" Text="Titulli Shkencor" Font="Arial, 10pt"/>
+      <TextObject Name="Text13" Top="9.45" Width="94.5" Height="18.9" Text="Nr." Font="Arial, 10pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="111.95" Width="718.2" Height="47.25" DataSource="Teachers">
+      <TextObject Name="Text4" Left="66.15" Top="18.9" Width="94.5" Height="18.9" Text="[Teachers.Name]" Font="Arial, 10pt"/>
+      <TextObject Name="Text6" Left="207.9" Top="18.9" Width="94.5" Height="18.9" Text="[Teachers.Surname]" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="359.1" Top="18.9" Width="170.1" Height="18.9" Text="[Teachers.Email]" Font="Arial, 10pt"/>
+      <TextObject Name="Text10" Left="548.1" Top="18.9" Width="94.5" Height="18.9" Text="[Teachers.TitulliShkencor]" Font="Arial, 10pt"/>
+      <TextObject Name="Text12" Top="18.9" Width="94.5" Height="18.9" Text="[Row#]" Font="Arial, 10pt"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="163.2" Width="718.2" Height="18.9" Border.Lines="Bottom">
+      <TextObject Name="Text3" Left="661.5" Width="94.5" Height="18.9" Text="[Page#]" Font="Arial, 10pt"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

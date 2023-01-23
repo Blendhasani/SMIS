@@ -149,13 +149,16 @@
 									<div class="col-md-6 mb-4">
 
 
-
-										<div class="form-check form-check-inline">
-											<label asp-for="Gender" class="control-label"></label>
-											<input asp-for="Gender" id="Gender" class="form-control form-control-lg" />
+										<div class="form-group">
+									
+										<select class="form-select form-control" asp-for="Gender" aria-label="Default select example">
+											
+									
+												<option selected asp-for="Gender" value=M>M</option>
+											<option asp-for="Gender" value=F>F</option>
 											<span asp-validation-for="Gender" class="text-danger"></span>
+										</select>
 										</div>
-
 
 
 									</div>
