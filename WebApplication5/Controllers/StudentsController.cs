@@ -40,27 +40,35 @@ namespace WebApplication5.Controllers
         [Authorize(Roles ="ADMIN , Teacher")]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Students.ToListAsync());
+              return View(await _context.Students.Include(s=>s.Fakulteti).ToListAsync());
         }
 
-        [Authorize(Roles = "User")]
-        public async Task<IActionResult> MyProfile(string name,string email)
-        {
-            var user = await GetCurrentUserAsync();
-            name = user.FullName;
-            email =user.Email;
-            return View(await _context.Students.Where(x=>x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
-        }
+		/*        [Authorize(Roles = "User")]
+				public async Task<IActionResult> MyProfile(string name,string email)
+				{
+					var user = await GetCurrentUserAsync();
+					name = user.FullName;
+					email =user.Email;
+					return View(await _context.Students.Where(x=>x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
+				}*/
+		[Authorize(Roles = "User")]
+		public async Task<IActionResult> MyProfile(string name, string email)
+		{
+			var user = await GetCurrentUserAsync();
+			name = user.FullName;
+			email = user.Email;
+			return View(await _context.Students.Include(s=>s.Fakulteti).Where(x => x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
+		}
 
-        // GET: Students/Details/5
-        public async Task<IActionResult> Details(int? id)
+		// GET: Students/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Students == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.Include(s => s.Fakulteti)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -74,7 +82,8 @@ namespace WebApplication5.Controllers
 		
 		public IActionResult Create()
         {
-            return View();
+			ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+			return View();
         }
         public IActionResult RegisterCompleted()
         {
@@ -88,11 +97,11 @@ namespace WebApplication5.Controllers
 		
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email,Password")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
         {
-
-             /*_context.Add(student);*/
-         await _register.Register(student);
+			
+			/*_context.Add(student);*/
+			await _register.Register(student);
             _context.Students.Add(student);
 
             await _context.SaveChangesAsync();
@@ -106,6 +115,7 @@ namespace WebApplication5.Controllers
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
             if (id == null || _context.Students == null)
             {
                 return NotFound();
@@ -126,7 +136,7 @@ namespace WebApplication5.Controllers
         [ValidateAntiForgeryToken]
 		[Authorize(Roles = "ADMIN")]
      
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email,Password")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
         {
 
             if (id != student.Id)
@@ -152,7 +162,8 @@ namespace WebApplication5.Controllers
                 Phone = student.Phone,
                 ImageUrl = student.ImageUrl,
                 Email = _context.Students.Single(x => x.Id == student.Id).Email,
-				Password = _context.Students.Single(x => x.Id == student.Id).Password
+				Password = _context.Students.Single(x => x.Id == student.Id).Password,
+                FakultetiId=student.FakultetiId,
 
 
 
@@ -191,7 +202,7 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.Include(s=>s.Fakulteti)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {

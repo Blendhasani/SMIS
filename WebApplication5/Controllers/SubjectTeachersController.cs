@@ -22,33 +22,37 @@ namespace WebApplication5.Controllers
             _context = context;
         }
 
-        // GET: SubjectTeachers
-        /*      public async Task<IActionResult> Index()
+		// GET: SubjectTeachers
+		/*      public async Task<IActionResult> Index()
 			  {
 				  var applicationDbContext = _context.SubjectTeacher.Include(s => s.Subject).Include(s => s.Teacher);
 				  return View(await applicationDbContext.ToListAsync());
 			  }*/
 
 
-/*        [Authorize(Roles = "ADMIN , Teacher")]
-        public async Task<IActionResult> Students()
-        {
+		/*        [Authorize(Roles = "ADMIN , Teacher")]
+				public async Task<IActionResult> Students()
+				{
 
-            var applicationDbContext = _context.Students.Where(s => s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
-            return View(applicationDbContext);
-        }
-        public async Task<IActionResult> Index(int id)
-        {
-            var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(t => t.Teacher).Where(s => s.Student.Id == id).ToList();
-            return View(applicationDbContext);
-        }*/
+					var applicationDbContext = _context.Students.Where(s => s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
+					return View(applicationDbContext);
+				}
+				public async Task<IActionResult> Index(int id)
+				{
+					var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(t => t.Teacher).Where(s => s.Student.Id == id).ToList();
+					return View(applicationDbContext);
+				}*/
 
-
-        [Authorize(Roles = "ADMIN , Teacher")]
-		public async Task<IActionResult> Teachers()
+		[Authorize(Roles = "ADMIN")]
+		public async Task<IActionResult> Fakultetet()
+		{
+			return View(await _context.Fakultetet.ToListAsync());
+		}
+		[Authorize(Roles = "ADMIN , Teacher")]
+		public async Task<IActionResult> Teachers(int id)
 		{
 
-			var applicationDbContext = _context.Teachers.Where(s => s.SubjectTeachers.Any(s => s.Teacher.Id == s.TeacherId)).ToList();
+			var applicationDbContext = _context.Teachers.Include(x => x.Fakulteti).Where(s => s.Fakulteti.Id==id && s.SubjectTeachers.Any(s => s.Teacher.Id == s.TeacherId)).ToList();
 			return View(applicationDbContext);
 		}
 		public async Task<IActionResult> Index(int id)
@@ -78,13 +82,19 @@ namespace WebApplication5.Controllers
         }
 
         // GET: SubjectTeachers/Create
-               public IActionResult CreateFirst()
-                {
-                    ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
-                    ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
-                    return View();
-                }
-        public IActionResult Create(int id)
+        public IActionResult CreateFirst()
+        {
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
+            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
+            return View();
+        }
+        /*public IActionResult CreateFirst(int id)
+		{
+			ViewData["SubjectId"] = new SelectList(_context.Subjects.Where(s=>s.FakultetiId==id), "Id", "Name");
+			ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Name");
+			return View();
+		}*/
+        /*public IActionResult Create(int id)
         {
             var tcs = _context.Teachers.Where(s => s.Id.Equals(id)).ToList();
             var tcss = _context.SubjectTeacher.FirstOrDefault(s => s.TeacherId == id);
@@ -94,12 +104,28 @@ namespace WebApplication5.Controllers
             ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
             ViewData["TeacherId"] = new SelectList(tcs, "Id", "Name");
             return View();
-        }
+        }*/
 
-        // POST: SubjectTeachers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        public IActionResult Create(int id)
+		{
+			var tcs = _context.Teachers.Where(s => s.Id.Equals(id)).ToList();
+			var tcss = _context.SubjectTeacher.FirstOrDefault(s => s.Teacher.Id == id);
+
+			var data = _context.Subjects.Include(x => x.Fakulteti).Where(s => s.Fakulteti.Id==tcss.Teacher.FakultetiId && s.SubjectTeachers.All(t => t.Teacher.Id != tcss.TeacherId && t.Subject.Id != tcss.SubjectId)).ToList();
+
+			ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
+			ViewData["TeacherId"] = new SelectList(tcs, "Id", "Name");
+			return View();
+		}
+
+
+
+
+
+		// POST: SubjectTeachers/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SubjectId,TeacherId")] SubjectTeacher subjectTeacher)
         {

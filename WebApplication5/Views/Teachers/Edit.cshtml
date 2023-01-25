@@ -33,6 +33,12 @@
 				<input asp-for="Email" class="form-control" />
 				<span asp-validation-for="Email" class="text-danger"></span>
 			</div>
+			<div class="col-md-9 mb-4">
+				<div class="form-group">
+					<label asp-for="Fakulteti.Emri" class="control-label"></label>
+					<select asp-for="FakultetiId" class="form-control" asp-items="ViewBag.FakultetiId"></select>
+				</div>
+			</div>
 			<div class="form-group mb-4">
 				<label asp-for="Gender" class="control-label"></label>
 				<select class="form-select form-control" asp-for="Gender" aria-label="Default select example">

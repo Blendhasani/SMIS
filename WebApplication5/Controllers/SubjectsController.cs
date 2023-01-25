@@ -23,12 +23,24 @@ namespace WebApplication5.Controllers
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-        // GET: Subjects
-        [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> Index()
-        {
-              return View(await _context.Subjects.ToListAsync());
-        }
+		// GET: Subjects
+		/*        [Authorize(Roles = "ADMIN")]
+				public async Task<IActionResult> Index()
+				{
+					  return View(await _context.Subjects.Include(s => s.Fakulteti).ToListAsync());
+				}*/
+		[Authorize(Roles = "ADMIN")]
+		public async Task<IActionResult> Fakultetet()
+		{
+			return View(await _context.Fakultetet.ToListAsync());
+		}
+
+
+           [Authorize(Roles = "ADMIN")]
+		public async Task<IActionResult> Index(int id)
+		{
+			return View(await _context.Subjects.Include(s => s.Fakulteti).Where(x=>x.Fakulteti.Id==id).ToListAsync());
+		}
 
 		// GET: Subjects/Details/5
 		[Authorize(Roles = "ADMIN")]
@@ -39,7 +51,7 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
+            var subject = await _context.Subjects.Include(s => s.Fakulteti)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
@@ -49,25 +61,39 @@ namespace WebApplication5.Controllers
             return View(subject);
         }
 
-		// GET: Subjects/Create
-		[Authorize(Roles = "ADMIN")]
-		public IActionResult Create()
+        // GET: Subjects/Create
+        /*	[Authorize(Roles = "ADMIN")]
+            public IActionResult Create()
+            {
+                ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+                return View();
+            }*/
+        [Authorize(Roles = "ADMIN")]
+        public IActionResult Create(int id)
         {
+            ViewData["FakultetiId"] = new SelectList(_context.Fakultetet.Where(x=>x.Id==id), "Id", "Emri");
             return View();
         }
 
-		// POST: Subjects/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
+        public IActionResult CreateFirst()
+        {
+            ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+            return View("Create");
+        }
+
+        // POST: Subjects/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "ADMIN")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Kodi,Name,NameTranslated,ECTS,KoheZgjatja,GjuhaLigjerimit,Semester,Kategoria")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Kodi,Name,NameTranslated,ECTS,KoheZgjatja,GjuhaLigjerimit,Semester,Kategoria,FakultetiId")] Subject subject)
         {
             
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Fakultetet));
         
         }
 
@@ -79,8 +105,8 @@ namespace WebApplication5.Controllers
             {
                 return NotFound();
             }
-
-            var subject = await _context.Subjects.FindAsync(id);
+			ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+			var subject = await _context.Subjects.FindAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -101,7 +127,7 @@ namespace WebApplication5.Controllers
 		[Authorize(Roles = "ADMIN")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Kodi,Name,NameTranslated,ECTS,KoheZgjatja,GjuhaLigjerimit,Semester,Kategoria")] Subject subject)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Kodi,Name,NameTranslated,ECTS,KoheZgjatja,GjuhaLigjerimit,Semester,Kategoria,FakultetiId")] Subject subject)
         {
             if (id != subject.Id)
             {
@@ -125,7 +151,7 @@ namespace WebApplication5.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Fakultetet));
            
         }
 
@@ -133,12 +159,13 @@ namespace WebApplication5.Controllers
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Delete(int? id)
         {
+            
             if (id == null || _context.Subjects == null)
             {
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
+            var subject = await _context.Subjects.Include(s=>s.Fakulteti)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
@@ -164,7 +191,7 @@ namespace WebApplication5.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Fakultetet));
         }
 
         private bool SubjectExists(int id)

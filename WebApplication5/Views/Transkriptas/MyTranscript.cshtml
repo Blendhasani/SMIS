@@ -8,6 +8,7 @@
 	Student s = new Student();
 	int count = 0;
 	int nota = 0;
+	int id = 0;
 	string shkronja = "";
 	switch (nota)
 	{
@@ -66,11 +67,13 @@
 		@foreach (var item in Model)
 		{
 			count++;
-
+			
+			 
 			@if (item.Nota != null && item.Nota != 5)
 			{
 				notat.Add(item.Nota);
 				ectss.Add(item.Subject.ECTS);
+				id = item.StudentId;
 			}
 			@if (item.Nota != null && item.Nota != 5)
 			{
@@ -149,6 +152,8 @@
 
 			}
 		</tr>
+
+		<a asp-action="GenerateTranskripta" asp-controller="Transkriptas" asp-route-id="@id">Shkarko</a>
 
 
 

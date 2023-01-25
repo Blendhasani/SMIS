@@ -32,7 +32,7 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Teachers.ToListAsync());
+              return View(await _context.Teachers.Include(s=>s.Fakulteti).ToListAsync());
         }
 
         // GET: Teachers/Details/5
@@ -44,7 +44,7 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var teacher = await _context.Teachers
+            var teacher = await _context.Teachers.Include(s => s.Fakulteti)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {
@@ -58,7 +58,8 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         public IActionResult Create()
         {
-            return View();
+			ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+			return View();
         }
 
         // POST: Teachers/Create
@@ -67,7 +68,7 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NrPersonal,Name,Surname,BirthDay,Email,TitulliShkencor,Angazhimi,Angazhuar,Gender,Phone,Password")] Teacher teacher)
+        public async Task<IActionResult> Create([Bind("Id,NrPersonal,Name,Surname,BirthDay,Email,TitulliShkencor,Angazhimi,Angazhuar,Gender,Phone,Password,FakultetiId")] Teacher teacher)
         {
 
             await _register.RegisterTeacher(teacher);
@@ -95,7 +96,8 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Teachers == null)
+			ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+			if (id == null || _context.Teachers== null)
             {
                 return NotFound();
             }
@@ -114,7 +116,7 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NrPersonal,Name,Surname,BirthDay,Email,TitulliShkencor,Angazhimi,Angazhuar,Gender,Phone,Password")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NrPersonal,Name,Surname,BirthDay,Email,TitulliShkencor,Angazhimi,Angazhuar,Gender,Phone,Password,FakultetiId")] Teacher teacher)
         {
             if (id != teacher.Id)
             {
@@ -138,7 +140,8 @@ namespace WebApplication5.Controllers
                     Angazhimi=teacher.Angazhimi,
                     Angazhuar=teacher.Angazhuar,
                     Gender=teacher.Gender,
-                };
+					FakultetiId=teacher.FakultetiId,
+				};
                     _context.Update(tr);
                     await _context.SaveChangesAsync();
                 }
@@ -161,12 +164,13 @@ namespace WebApplication5.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
             if (id == null || _context.Teachers == null)
             {
                 return NotFound();
             }
 
-            var teacher = await _context.Teachers
+            var teacher = await _context.Teachers.Include(s => s.Fakulteti)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {
@@ -182,6 +186,7 @@ namespace WebApplication5.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
             if (_context.Teachers == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Teachers'  is null.");
@@ -193,8 +198,27 @@ namespace WebApplication5.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+			var user = await _userManager.FindByEmailAsync(teacher.Email);
+			if (user == null)
+			{
+				ViewBag.ErrorMessage = $"User cannot be found";
+				return View("NotFound");
+			}
+			else
+			{
+				var result = await _userManager.DeleteAsync(user);
+				if (result.Succeeded)
+				{
+					return View("~/Views/Home/Index.cshtml");
+				}
+				foreach (var error in result.Errors)
+				{
+					ModelState.AddModelError("", error.Description);
+				}
+			}
+
+			return RedirectToAction(nameof(Index));
+		}
 
         private bool TeacherExists(int id)
         {

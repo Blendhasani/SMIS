@@ -28,6 +28,11 @@
 			<a asp-action="Teachers" asp-controller="SubjectTeachers"><img style="width:70%; height:auto;" src="../../images/studying.png" /></a>
 			<a asp-action="Teachers" asp-controller="SubjectTeachers" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Lëndë-Mësues</a>
 		</div>
+
+		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
+			<a asp-action="Fakultete" asp-controller="Index"><img style="width:70%; height:auto;" src="../../images/university.png" /></a>
+			<a asp-action="Fakultete" asp-controller="Index" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Fakultetet</a>
+		</div>
 	}
 	@*@if (User.Identity.IsAuthenticated && (User.IsInRole("Teacher")))
 	{

@@ -16,6 +16,8 @@
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Index";
+    Student email = new Student();
+
 }
   <div class="row mt-4" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
         <div class="card col-md-5">
@@ -40,23 +42,27 @@
 
     
       <div class="row mt-5" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
-        <div class="card col-md-5">
+        @*<div class="card col-md-5">
 
-
+   
             <div class="card-body ">
-            <h5 class="card-title">Informata mbi studentët</h5>
-
-            <a asp-action="GenerateStudent" asp-controller="Report" class="btn btn-primary">Detajet</a>
+                     <form asp-action="GenerateStudentByEmail">
+                <h5 class="card-title">Informata mbi studentët</h5>
+                <input asp-for="@email.Email" id="name" class="form-control form-control-lg" />
+                <a asp-action="GenerateStudentByEmail" asp-route-id="@email.Email" type="submit" asp-controller="Report" value="Shkarko" class="btn btn-primary"></a>
+            </form>
             </div>
-          </div>
+    </div>
+          
+          
           <div class="card col-md-5">
 
             <div class="card-body ">
             <h5 class="card-title">Informata mbi profesorët</h5>
-          
-            <a asp-action="GenerateTeacher" asp-controller="Report" class="btn btn-primary">Detajet</a>
+
+            <a asp-action="GetData" asp-controller="Report" asp-area="Admin" class="btn btn-primary">Shkarko</a>
               </div>
-            </div>
+            </div>*@
           </div>
 
 

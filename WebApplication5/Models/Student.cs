@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication5.Models
 {
@@ -41,5 +42,9 @@ namespace WebApplication5.Models
 	
 		public List<StudentTeacher> StudentTeachers { get; set; }
 		public List<Transkripta> Transkripta { get; set; }
-	}
+        
+        public int FakultetiId { get; set; }
+        [ForeignKey("FakultetiId")]
+        public Fakulteti Fakulteti { get; set; }
+    }
 }

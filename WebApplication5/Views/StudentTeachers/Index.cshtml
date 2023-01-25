@@ -5,11 +5,14 @@
     string emri = "";
     string mbiemri = "";
     int id = 0;
+
+  
     foreach(var item in Model)
     {
         emri = item.Student.Name;
         mbiemri = item.Student.Surname;
         id = item.StudentId;
+      
     }
  
 
@@ -17,9 +20,14 @@
 
 <h1>Lidhjet e Studentit/es @emri @mbiemri</h1>
 
-<p>
-    <a asp-action="Create" asp-route-id="@id">Create New</a>
-</p>
+    <p>
+        <a asp-action="Create" asp-route-id="@id">Create</a>
+    </p>
+
+
+
+
+
 <table class="table align-middle">
     <thead>
         <tr class="text-center  align-middle">

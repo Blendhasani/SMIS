@@ -7,11 +7,12 @@
     string emri = "";
     string mbiemri = "";
     int id = 0;
+    
     foreach(var item in Model)
     {
         emri = item.Teacher.Name;
         mbiemri = item.Teacher.Surname;
-        id = item.TeacherId;
+        id = item.Teacher.Id;
     }
  
 

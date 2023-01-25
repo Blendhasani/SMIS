@@ -21,18 +21,25 @@ namespace WebApplication5.Controllers
             _context = context;
         }
 
-        // GET: StudentTeachers
-       /* public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(s => s.Teacher);
-            return View(await applicationDbContext.ToListAsync());
-        }*/
+		// GET: StudentTeachers
+		/* public async Task<IActionResult> Index()
+		 {
+			 var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(s => s.Teacher);
+			 return View(await applicationDbContext.ToListAsync());
+		 }*/
+		[Authorize(Roles = "ADMIN")]
+		public async Task<IActionResult> Fakultetet()
+		{
+			return View(await _context.Fakultetet.ToListAsync());
+		}
 
-        [Authorize(Roles = "ADMIN , Teacher")]
-		public async Task<IActionResult> Students()
+
+		
+		[Authorize(Roles = "ADMIN , Teacher")]
+		public async Task<IActionResult> Students(int id)
 		{
          
-            var applicationDbContext = _context.Students.Where(s => s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
+            var applicationDbContext = _context.Students.Include(x=>x.Fakulteti).Where(s => s.Fakulteti.Id==id && s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
             return View(applicationDbContext);
 		}
         public async Task<IActionResult> Index(int id)
@@ -62,7 +69,13 @@ namespace WebApplication5.Controllers
         }
 
         // GET: StudentTeachers/Create
- public IActionResult CreateFirst()
+        /* public IActionResult CreateFirst(int id)
+                {
+                    ViewData["StudentId"] = new SelectList(_context.Students.Where(s => s.FakultetiId == id), "Id", "Name");
+                    ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Name");
+                    return View();
+                }*/
+        public IActionResult CreateFirst()
         {
             ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Name");
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
@@ -74,7 +87,7 @@ namespace WebApplication5.Controllers
             var std = _context.Students.Where(s => s.Id.Equals(id)).ToList();
             var stds = _context.StudentTeacher.FirstOrDefault(s=>s.StudentId==id);
             ViewData["StudentId"] = new SelectList(std, "Id", "Name");
-            var data = _context.Teachers.Where(s => s.StudentTeachers.All(t => t.Teacher.Id != stds.TeacherId && t.Student.Id != stds.StudentId)).ToList();
+            var data = _context.Teachers.Include(x=>x.Fakulteti).Where(s => stds.Student.FakultetiId==s.Fakulteti.Id && s.StudentTeachers.All(t => t.Teacher.Id != stds.TeacherId && t.Student.Id != stds.StudentId)).ToList();
            // var tcs = _context.Teachers.Include(s => s.StudentTeachers).Where(c => c.Id != stds.TeacherId && c.);
             ViewData["TeacherId"] = new SelectList(data, "Id", "Name");
             return View();
@@ -90,7 +103,7 @@ namespace WebApplication5.Controllers
            
                 _context.Add(studentTeacher);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Students));
+                return RedirectToAction(nameof(Fakultetet));
     
         }
 
@@ -146,7 +159,7 @@ namespace WebApplication5.Controllers
             }
             ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", studentTeacher.StudentId);
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Id", studentTeacher.TeacherId);
-            return View(studentTeacher);
+            return View(Fakultetet);
         }
 
         // GET: StudentTeachers/Delete/5
@@ -185,7 +198,7 @@ namespace WebApplication5.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Fakultetet));
         }
 
         private bool StudentTeacherExists(int id)

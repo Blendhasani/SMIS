@@ -24,6 +24,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

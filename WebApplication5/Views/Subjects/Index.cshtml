@@ -2,13 +2,34 @@
 
 @{
     ViewData["Title"] = "Index";
+    int count = 0;
+    List<int?> lendet = new List<int?>();
+ 
+    Subject s = new Subject();
+    foreach(var item in Model)
+    {
+        lendet.Add(item.FakultetiId);
+        s.FakultetiId = item.FakultetiId;
+    }
+
 }
 
 <h1>Index</h1>
+@if (lendet.Count > 0)
+{
+    <p>
+        <a asp-action="Create" asp-route-id="@s.FakultetiId">Create</a>
+    </p>
+}
+else
+{
+    <p>
+        <a asp-action="CreateFirst" asp-controller="Subjects"> Create </a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -28,6 +49,9 @@
                 @Html.DisplayNameFor(model => model.Kategoria)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Fakulteti.Emri)
+            </th>
+            <th>
              Ndrysho
             </th>
             <th>
@@ -41,7 +65,9 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            
+           
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Kodi)
                 </td>
@@ -57,6 +83,9 @@
               <td>
                 @Html.DisplayFor(modelItem => item.Kategoria)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fakulteti.Emri)
+                </td>
 @*
                 <td class="align-middle" style="display:flex; flex-direction:column;">
 

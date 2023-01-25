@@ -2,13 +2,25 @@
 
 @{
 	ViewData["Title"] = "Students";
+	Student s = new Student();
+	
+	List<int?> lidhjet = new List<int?>();
+	foreach (var item in Model)
+	{
+		lidhjet.Add(item.Id);
+		s.FakultetiId = item.FakultetiId;
+	}
 }
 
 	<a asp-action="Admin" asp-controller="Home" class="btn btn-primary float-md-start" style="margin-right:15px;"><i class="bi bi-arrow-90deg-left text-white"></i></i> </a>
 	<h1 class="mt-3 mb-3">Studentët</h1>
 
-
-	<a asp-action="CreateFirst" asp-controller="StudentTeachers" class="mt-4">Create</a>
+@if(lidhjet.Count==0){
+    <p>
+        <a asp-action="CreateFirst" asp-controller="StudentTeachers"> Create First </a>
+    </p>
+}
+	@*<a asp-action="CreateFirst" asp-controller="StudentTeachers" asp-route-id="@s.FakultetiId" class="mt-4">Create</a>*@
 
 <table class="table mt-3 " style="margin: auto;
   width: 80%;
