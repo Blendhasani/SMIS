@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Xml.Linq;
+using Highsoft.Web.Mvc.Charts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +17,7 @@ using StackExchange.Redis;
 using WebApplication5.Data;
 using WebApplication5.Data.Services;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Controllers
 {
@@ -34,14 +38,38 @@ namespace WebApplication5.Controllers
             _userManager = userManager;
         }
 
-        // GET: Students
-        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        [Authorize(Roles ="ADMIN , Teacher")]
-        public async Task<IActionResult> Index()
+		[Authorize(Roles = "ADMIN")]
+		public async Task<IActionResult> Fakultetet()
+		{
+			return View(await _context.Fakultetet.ToListAsync());
+		}
+
+		// GET: Students
+		private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+		/*      [Authorize(Roles ="ADMIN , Teacher")]
+			  public async Task<IActionResult> Index()
+			  {
+					return View(await _context.Students.Include(s=>s.Fakulteti).ToListAsync());
+			  }*/
+
+		/*	[Authorize(Roles = "ADMIN , Teacher")]
+			public async Task<IActionResult> Index(int id)
+			{
+				return View(await _context.Students.Include(s => s.Fakulteti).Where(s=>s.FakultetiId==id).ToListAsync());
+			}
+	*/
+
+		[Authorize(Roles = "ADMIN , Teacher")]
+		public async Task<IActionResult> Index(int id , int? page)
         {
-              return View(await _context.Students.Include(s=>s.Fakulteti).ToListAsync());
-        }
+			var pageNumber = page ?? 1;
+			int pageSize = 10;
+			return View( _context.Students.Include(s => s.Fakulteti).Where(s => s.FakultetiId == id).ToPagedList(pageNumber, pageSize));
+		}
+
+
 
 		/*        [Authorize(Roles = "User")]
 				public async Task<IActionResult> MyProfile(string name,string email)
@@ -57,7 +85,7 @@ namespace WebApplication5.Controllers
 			var user = await GetCurrentUserAsync();
 			name = user.FullName;
 			email = user.Email;
-			return View(await _context.Students.Include(s=>s.Fakulteti).Where(x => x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
+			return View(await _context.Students.Include(s=>s.Fakulteti).Include(s=>s.Residence).Include(t=>t.State).Include(x=>x.Nationality).Where(x => x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
 		}
 
 		// GET: Students/Details/5
@@ -68,7 +96,7 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.Include(s => s.Fakulteti)
+            var student = await _context.Students.Include(s => s.Fakulteti).Include(s=>s.Residence).Include(s=>s.Nationality).Include(s=>s.State)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -79,25 +107,68 @@ namespace WebApplication5.Controllers
         }
 
 		// GET: Students/Create
-		
+		[HttpGet]
+		public IActionResult Action(string selectedOption)
+		{
+			var options = _context.Residences.Where(x => x.Name == selectedOption).Select(x => new { Value = x.Id, Text = x.Name });
+			return Ok(options);
+		}
+		/*	public IActionResult Create()
+			{
+				var shtetet = _context.States;
+
+
+				ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+
+				ViewData["StateId"] = new SelectList(shtetet, "Id", "Name");
+				var selectList = ViewData["StateId"] as SelectList;
+				var t = Action(selectList.SelectedValue.ToString()) as OkObjectResult;
+				var result =  t.Value as IEnumerable<Residence>;
+
+				ViewData["NationalityId"] = new SelectList(_context.Nationalities, "Id", "Name");
+				ViewData["ResidenceId"] = new SelectList(result, "Id", "Name");
+				return View();
+			}*/
 		public IActionResult Create()
-        {
+		{
+		
+
+
 			ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+
+		/*	var states = _context.States.Select(s => new SelectListItemWithAttributes
+			{
+				Value = s.Id.ToString(),
+				Text = s.Name,
+				HtmlAttributes = new Dictionary<string, string>() { { "data_url", Url.Action("GetResidencesByStateId", "YourController") } }
+			});*/
+			ViewData["StateId"] = new SelectList(_context.States, "Id", "Name");
+                
+
+			ViewData["NationalityId"] = new SelectList(_context.Nationalities, "Id", "Name");
+			ViewData["ResidenceId"] = new SelectList(_context.Residences, "Id", "Name");
 			return View();
-        }
-        public IActionResult RegisterCompleted()
+		}
+
+		public JsonResult GetResidencesByStateId(int stateId)
+		{
+			var residences = _context.Residences.Where(r => r.StateId == stateId).Select(r => new { r.Id, r.Name });
+			return Json(residences);
+		}
+		public IActionResult RegisterCompleted()
         {
             return View();
         }
 
+     
 
 		// POST: Students/Create
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		
+
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Name,Surname,ParentName,Gender,Birthday,ResidenceId,NationalityId,StateId,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
         {
 			
 			/*_context.Add(student);*/
@@ -115,7 +186,11 @@ namespace WebApplication5.Controllers
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Edit(int? id)
         {
+        
             ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
+            ViewData["StateId"] = new SelectList(_context.States, "Id", "Name");
+            ViewData["NationalityId"] = new SelectList(_context.Nationalities, "Id", "Name");
+            ViewData["ResidenceId"] = new SelectList(_context.Residences, "Id", "Name");
             if (id == null || _context.Students == null)
             {
                 return NotFound();
@@ -136,7 +211,7 @@ namespace WebApplication5.Controllers
         [ValidateAntiForgeryToken]
 		[Authorize(Roles = "ADMIN")]
      
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,Nationality,State,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,ResidenceId,NationalityId,StateId,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
         {
 
             if (id != student.Id)
@@ -144,26 +219,24 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-
-       /*     student.Password = _context.Students.Single(x => x.Id == student.Id).Password;
-            student.Email = _context.Students.Single(x => x.Id == student.Id).Email;
-            student.Name = _context.Students.Single(x => x.Id == student.Id).Name;*/
             var st = new Student()
             {
                 Id = student.Id,
-                Name= _context.Students.Single(x => x.Id == student.Id).Name,
-                Surname = student.Surname,
+				/* Name= _context.Students.Single(x => x.Id == student.Id).Name,*/
+				 Name= student.Name,
+				Surname = student.Surname,
                 ParentName = student.ParentName,
                 Gender = student.Gender,
                 Birthday = student.Birthday,
-                Residence = student.Residence,
-                Nationality = student.Nationality,
-                State = student.State,
+                ResidenceId = student.ResidenceId,
+                NationalityId = student.NationalityId,
+                StateId = student.StateId,
                 Phone = student.Phone,
                 ImageUrl = student.ImageUrl,
-                Email = _context.Students.Single(x => x.Id == student.Id).Email,
-				Password = _context.Students.Single(x => x.Id == student.Id).Password,
-                FakultetiId=student.FakultetiId,
+              /*  Email = _context.Students.Single(x => x.Id == student.Id).Email,*/
+                Email = student.Email,
+				Password = student.Password,
+				FakultetiId =student.FakultetiId,
 
 
 

@@ -1,0 +1,43 @@
+﻿@model WebApplication5.Models.Afati
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Afati</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Emri)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Emri)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Hapur)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Hapur)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NrProvimeve)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NrProvimeve)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VitiAkademik)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VitiAkademik)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

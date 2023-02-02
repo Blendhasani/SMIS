@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using WebApplication5.Areas.Admin.Models;
 using WebApplication5.Data;
 using WebApplication5.Data.Static;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize(Roles = "ADMIN")]
 	public class AdminController : Controller
 	{
 		private readonly ApplicationDbContext _context;
@@ -30,10 +34,13 @@ namespace WebApplication5.Areas.Admin.Controllers
 			return View();
 		}
         [Route("Admin/Admins")]
-        public async Task<IActionResult> Admins()
+        public async Task<IActionResult> Admins(int? page)
 		{
-			// Get a list of users in the role
-			var usersWithPermission = _userManager.GetUsersInRoleAsync("ADMIN").Result;
+			
+			var pageNumber = page ?? 1;
+            int pageSize = 10;
+            // Get a list of users in the role
+            var usersWithPermission = _userManager.GetUsersInRoleAsync("ADMIN").Result;
 
 			// Then get a list of the ids of these users
 			var idsWithPermission = usersWithPermission.Select(u => u.Id);
@@ -41,13 +48,16 @@ namespace WebApplication5.Areas.Admin.Controllers
 			// Now get the users in our database with the same ids
 			var users = _context.Users.Where(u => idsWithPermission.Contains(u.Id)).ToList();
 
-			return View(users);
+			return View(users.ToPagedList(pageNumber, pageSize));
 
 
 		}
 		[Route("Admin/Users")]
-		public async Task<IActionResult> Users()
+		public async Task<IActionResult> Users(int? page)
+
 		{
+			var pageNumber = page ?? 1;
+			int pageSize = 10;
 			// Get a list of users in the role
 			var usersWithPermission = _userManager.GetUsersInRoleAsync("User").Result;
 
@@ -57,7 +67,7 @@ namespace WebApplication5.Areas.Admin.Controllers
 			// Now get the users in our database with the same ids
 			var users = _context.Users.Where(u => idsWithPermission.Contains(u.Id)).ToList();
 
-			return View(users);
+			return View(users.ToPagedList(pageNumber, pageSize));
 
 
 		}
@@ -86,8 +96,8 @@ namespace WebApplication5.Areas.Admin.Controllers
 				await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
 			await _context.SaveChangesAsync();
 
-			return View("~/Report/Index.cshtml");
-
+			//return View("~/Report/Index.cshtml");
+			return RedirectToAction(nameof(Admins));
 			/*   return newUser;*/
 		}
 
@@ -118,10 +128,71 @@ namespace WebApplication5.Areas.Admin.Controllers
 					ModelState.AddModelError("",error.Description);
 				}
 			}
-			return View("Admins");
+			return RedirectToAction(nameof(UserRoless));
 		}
 
 
+		[Route("Admin/UserRoless")]
 
+		public async Task<IActionResult> UserRoless(int? page)
+		{
+			var users = await _userManager.Users.ToListAsync();
+			var userRoles = new List<UsersRoles>();
+            var pageNumber = page ?? 1;
+            int pageSize = 10;
+            foreach (var user in users)
+			{
+				var roles = await _userManager.GetRolesAsync(user);
+				userRoles.Add(new UsersRoles()
+				{
+					User = user,
+					Roles = roles
+				});
+			}
+
+			return View(userRoles.ToPagedList(pageNumber, pageSize));
+		}
+		[Route("Admin/DeleteUserRole")]
+		[Route("Admin/DeleteUserRole/{id?}")]
+		[HttpPost]
+		public async Task<IActionResult> DeleteUserRole(string id)
+		{
+			var user = await _userManager.FindByIdAsync(id);
+			if (user != null)
+			{
+				var roles = await _userManager.GetRolesAsync(user);
+				foreach (var role in roles)
+				{
+					await _userManager.RemoveFromRoleAsync(user, role);
+				}
+				await _userManager.DeleteAsync(user);
+			}
+            return RedirectToAction(nameof(UserRoless));
+        }
+
+		[Route("Admin/Notat")]
+		public async Task<IActionResult> Notat()
+		{
+			var notat = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t=>t.Nota==5).ToList();
+			return View(notat);
+		}
+
+		[Route("Admin/DeleteNoten/{id?}")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var transkripta = await _context.Transkripta.FindAsync(id);
+
+            if (transkripta == null)
+            {
+                return NotFound();
+            }
+
+            _context.Transkripta.Remove(transkripta);
+            await _context.SaveChangesAsync();
+
+			return RedirectToAction(nameof(Notat));
+        }
     }
+
 }

@@ -14,56 +14,194 @@
 </body>
 </html>*@
 @{
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Index";
-    Student email = new Student();
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Index";
+	Student email = new Student();
+	string emaili = "";
 
 }
-  <div class="row mt-4" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
-        <div class="card col-md-5">
+<div class="row mt-4" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
+	<div class="card col-md-5">
 
 
-            <div class="card-body ">
-              <h5 class="card-title">Raporti mbi të gjithë studentët</h5>
-              <p class="card-text">Klikoni vegzën për të shkarkuar të gjithë studentët.</p>
-              <a asp-action="GenerateStudent" asp-controller="Report" class="btn btn-primary">Shkarko</a>
-            </div>
-          </div>
-          <div class="card col-md-5">
+		<div class="card-body ">
+			<h5 class="card-title">Raporti mbi të gjithë studentët</h5>
+			<p class="card-text">Klikoni vegzën për të shkarkuar të gjithë studentët.</p>
+			<a asp-action="GenerateStudent" asp-controller="Report" class="btn btn-primary">Shkarko</a>
+		</div>
+	</div>
+	<div class="card col-md-5">
 
-            <div class="card-body ">
-                <h5 class="card-title">Raporti mbi të gjithë profesorët</h5>
-            <p class="card-text">Klikoni vegzën për të shkarkuar të gjithë profesorët.</p>
-            <a asp-action="GenerateTeacher" asp-controller="Report" class="btn btn-primary">Shkarko</a>
-              </div>
-            </div>
-          </div>
-
-
-    
-      <div class="row mt-5" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
-        @*<div class="card col-md-5">
-
-   
-            <div class="card-body ">
-                     <form asp-action="GenerateStudentByEmail">
-                <h5 class="card-title">Informata mbi studentët</h5>
-                <input asp-for="@email.Email" id="name" class="form-control form-control-lg" />
-                <a asp-action="GenerateStudentByEmail" asp-route-id="@email.Email" type="submit" asp-controller="Report" value="Shkarko" class="btn btn-primary"></a>
-            </form>
-            </div>
-    </div>
-          
-          
-          <div class="card col-md-5">
-
-            <div class="card-body ">
-            <h5 class="card-title">Informata mbi profesorët</h5>
-
-            <a asp-action="GetData" asp-controller="Report" asp-area="Admin" class="btn btn-primary">Shkarko</a>
-              </div>
-            </div>*@
-          </div>
+		<div class="card-body ">
+			<h5 class="card-title">Raporti mbi të gjithë profesorët</h5>
+			<p class="card-text">Klikoni vegzën për të shkarkuar të gjithë profesorët.</p>
+			<a asp-action="GenerateTeacher" asp-controller="Report" class="btn btn-primary">Shkarko</a>
+		</div>
+	</div>
+</div>
 
 
-    
+
+<div class="row mt-5" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
+	<div class="card col-md-5">
+
+
+		<div class="card-body ">
+			<h5 class="card-title">Shikoni studentet ne fakultetin perkates</h5>
+
+
+			<form asp-controller="Report" asp-action="StudentetNeFakultet" style="display:flex;flex-direction:row;">
+				@* @Html.TextBox("SearchString")*@
+				<input type="text" class="form-control rounded " style="width:300px; margin-right:10px;" name="SearchString" placeholder="Shkruani Fakultetin" />
+				<button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+			</form>
+
+		</div>
+	</div>
+	<div class="card col-md-5">
+
+
+		<div class="card-body">
+			<h5 class="card-title">Shikoni transkripten e studentit te caktuar</h5>
+			@*  <p class="card-text">Zgjedhni fakultetin</p>*@
+
+			<form asp-controller="Report" asp-action="TranskriptaEStudentit" style="display:flex;flex-direction:row;">
+				@* @Html.TextBox("SearchString")*@
+				<input type="email" class="form-control rounded" style="width:300px; margin-right:10px;" name="SearchString" placeholder="Shkruani Emailin e Studentit" />
+				<button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+			</form>
+
+		</div>
+	</div>
+
+
+	@*<div class="card col-md-5">
+
+
+	<div class="card-body ">
+	<form asp-action="GenerateStudentByEmail">
+	<h5 class="card-title">Informata mbi studentët</h5>
+	<input asp-for="@email.Email" id="name" class="form-control form-control-lg" />
+	<a asp-action="GenerateStudentByEmail" asp-route-id="@email.Email" type="submit" asp-controller="Report" value="Shkarko" class="btn btn-primary"></a>
+	</form>
+	</div>
+	</div>
+
+
+	<div class="card col-md-5">
+
+	<div class="card-body ">
+	<h5 class="card-title">Informata mbi profesorët</h5>
+
+	<a asp-action="GetData" asp-controller="Report" asp-area="Admin" class="btn btn-primary">Shkarko</a>
+	</div>
+	</div>*@
+</div>
+
+<div class="row mt-5" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
+	<div class="card col-md-5">
+
+
+	<div class="card-body">
+			<h5 class="card-title">Shikoni lëndët e profesorit te caktuar</h5>
+			@*  <p class="card-text">Zgjedhni fakultetin</p>*@
+
+			<form asp-controller="Report" asp-action="ProfSubjectByEmail" style="display:flex;flex-direction:row;">
+				@* @Html.TextBox("SearchString")*@
+				<input type="email" class="form-control rounded" style="width:300px; margin-right:10px;" name="SearchString" placeholder="Shkruani Emailin e Profesorit" />
+				<button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+			</form>
+
+		</div>
+	</div>
+	<div class="card col-md-5">
+
+
+		<div class="card-body">
+			<h5 class="card-title">Shikoni studentët e profesorit te caktuar</h5>
+			@*  <p class="card-text">Zgjedhni fakultetin</p>*@
+
+			<form asp-controller="Report" asp-action="ProfStudentsByEmail" style="display:flex;flex-direction:row;">
+				@* @Html.TextBox("SearchString")*@
+				<input type="email" class="form-control rounded" style="width:300px; margin-right:10px;" name="SearchString" placeholder="Shkruani Emailin e Profesorit" />
+				<button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+			</form>
+
+		</div>
+	</div>
+
+
+
+</div>
+
+
+<div class="row mt-5" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
+	<div class="card col-md-5">
+
+
+	
+
+		<div class="card-body ">
+			<h5 class="card-title">Profesorët me angazhim</h5>
+
+			@*
+			<form asp-controller="Report" asp-action="StudentetNeFakultet" style="display:flex;flex-direction:row;">
+
+			<input type="text" class="form-control rounded " style="width:300px; margin-right:10px;" name="SearchString" placeholder="Shkruani Fakultetin" />
+			<button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+			</form>*@
+
+			<form asp-action="Angazhimet" asp-controller="Report" style="display:flex;flex-direction:row;">
+				<select class="form-select form-control" aria-label="Default select example" name="SearchString" style="width:300px; margin-right:10px;">
+
+
+					<option selected value="PartTime">Part Time</option>
+					<option value="FullTime">Full Time</option>
+
+				</select>
+				<button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fas fa-check"></i></button>
+			</form>
+
+
+		</div>
+	</div>
+	<div class="card col-md-5">
+
+
+		<div class="card-body">
+			<h5 class="card-title">Shikoni studentët e nje kombësie te caktuar </h5>
+			@*  <p class="card-text">Zgjedhni fakultetin</p>*@
+
+			<form asp-action="Kombesite" asp-controller="Report" style="display:flex;flex-direction:row;">
+				<select class="form-select form-control" aria-label="Default select example" name="SearchString" style="width:300px; margin-right:10px;">
+
+
+					<option selected value="Shqiptarë">Shqiptarë</option>
+					<option value="Egjiptian">Egjiptian</option>
+					<option value="Romë">Romë</option>
+					<option value="Boshnjak">Boshnjak</option>
+					<option value="Italian">Italian</option>
+					<option value="Maqedon">Maqedon</option>
+					<option value="Malazez">Malazez</option>
+					
+				</select>
+				<button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fas fa-check"></i></button>
+			</form>
+
+
+		</div>
+	</div>
+
+
+
+</div>
+
+
+<script>
+	var inputValue = document.getElementById("inputValue");
+	var myAnchor = document.getElementById("myAnchor");
+
+	inputValue.addEventListener("input", function () {
+		myAnchor.href = "/Report/GenerateStudentByEmail/" + inputValue.value;
+	});
+</script>

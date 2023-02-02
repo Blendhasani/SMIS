@@ -163,16 +163,46 @@ namespace WebApplication5.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Emri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Hapur")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Rregullt")
+                    b.Property<int>("NrProvimeve")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VitiAkademik")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Afati");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.AfatiTranskripta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AfatiId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TranskriptaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AfatiId");
+
+                    b.HasIndex("TranskriptaId");
+
+                    b.ToTable("AfatiTranskripta");
                 });
 
             modelBuilder.Entity("WebApplication5.Models.ApplicationUser", b =>
@@ -269,6 +299,74 @@ namespace WebApplication5.Migrations
                     b.ToTable("Fakultetet");
                 });
 
+            modelBuilder.Entity("WebApplication5.Models.Nationality", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Kodi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Nationalities");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.Residence", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Kodi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("Residences");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Kodi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("States");
+                });
+
             modelBuilder.Entity("WebApplication5.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -299,9 +397,8 @@ namespace WebApplication5.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nationality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("NationalityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ParentName")
                         .IsRequired()
@@ -315,13 +412,11 @@ namespace WebApplication5.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Residence")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ResidenceId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -330,6 +425,12 @@ namespace WebApplication5.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FakultetiId");
+
+                    b.HasIndex("NationalityId");
+
+                    b.HasIndex("ResidenceId");
+
+                    b.HasIndex("StateId");
 
                     b.ToTable("Students");
                 });
@@ -497,9 +598,6 @@ namespace WebApplication5.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AfatiId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -513,8 +611,6 @@ namespace WebApplication5.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AfatiId");
 
                     b.HasIndex("StudentId");
 
@@ -574,6 +670,36 @@ namespace WebApplication5.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebApplication5.Models.AfatiTranskripta", b =>
+                {
+                    b.HasOne("WebApplication5.Models.Afati", "Afati")
+                        .WithMany()
+                        .HasForeignKey("AfatiId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication5.Models.Transkripta", "Transkripta")
+                        .WithMany()
+                        .HasForeignKey("TranskriptaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Afati");
+
+                    b.Navigation("Transkripta");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.Residence", b =>
+                {
+                    b.HasOne("WebApplication5.Models.State", "State")
+                        .WithMany("Residence")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("State");
+                });
+
             modelBuilder.Entity("WebApplication5.Models.Student", b =>
                 {
                     b.HasOne("WebApplication5.Models.Fakulteti", "Fakulteti")
@@ -582,7 +708,31 @@ namespace WebApplication5.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("WebApplication5.Models.Nationality", "Nationality")
+                        .WithMany("Students")
+                        .HasForeignKey("NationalityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication5.Models.Residence", "Residence")
+                        .WithMany("Students")
+                        .HasForeignKey("ResidenceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication5.Models.State", "State")
+                        .WithMany("Students")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Fakulteti");
+
+                    b.Navigation("Nationality");
+
+                    b.Navigation("Residence");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("WebApplication5.Models.StudentTeacher", b =>
@@ -647,12 +797,6 @@ namespace WebApplication5.Migrations
 
             modelBuilder.Entity("WebApplication5.Models.Transkripta", b =>
                 {
-                    b.HasOne("WebApplication5.Models.Afati", "Afati")
-                        .WithMany("Transkriptas")
-                        .HasForeignKey("AfatiId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("WebApplication5.Models.Student", "Student")
                         .WithMany("Transkripta")
                         .HasForeignKey("StudentId")
@@ -665,16 +809,9 @@ namespace WebApplication5.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Afati");
-
                     b.Navigation("Student");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("WebApplication5.Models.Afati", b =>
-                {
-                    b.Navigation("Transkriptas");
                 });
 
             modelBuilder.Entity("WebApplication5.Models.Fakulteti", b =>
@@ -684,6 +821,23 @@ namespace WebApplication5.Migrations
                     b.Navigation("Subjects");
 
                     b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.Nationality", b =>
+                {
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.Residence", b =>
+                {
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("WebApplication5.Models.State", b =>
+                {
+                    b.Navigation("Residence");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("WebApplication5.Models.Student", b =>

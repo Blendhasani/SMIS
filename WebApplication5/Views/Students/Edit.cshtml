@@ -19,7 +19,7 @@
 
 					<div class="form-group">
 						<label asp-for="Name" class="control-label"></label>
-						<input asp-for="Name" id="name" class="form-control form-control-lg" />
+						<input asp-for="Name" id="name" class="form-control form-control-lg" readonly="true" />
 						<span asp-validation-for="Name" class="text-danger"></span>
 					</div>
 
@@ -81,11 +81,11 @@
 						<select asp-for="FakultetiId" class="form-control" asp-items="ViewBag.FakultetiId"></select>
 					</div>
 				</div>
-				<div class="col-md-6 mb-4 pb-2">
+				<div class="col-md-8 mb-4 pb-2">
 
 					<div class="form-group">
 						<label asp-for="Email" class="control-label"></label>
-						<input asp-for="Email" class="form-control" />
+						<input asp-for="Email" class="form-control" readonly="true" />
 						<span asp-validation-for="Email" class="text-danger"></span>
 					</div>
 
@@ -100,25 +100,22 @@
 					</div>
 
 				</div>
-				<div class="col-md-6 mb-4 pb-2">
+				<div class="col-md-6 mb-4">
 					<div class="form-group">
-						<label asp-for="Residence" class="control-label"></label>
-						<input asp-for="Residence" class="form-control" />
-						<span asp-validation-for="Residence" class="text-danger"></span>
+						<label asp-for="State.Name" class="control-label"></label>
+						<select asp-for="StateId" class="form-control" asp-items="ViewBag.StateId"></select>
 					</div>
 				</div>
-				<div class="col-md-6 mb-4 pb-2">
+				<div class="col-md-6 mb-4">
 					<div class="form-group">
-						<label asp-for="Nationality" class="control-label"></label>
-						<input asp-for="Nationality" class="form-control" />
-						<span asp-validation-for="Nationality" class="text-danger"></span>
+						<label asp-for="Residence.Name" class="control-label"></label>
+						<select asp-for="ResidenceId" class="form-control" asp-items="ViewBag.ResidenceId"></select>
 					</div>
 				</div>
-				<div class="col-md-6 mb-4 pb-2">
+				<div class="col-md-6 mb-4">
 					<div class="form-group">
-						<label asp-for="State" class="control-label"></label>
-						<input asp-for="State" class="form-control" />
-						<span asp-validation-for="State" class="text-danger"></span>
+						<label asp-for="Nationality.Name" class="control-label"></label>
+						<select asp-for="NationalityId" class="form-control" asp-items="ViewBag.NationalityId"></select>
 					</div>
 				</div>
 
@@ -130,10 +127,10 @@
 					</div>
 				</div>
 
-				<div class="col-md-6 mb-4 pb-2">
+				<div class="col-md-6 mb-4 pb-2" style="display:none;">
 					<div class="form-group">
 						<label asp-for="Password" class="control-label"></label>
-						<input asp-for="Password" class="form-control" />
+						<input asp-for="Password" type="text" class="form-control" />
 						<span asp-validation-for="Password" class="text-danger"></span>
 
 					</div>

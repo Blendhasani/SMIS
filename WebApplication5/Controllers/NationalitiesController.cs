@@ -7,99 +7,101 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Data;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Controllers
 {
-    public class AfatisController : Controller
+    public class NationalitiesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AfatisController(ApplicationDbContext context)
+        public NationalitiesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Afatis
-        public async Task<IActionResult> Index()
+        // GET: Nationalities
+        public async Task<IActionResult> Index(int? page)
         {
-              return View(await _context.Afati.ToListAsync());
+            var pageNumber = page ?? 1;
+            int pageSize = 10;
+            return View( _context.Nationalities.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Afatis/Details/5
+        // GET: Nationalities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Afati == null)
+            if (id == null || _context.Nationalities == null)
             {
                 return NotFound();
             }
 
-            var afati = await _context.Afati
+            var nationality = await _context.Nationalities
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (afati == null)
+            if (nationality == null)
             {
                 return NotFound();
             }
 
-            return View(afati);
+            return View(nationality);
         }
 
-        // GET: Afatis/Create
+        // GET: Nationalities/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Afatis/Create
+        // POST: Nationalities/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Hapur,Rregullt")] Afati afati)
+        public async Task<IActionResult> Create([Bind("Id,Name,Kodi")] Nationality nationality)
         {
-            
-                _context.Add(afati);
+          
+                _context.Add(nationality);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             
         }
 
-        // GET: Afatis/Edit/5
+        // GET: Nationalities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Afati == null)
+            if (id == null || _context.Nationalities == null)
             {
                 return NotFound();
             }
 
-            var afati = await _context.Afati.FindAsync(id);
-            if (afati == null)
+            var nationality = await _context.Nationalities.FindAsync(id);
+            if (nationality == null)
             {
                 return NotFound();
             }
-            return View(afati);
+            return View(nationality);
         }
 
-        // POST: Afatis/Edit/5
+        // POST: Nationalities/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Hapur,Rregullt")] Afati afati)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Kodi")] Nationality nationality)
         {
-            if (id != afati.Id)
+            if (id != nationality.Id)
             {
                 return NotFound();
             }
 
-           
                 try
                 {
-                    _context.Update(afati);
+                    _context.Update(nationality);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AfatiExists(afati.Id))
+                    if (!NationalityExists(nationality.Id))
                     {
                         return NotFound();
                     }
@@ -109,49 +111,49 @@ namespace WebApplication5.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-           
+       
         }
 
-        // GET: Afatis/Delete/5
+        // GET: Nationalities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Afati == null)
+            if (id == null || _context.Nationalities == null)
             {
                 return NotFound();
             }
 
-            var afati = await _context.Afati
+            var nationality = await _context.Nationalities
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (afati == null)
+            if (nationality == null)
             {
                 return NotFound();
             }
 
-            return View(afati);
+            return View(nationality);
         }
 
-        // POST: Afatis/Delete/5
+        // POST: Nationalities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Afati == null)
+            if (_context.Nationalities == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Afati'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Nationalities'  is null.");
             }
-            var afati = await _context.Afati.FindAsync(id);
-            if (afati != null)
+            var nationality = await _context.Nationalities.FindAsync(id);
+            if (nationality != null)
             {
-                _context.Afati.Remove(afati);
+                _context.Nationalities.Remove(nationality);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AfatiExists(int id)
+        private bool NationalityExists(int id)
         {
-          return _context.Afati.Any(e => e.Id == id);
+          return _context.Nationalities.Any(e => e.Id == id);
         }
     }
 }

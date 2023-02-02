@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Data;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Controllers
 {
@@ -20,9 +22,11 @@ namespace WebApplication5.Controllers
         }
 
         // GET: Fakultete
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-              return View(await _context.Fakultetet.ToListAsync());
+			var pageNumber = page ?? 1;
+			int pageSize = 10;
+			return View( _context.Fakultetet.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Fakultete/Details/5

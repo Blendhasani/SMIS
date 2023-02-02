@@ -10,9 +10,9 @@
 	@if (User.Identity.IsAuthenticated && User.IsInRole("ADMIN"))
 	{
 		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
-			<a asp-action="Index" asp-controller="Students"><img style="width:70%; height:auto;" src="../../images/student.png" /></a>
+			<a asp-action="Fakultetet" asp-controller="Students"><img style="width:70%; height:auto;" src="../../images/student.png" /></a>
 
-			<a asp-action="Index" asp-controller="Students" style="margin-top:5px; text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Studentët</a>
+			<a asp-action="Fakultetet" asp-controller="Students" style="margin-top:5px; text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Studentët</a>
 		</div>
 		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
 			<a asp-action="Index" asp-controller="Teachers"><img style="width:70%; height:auto;" src="../../images/teacher.png" /></a>
@@ -35,6 +35,25 @@
 			<a asp-action="Index" asp-controller="Fakultete"><img style="width:70%; height:auto;" src="../../images/university.png" /></a>
 			<a asp-action="Index" asp-controller="Fakultete" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Fakultetet</a>
 			</div>
+
+
+
+
+
+		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
+			<a asp-action="Index" asp-controller="States"><img style="width:70%; height:auto;" src="../../images/state.png" /></a>
+
+			<a asp-action="Index" asp-controller="States" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Shtetet</a>
+		</div>
+		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
+			<a asp-action="Index" asp-controller="Residences"><img style="width:70%; height:auto;" src="../../images/residence.png" /></a>
+			<a asp-action="Index" asp-controller="Residences" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Vendbanimet</a>
+		</div>
+		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
+			<a asp-action="Index" asp-controller="Nationalities"><img style="width:70%; height:auto;" src="../../images/nationality.png" /></a>
+			<a asp-action="Index" asp-controller="Nationalities" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Kombesite</a>
+		</div>
+
 	}
 	@*@if (User.Identity.IsAuthenticated && (User.IsInRole("Teacher")))
 	{

@@ -23,9 +23,9 @@ namespace WebApplication5.Models
 		public DateTime CreatedDate { get; set; }
 
 
-		public int AfatiId { get; set; }
+/*		public int AfatiId { get; set; }
 		[ForeignKey("AfatiId")]
-		public Afati Afati { get; set; }
+		public Afati Afati { get; set; }*/
 		
 
 	}

@@ -23,15 +23,19 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.90" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="Views\StudentTeachers\Fakultetet.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\favicon.ico">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

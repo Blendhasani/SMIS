@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Edit</h1>
@@ -13,15 +14,25 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Emri" class="control-label"></label>
+                <input asp-for="Emri" class="form-control" />
+                <span asp-validation-for="Emri" class="text-danger"></span>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Hapur" /> @Html.DisplayNameFor(model => model.Hapur)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Rregullt" class="control-label"></label>
-                <input asp-for="Rregullt" class="form-control" />
-                <span asp-validation-for="Rregullt" class="text-danger"></span>
+                <label asp-for="NrProvimeve" class="control-label"></label>
+                <input asp-for="NrProvimeve" class="form-control" />
+                <span asp-validation-for="NrProvimeve" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VitiAkademik" class="control-label"></label>
+                <input asp-for="VitiAkademik" class="form-control" />
+                <span asp-validation-for="VitiAkademik" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -34,6 +45,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

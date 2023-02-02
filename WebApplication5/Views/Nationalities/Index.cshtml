@@ -1,0 +1,66 @@
+﻿@using X.PagedList.Mvc.Core; <!--import to get HTML Helper-->
+@using X.PagedList;
+@model IEnumerable<WebApplication5.Models.Nationality>
+
+@{
+    ViewData["Title"] = "Kombësitë";
+}
+
+<h1>Kombësitë</h1>
+
+<p>
+    <a asp-action="Create">Krijo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kodi)
+            </th>
+            <th>Veprime</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kodi)
+            </td>
+               <td class="align-middle">
+
+
+                        <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id" style="margin-bottom:10px; margin-right:4px;"><i class="bi bi-pencil-square"></i> Ndrysho</a>
+						<a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id" style="margin-bottom:10px;margin-right:4px;"><i class="bi bi-info-circle"></i> Detajet</a>
+						<a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:10px;margin-right:4px;"><i class="bi bi-trash"></i> Fshij</a>
+
+                    </td>
+        </tr>
+}
+    </tbody>
+</table>
+    <div class=" d-flex align-items-center justify-content-center mt-4">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+        new X.PagedList.Mvc.Common.PagedListRenderOptions
+        {
+        DisplayItemSliceAndTotal = true,
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+        })
+    </div>
+@section Scripts{
+        <script>
+            // Workaround to fix style of text for showing items .. through ..
+            // Problem related to Boostrap 4 according to issue in link below
+            // https://github.com/dncuug/X.PagedList/issues/127
+            $(document).ready(function () {
+                $('ul.pagination > li.disabled > a').addClass('page-link');
+            });
+        </script>
+}

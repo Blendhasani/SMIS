@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Data;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Controllers
 {
@@ -37,9 +39,11 @@ namespace WebApplication5.Controllers
 
 
            [Authorize(Roles = "ADMIN")]
-		public async Task<IActionResult> Index(int id)
-		{
-			return View(await _context.Subjects.Include(s => s.Fakulteti).Where(x=>x.Fakulteti.Id==id).ToListAsync());
+		public async Task<IActionResult> Index(int id, int? page)
+        {
+            var pageNumber = page ?? 1;
+            int pageSize = 10;
+            return View( _context.Subjects.Include(s => s.Fakulteti).Where(x=>x.Fakulteti.Id==id).ToPagedList(pageNumber, pageSize));
 		}
 
 		// GET: Subjects/Details/5

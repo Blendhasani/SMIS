@@ -2,3 +2,11 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(document).ready(function () {
+    var currentPage = window.location.pathname;
+    $(".nav-link").each(function () {
+        if ($(this).attr("href") == currentPage) {
+            $(this).addClass("active");
+        }
+    });
+});

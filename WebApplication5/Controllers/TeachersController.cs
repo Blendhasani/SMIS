@@ -7,11 +7,13 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Data;
 using WebApplication5.Data.Services;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Controllers
 {
@@ -28,15 +30,23 @@ namespace WebApplication5.Controllers
 
         }
 
-        // GET: Teachers
-        [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> Index()
-        {
-              return View(await _context.Teachers.Include(s=>s.Fakulteti).ToListAsync());
-        }
+		// GET: Teachers
+		/*    [Authorize(Roles = "ADMIN")]
+			public async Task<IActionResult> Index()
+			{
+				  return View(await _context.Teachers.Include(s=>s.Fakulteti).ToListAsync());
+			}*/
+		[Authorize(Roles = "ADMIN")]
+		public async Task<IActionResult> Index(int? page)
+		{
+			var pageNumber = page ?? 1;
+			int pageSize = 10;
 
-        // GET: Teachers/Details/5
-        [Authorize(Roles = "ADMIN")]
+			return View( _context.Teachers.Include(s => s.Fakulteti).ToPagedList(pageNumber, pageSize));
+		}
+	
+		// GET: Teachers/Details/5
+		[Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Teachers == null)

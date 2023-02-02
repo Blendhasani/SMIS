@@ -1,0 +1,77 @@
+﻿@using WebApplication5.Areas.Admin.Models;
+@using X.PagedList.Mvc.Core; <!--import to get HTML Helper-->
+@using X.PagedList;
+@model IEnumerable<UsersRoles>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Admins";
+}
+
+
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4>Të gjithë përdoruesit e të gjitha roleve</h4>
+         
+        </p>
+
+
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.User.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.Roles)</th>
+                    
+                 
+             
+
+                    <th>Fshij</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.User.Email)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Roles)
+                        </td>
+                   
+                        <td class="align-middle">
+                            <form asp-action="DeleteUserRole"  asp-route-id="@item.User.Id" method="post">
+                                <button type="submit" class="btn btn-danger" style="margin-bottom:17px"><i class="bi bi-trash"></i> Fshij</button>
+                            </form>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class=" d-flex align-items-center justify-content-center mt-4">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("UserRoless", new { page = page }),
+        new X.PagedList.Mvc.Common.PagedListRenderOptions
+        {
+        DisplayItemSliceAndTotal = true,
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+        })
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        // Workaround to fix style of text for showing items .. through ..
+        // Problem related to Boostrap 4 according to issue in link below
+        // https://github.com/dncuug/X.PagedList/issues/127
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}

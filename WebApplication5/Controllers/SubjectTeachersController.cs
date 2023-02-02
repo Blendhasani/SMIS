@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Data;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Controllers
 {
@@ -49,10 +50,12 @@ namespace WebApplication5.Controllers
 			return View(await _context.Fakultetet.ToListAsync());
 		}
 		[Authorize(Roles = "ADMIN , Teacher")]
-		public async Task<IActionResult> Teachers(int id)
+		public async Task<IActionResult> Teachers(int id, int? page)
 		{
+			var pageNumber = page ?? 1;
+			int pageSize = 10;
 
-			var applicationDbContext = _context.Teachers.Include(x => x.Fakulteti).Where(s => s.Fakulteti.Id==id && s.SubjectTeachers.Any(s => s.Teacher.Id == s.TeacherId)).ToList();
+			var applicationDbContext = _context.Teachers.Include(x => x.Fakulteti).Where(s => s.Fakulteti.Id==id && s.SubjectTeachers.Any(s => s.Teacher.Id == s.TeacherId)).ToPagedList(pageNumber, pageSize);
 			return View(applicationDbContext);
 		}
 		public async Task<IActionResult> Index(int id)

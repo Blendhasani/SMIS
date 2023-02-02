@@ -23,13 +23,15 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddMemoryCache();
-builder.Services.AddSession();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();/*;
+builder.Services.AddHttpContextAccessor();*/
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 });
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -73,6 +75,8 @@ app.UseEndpoints(endpoints =>
 	);
 
 });
+
+
 /*app.MapRazorPages();*/
 AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 app.Run();

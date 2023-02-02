@@ -1,4 +1,4 @@
-﻿@model WebApplication5.Models.Afati
+﻿@model WebApplication5.Models.State
 
 @{
     ViewData["Title"] = "Details";
@@ -7,20 +7,20 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Afati</h4>
+    <h4>State</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Hapur)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Hapur)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rregullt)
+            @Html.DisplayNameFor(model => model.Kodi)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rregullt)
+            @Html.DisplayFor(model => model.Kodi)
         </dd>
     </dl>
 </div>

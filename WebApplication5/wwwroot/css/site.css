@@ -31,3 +31,11 @@ text-decoration:none;
     box-shadow: none;
     margin-top: 15px;
 }
+
+
+
+.nav-link.active {
+    text-decoration: underline #006db0;
+    text-underline-offset: 0.5rem;
+    transition: .2s ease-in-out;
+}

@@ -19,6 +19,10 @@
 	<link rel="stylesheet" href="~/WebApplication5.styles.css" asp-append-version="true" />
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+		  integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+		  crossorigin="anonymous">
+
 </head>
 <body>
 	<style>
@@ -33,10 +37,13 @@
 			z-index: 600;
 		}
 
+		nav-item.active a {
+			color: red;
+		}
 
 	</style>
 	<header style="background-color:#1d2e68;color:white;">
-		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light text-white border-bottom box-shadow " style="height:50px;color:white;">
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light text-white border-bottom box-shadow " style="height:50px;color:white;" >
 			<div class="container-fluid" style="color:white;">
 				@if (User.Identity.IsAuthenticated)
 					{
@@ -54,17 +61,27 @@
 							@if (User.IsInRole("ADMIN"))
 							{
 								<li class="nav-item" style="list-style:none;">
-									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Home">Paneli i kontrollit</a>
+									<a class="nav-link text-white " asp-area="Admin" asp-controller="Admin" asp-action="Home">Paneli i kontrollit</a>
 								</li>
-								<li class="nav-item" style="list-style:none;">
+								<li class="nav-item ">
 									<a class="nav-link text-white" asp-area="Admin" asp-controller="Report" asp-action="Index">Raportet</a>
+								
 								</li>
-						
+								<li class="nav-item ">
+									<a class="nav-link text-white" asp-area="Admin" asp-controller="Afat" asp-action="Index">Afatet</a>
+
+								</li>
 								<li class="nav-item" style="list-style:none;">
 									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Admins">Adminat</a>
 								</li>
 								<li class="nav-item" style="list-style:none;">
 									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Users">Userat</a>
+								</li>
+								<li class="nav-item" style="list-style:none;">
+									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="UserRoless">Rolet</a>
+								</li>
+								<li class="nav-item" style="list-style:none;">
+									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Notat">Notat</a>
 								</li>
 							}
 					

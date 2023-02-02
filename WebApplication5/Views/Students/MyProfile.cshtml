@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "MyProfile";
+    string email = "";
 }
 
 <h1 class="mt-3">Profili im</h1>
@@ -97,6 +98,7 @@
 <section class="bg-light">
     @foreach (var item in Model)
     {
+        email=item.Email;
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 mb-4 mb-sm-5">
@@ -107,21 +109,22 @@
                                     <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="width:60%;height:auto;" alt="...">
                                 </div>
                                 <div class="col-lg-6 px-xl-10" >
+                                    
                                     <div style="background-color:#15395A; padding-left:10px;" class=" d-lg-inline-block col-md-9 py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
                                         <h3 class="h2 text-white mb-0">@Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.Surname)</h3>
                                         
-
+                                       
                                         <span class="text-warning">Student</span>
                                     </div>
                                     <ul class="list-unstyled mb-1-9 mt-2">
                                         <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Email:</span> @Html.DisplayFor(modelItem => item.Email)</li>
                                         <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Parent name:</span> @Html.DisplayFor(modelItem => item.ParentName)</li>
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Birthday:</span> @Html.DisplayFor(modelItem => item.Birthday)</li>
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Residence:</span> @Html.DisplayFor(modelItem => item.Residence)</li>
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Nationality:</span> @Html.DisplayFor(modelItem => item.Nationality)</li>
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">State:</span> @Html.DisplayFor(modelItem => item.State)</li>
-                                        <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Phone:</span> @Html.DisplayFor(modelItem => item.Phone)</li>
-                                        <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Fakulteti:</span> @Html.DisplayFor(modelItem => item.Fakulteti.Emri)</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Birthday:</span> @item.Birthday.ToString("dd.MM.yyyy")</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Residence:</span> @Html.DisplayFor(modelItem => item.Residence.Name)</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Nationality:</span> @Html.DisplayFor(modelItem => item.Nationality.Name)</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">State:</span> @Html.DisplayFor(modelItem => item.State.Name)</li>
+                                        <li class="display-28 mb-2 mb-xl-3"><span class="display-26 text-secondary me-2 font-weight-600">Phone:</span> @Html.DisplayFor(modelItem => item.Phone)</li>
+                                        <li class="display-28 mb-2 mb-xl-3"><span class="display-26 text-secondary me-2 font-weight-600">Fakulteti:</span> @Html.DisplayFor(modelItem => item.Fakulteti.Emri)</li>
                                     </ul>
                                     <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
                                         <li><a href="#!"><i class="ti-twitter-alt"></i></a></li>
@@ -137,5 +140,10 @@
 
             </div>
         </div>
+        <a asp-action="GenerateStudentById" asp-controller="Report" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-primary">Shkarko Vërtetimin</a>
     }
 </section>
+
+
+
+

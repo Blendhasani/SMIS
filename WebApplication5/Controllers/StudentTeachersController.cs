@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Data;
 using WebApplication5.Models;
+using X.PagedList;
 
 namespace WebApplication5.Controllers
 {
@@ -36,10 +37,12 @@ namespace WebApplication5.Controllers
 
 		
 		[Authorize(Roles = "ADMIN , Teacher")]
-		public async Task<IActionResult> Students(int id)
+		public async Task<IActionResult> Students(int id, int? page)
 		{
-         
-            var applicationDbContext = _context.Students.Include(x=>x.Fakulteti).Where(s => s.Fakulteti.Id==id && s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
+
+            var pageNumber = page ?? 1;
+            int pageSize = 10;
+            var applicationDbContext = _context.Students.Include(x=>x.Fakulteti).Where(s => s.FakultetiId==id && s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToPagedList(pageNumber, pageSize);
             return View(applicationDbContext);
 		}
         public async Task<IActionResult> Index(int id)
@@ -68,21 +71,27 @@ namespace WebApplication5.Controllers
             return View(studentTeacher);
         }
 
-        // GET: StudentTeachers/Create
-        /* public IActionResult CreateFirst(int id)
+		// GET: StudentTeachers/Create
+		/* public IActionResult CreateFirst(int id)
                 {
                     ViewData["StudentId"] = new SelectList(_context.Students.Where(s => s.FakultetiId == id), "Id", "Name");
                     ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Name");
                     return View();
                 }*/
-        public IActionResult CreateFirst()
-        {
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Name");
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
-            return View();
-        }
+		/*     public IActionResult CreateFirst()
+			 {
+				 ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Name");
+				 ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
+				 return View();
+			 }*/
+		public IActionResult CreateFirst(int id)
+		{
+			ViewData["StudentId"] = new SelectList(_context.Students.Where(s=>s.FakultetiId==id), "Id", "Name");
+			ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Name");
+			return View();
+		}
 
-        public IActionResult Create(int id)
+		public IActionResult Create(int id)
         {
             var std = _context.Students.Where(s => s.Id.Equals(id)).ToList();
             var stds = _context.StudentTeacher.FirstOrDefault(s=>s.StudentId==id);

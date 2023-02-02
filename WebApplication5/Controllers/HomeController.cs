@@ -17,10 +17,10 @@ namespace WebApplication5.Controllers
 		{
 			return View();
 		}
-        public IActionResult Admin()
+    /*    public IActionResult Admin()
         {
             return View();
-        }
+        }*/
 
         public IActionResult Privacy()
 		{
