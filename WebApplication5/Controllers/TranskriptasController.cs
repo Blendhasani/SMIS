@@ -73,55 +73,7 @@ namespace WebApplication5.Controllers
 			return View(await applicationDbContext.OrderBy(s => s.CreatedDate).ToListAsync());
 		}
 
-		public async Task<FileResult> GenerateTranscript(String name)
-		{
-			var xDoc = XElement.Load("Transkripta.frx");
-			FastReport.Utils.Config.WebMode = true;
-			Report rep = new Report();
-			string path = Path.Combine("Transkripta.frx");
-			rep.Load(path);
-
-			var user = await GetCurrentUserAsync();
-			name = user.FullName;
-			var namee = name;
-
-			var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.Name.Equals(namee));
-			var transkripta = applicationDbContext.OrderBy(s => s.CreatedDate).ToList();
-			/*	rep.SetParameterValue("parm1", "This is first Parameter");
-                rep.SetParameterValue("parm2", "This is second Parameter");*/
-			rep.RegisterData(transkripta, "TranskriptaRef");
-
-			if (rep.Report.Prepare())
-			{
-				FastReport.Export.PdfSimple.PDFSimpleExport pdfExport = new FastReport.Export.PdfSimple.PDFSimpleExport();
-				pdfExport.ShowProgress = false;
-				pdfExport.Subject = "Subject Report";
-				pdfExport.Title = "Transkripta ime";
-				System.IO.MemoryStream ms = new System.IO.MemoryStream();
-				rep.Report.Export(pdfExport, ms);
-				pdfExport.Dispose();
-				ms.Position = 0;
-				return File(ms, "application/pdf", "transkripta.pdf");
-
-			}
-			else
-			{
-				return null;
-			}
-		}
-		/*  
-
-                [Authorize(Roles = "ADMIN ,Teacher")]
-                public async Task<IActionResult> Index(string name)
-                {
-                    var user = await GetCurrentUserAsync();
-                    name = user.FullName;
-
-
-                    //var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.StudentTeachers.Any(st => st.Teacher.Name == name));
-                    var applicationDbContext = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Subject.SubjectTeachers.Any(st => st.Teacher.Name == name));
-                    return View(await applicationDbContext.ToListAsync());
-                }*/
+	
 
 		[Authorize(Roles = "Teacher")]
 		public async Task<IActionResult> Vleresimi(string name)
@@ -149,10 +101,7 @@ namespace WebApplication5.Controllers
 		[Authorize(Roles = "ADMIN ,Teacher")]
 		public async Task<IActionResult> Details(string name)
 		{
-			/* if (id == null || _context.Transkripta == null)
-			 {
-				 return NotFound();
-			 }*/
+		
 
 
 
@@ -169,45 +118,7 @@ namespace WebApplication5.Controllers
 		}
 
 
-		/*	// GET: Transkriptas/Create origjinal
-				[Authorize(Roles = "User")]
-				public async Task<IActionResult> Create()
-				{
-					var a = _context.Afati.FirstOrDefault();
-					var user = await GetCurrentUserAsync();
-					var namee = user.FullName;
-
-				  var st = _context.Students.Single(t => t.Name.Equals(namee));
-					if (a.Hapur == true)
-					{
-						ViewData["StudentId"] = new SelectList(_context.Students, "Id", namee);
-
-						var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id )).ToList();
-						*//*
-									var user = await GetCurrentUserAsync();
-									var namee = user.FullName;
-									var st = _context.Students.Single(t=>t.Name.Equals(namee));
-
-									ViewData["StudentId"] = new SelectList(_context.Students, "Id", namee);
-
-									var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();
-
-									ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
-
-						 mos e nguc qeta posht
-						 var data = _context.Subjects.Where(s => s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();*//*
-
-						ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
-					}
-					else
-					{
-						ViewData["message"] = "Afati nuk është hapur akoma";
-					}
-
-
-
-					return View();
-				}*/
+		
 
 		// GET: Transkriptas/Create origjinal
 		[Authorize(Roles = "User")]
@@ -237,61 +148,7 @@ namespace WebApplication5.Controllers
 			return View();
 		}
 
-		// POST: Transkriptas/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		/* [HttpPost]
-		 [ValidateAntiForgeryToken]
-		 [Authorize(Roles = "User")]
-		 public async Task<IActionResult> Create([Bind("Id,Nota,StudentId,SubjectId")] Transkripta transkripta)
-		 {
-			 var user = await GetCurrentUserAsync();
-			 var namee = user.FullName;
-			var student = _context.Students.Where(s=>s.Name.Equals(namee)).FirstOrDefault();
-
-
-
-			 var tt = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.Name==student.Name).ToList();
-			 *//*
-						 var studentt = _context.StudentTeacher.Where(s => s.Student.Name.Equals(namee)).FirstOrDefault();*//*
-			 int count = 0;
-			 List<int> provimet = new List<int>();
-			 var afatet = _context.Afati.FirstOrDefault();
-			 var tr = new Transkripta()
-			 {
-				 Id = transkripta.Id,
-				 Nota = transkripta.Nota,
-				 StudentId= student.Id,
-				 SubjectId= transkripta.SubjectId,
-				 CreatedDate= DateTime.Now,
-				 AfatiId = afatet.Id
-
-			 };
-
-		*//*   if(student!=null && studentt != null) { }*//*
-
-				 _context.Add(tr);
- *//*            var a = _context.Afati.Include(t => t.Transkriptas).FirstOrDefault(x => x. == tr.AfatiId);*//*
- var a = _context.Afati.FirstOrDefault(x => x.Id == tr.AfatiId);
-
-			 if (a.Hapur==true && a.Rregullt.Equals("JO") && tt.Count<=1){
-				 await _context.SaveChangesAsync();
-			 }
-			 else if (a.Hapur == true && a.Rregullt.Equals("PO") && tt.Count <= 9)
-			 {
-				 await _context.SaveChangesAsync();
-			 }
-			 else
-			 {
-				 TempData["error"] = "Nuk mund te paraqitni me shume provime";
-			 }
-
-			 return RedirectToAction(nameof(Create));
-			 //return View("~/Views/Home/Index.cshtml");
-			 //return View();
-
-		 }
-		 */
+		
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[Authorize(Roles = "User")]
@@ -303,11 +160,7 @@ namespace WebApplication5.Controllers
 
 
 
-			var tt = _context.Transkripta.Include(t => t.Student).Include(t => t.Subject).Where(t => t.Student.Name == student.Name).ToList();
-			/*
-                        var studentt = _context.StudentTeacher.Where(s => s.Student.Name.Equals(namee)).FirstOrDefault();*/
-
-			/*			var afatet = _context.Afati.FirstOrDefault();*/
+		
 			var afatii = _context.Afati.FirstOrDefault(s => s.Emri == "Afati Prill" && s.VitiAkademik=="2022/2023");
 			var tr = new Transkripta()
 			{
@@ -316,11 +169,11 @@ namespace WebApplication5.Controllers
 				StudentId = student.Id,
 				SubjectId = transkripta.SubjectId,
 				CreatedDate = DateTime.Now,
-/*				AfatiId = afatet.Id*/
+
 
 			};
 
-			/*   if(student!=null && studentt != null) { }*/
+			
 
 			_context.Add(tr);
             var afatitranskriptat = _context.AfatiTranskripta.Include(t => t.Transkripta).Where(t => t.Transkripta.Student.Email == student.Email && t.AfatiId==afatii.Id).ToList();
@@ -336,7 +189,7 @@ namespace WebApplication5.Controllers
 			};
 			_context.Add(at);
 			
-			/*            var a = _context.Afati.Include(t => t.Transkriptas).FirstOrDefault(x => x. == tr.AfatiId);*/
+			
 
 
 			if(afatii.Hapur==true && afatitranskriptat.Count < afatii.NrProvimeve)
@@ -353,28 +206,7 @@ namespace WebApplication5.Controllers
 
 		}
 
-		// GET: Transkriptas/Edit/5
-		//edit zyrtar
-		/*        [Authorize(Roles = "User ,Teacher ,ADMIN")]
-                public async Task<IActionResult> Edit(int? id)
-                {
-                    if (id == null || _context.Transkripta == null)
-                    {
-                        return NotFound();
-                    }
-
-                    var transkripta = await _context.Transkripta.FindAsync(id);
-                    if (transkripta == null)
-                    {
-                        return NotFound();
-                    }
-
-
-                    ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Name", transkripta.StudentId);
-                    ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name", transkripta.SubjectId);
-                    return View(transkripta);
-                }*/
-
+		
 
 
 
@@ -436,8 +268,7 @@ namespace WebApplication5.Controllers
 			{
 				return NotFound();
 			}
-/*
-			var afatet = _context.Afati.FirstOrDefault()*/;
+
 		
 			var transkript = new Transkripta()
 			{
@@ -446,7 +277,7 @@ namespace WebApplication5.Controllers
 				StudentId = transkripta.StudentId,
 				SubjectId = transkripta.SubjectId,
 				CreatedDate = DateTime.Now,
-/*				AfatiId = afatet.Id*/
+
 			};
 
 
@@ -494,22 +325,7 @@ namespace WebApplication5.Controllers
 			return RedirectToAction(nameof(Lendet));
 		}
 	
-	/*	catch (DbUpdateConcurrencyException)
-		{
-			if (!TranskriptaExists(transkripta.Id))
-			{
-				return NotFound();
-			}
-			else
-			{
-				throw;
-			}
-		}
-			
 
-
-
-		}*/
 
         [Authorize(Roles = "ADMIN , Teacher")]
         public async Task<IActionResult> Lendet(string name)
@@ -556,7 +372,6 @@ namespace WebApplication5.Controllers
 
             }
 
-			/* return View(transkripta);*/
 			
                 await _context.SaveChangesAsync();
             
@@ -568,96 +383,8 @@ namespace WebApplication5.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-		// POST: Transkriptas/Delete/5
-		/*  [Authorize(Roles = "User ,Teacher")]
-          [HttpPost, ActionName("Delete")]
-          [ValidateAntiForgeryToken]
-          public async Task<IActionResult> DeleteConfirmed(int id)
-          {
-              if (_context.Transkripta == null)
-              {
-                  return Problem("Entity set 'ApplicationDbContext.Transkripta'  is null.");
-              }
-              var transkripta = await _context.Transkripta.FindAsync(id);
-              if (transkripta != null)
-              {
-                  _context.Transkripta.Remove(transkripta);
-              }
-
-              await _context.SaveChangesAsync();
-              if (User.IsInRole("User"))
-              {
-                  return RedirectToAction(nameof(MyTranscript));
-              }
-              return RedirectToAction(nameof(Index));
-          }*/
-		/*		public async Task<FileResult> GenerateTranskripta(string name)
-				{
-					var currentUser =  await GetCurrentUserAsync();
-					name = currentUser.FullName;
-					FastReport.Utils.Config.WebMode = true;
-					Report rep = new Report();
-
-					string path = Path.Combine("Transkripta.frx");
-					rep.Load(path);
-					var grades = _context.Transkripta.Where(s => s.Student.Name == name).Include(s => s.Subject).OrderBy(s => s.CreatedDate).ToList();
-
-
-
-					rep.RegisterData(grades, "TranskriptaRef");
-
-					if (rep.Report.Prepare())
-					{
-						FastReport.Export.PdfSimple.PDFSimpleExport pdfExport = new FastReport.Export.PdfSimple.PDFSimpleExport();
-						pdfExport.ShowProgress = false;
-						pdfExport.Subject = "Subject Report";
-						pdfExport.Title = "Report Title";
-						System.IO.MemoryStream ms = new System.IO.MemoryStream();
-						rep.Report.Export(pdfExport, ms);
-						pdfExport.Dispose();
-						ms.Position = 0;
-						return File(ms, "application/pdf", "transkripta.pdf");
-
-					}
-					else
-					{
-						return null;
-					}
-				}*/
-		[AllowAnonymous]
-		public async Task<FileResult> GenerateTranskripta(string name)
-		{
-			var currentUser = await GetCurrentUserAsync();
-			name = currentUser.FullName;
-			FastReport.Utils.Config.WebMode = true;
-			Report rep = new Report();
-
-			string path = Path.Combine("Transkripta.frx");
-			rep.Load(path);
-			var grades = _context.Transkripta.Where(s => s.Student.Name == name).Include(s => s.Subject).Select(s => new {s.Nota, s.Subject.Name, s.Subject.Semester, s.Subject.ECTS }).ToList();
-
-
-
-			rep.RegisterData(grades, "TranskriptaRef");
-
-			if (rep.Report.Prepare())
-			{
-				FastReport.Export.PdfSimple.PDFSimpleExport pdfExport = new FastReport.Export.PdfSimple.PDFSimpleExport();
-				pdfExport.ShowProgress = false;
-				pdfExport.Subject = "Subject Report";
-				pdfExport.Title = "Report Title";
-				System.IO.MemoryStream ms = new System.IO.MemoryStream();
-				rep.Report.Export(pdfExport, ms);
-				pdfExport.Dispose();
-				ms.Position = 0;
-				return File(ms, "application/pdf", "transkripta.pdf");
-
-			}
-			else
-			{
-				return null;
-			}
-		}
+		
+	
 
 
 

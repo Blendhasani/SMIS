@@ -26,11 +26,7 @@ namespace WebApplication5.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 		// GET: Subjects
-		/*        [Authorize(Roles = "ADMIN")]
-				public async Task<IActionResult> Index()
-				{
-					  return View(await _context.Subjects.Include(s => s.Fakulteti).ToListAsync());
-				}*/
+		
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Fakultetet()
 		{
@@ -66,12 +62,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: Subjects/Create
-        /*	[Authorize(Roles = "ADMIN")]
-            public IActionResult Create()
-            {
-                ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
-                return View();
-            }*/
+
         [Authorize(Roles = "ADMIN")]
         public IActionResult Create(int id)
         {
@@ -117,13 +108,7 @@ namespace WebApplication5.Controllers
             }
             return View(subject);
         }
-		/*    public async Task<IActionResult> MySubjects(string name)
-			{
-				var user = await GetCurrentUserAsync();
-				name = user.FullName;
-
-				return View(await _context.Subjects.Include(x=>x.Transkripta).ThenInclude(x=>x.Student).Where(x=>Student. && x.Name == name)).ToListAsync();
-			}*/
+	
 
 		// POST: Subjects/Edit/5
 		// To protect from overposting attacks, enable the specific properties you want to bind to.

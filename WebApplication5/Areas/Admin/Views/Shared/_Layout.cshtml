@@ -4,8 +4,8 @@
 	Student s = new Student();
 	Teacher t = new Teacher();
 	Subject su = new Subject();
-	
-	
+
+
 
 }
 <!DOCTYPE html>
@@ -22,7 +22,8 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
 		  integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
 		  crossorigin="anonymous">
-
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </head>
 <body>
 	<style>
@@ -43,115 +44,106 @@
 
 	</style>
 	<header style="background-color:#1d2e68;color:white;">
-		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light text-white border-bottom box-shadow " style="height:50px;color:white;" >
-			<div class="container-fluid" style="color:white;">
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light text-white border-bottom box-shadow " style="height:50px;color:white;">
+			<div class="container-fluid" style="color:white; padding: 0;">
 				@if (User.Identity.IsAuthenticated)
-					{
-				<a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">SMIS</a>
-					}
+				{
+					@*				<a class="navbar-brand text-white" asp-area="" asp-controller="" asp-action="">SMIS</a>*@
+					<a class="navbar-brand text-white" style="margin-left:20px">SMIS</a>
+				}
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-				
-					@if (User.Identity.IsAuthenticated)
-					{
-						<ul class="navbar-nav flex-grow-1" style="color:white;">
-							@if (User.IsInRole("ADMIN"))
-							{
-								<li class="nav-item" style="list-style:none;">
-									<a class="nav-link text-white " asp-area="Admin" asp-controller="Admin" asp-action="Home">Paneli i kontrollit</a>
-								</li>
-								<li class="nav-item ">
-									<a class="nav-link text-white" asp-area="Admin" asp-controller="Report" asp-action="Index">Raportet</a>
-								
-								</li>
-								<li class="nav-item ">
-									<a class="nav-link text-white" asp-area="Admin" asp-controller="Afat" asp-action="Index">Afatet</a>
 
-								</li>
-								<li class="nav-item" style="list-style:none;">
-									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Admins">Adminat</a>
-								</li>
-								<li class="nav-item" style="list-style:none;">
-									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Users">Userat</a>
-								</li>
-								<li class="nav-item" style="list-style:none;">
-									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="UserRoless">Rolet</a>
-								</li>
-								<li class="nav-item" style="list-style:none;">
-									<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Notat">Notat</a>
-								</li>
-							}
-					
+			<div class="navbar-collapse collapse d-sm-inline-flex justify-content-end" style="background-color: #1d2e68;">
 
-						</ul>
-					}
+				@if (User.Identity.IsAuthenticated)
+				{
+					<ul class="navbar-nav flex-grow-1" style="color:white;">
+						@if (User.IsInRole("ADMIN"))
+						{
+							<li class="nav-item" style="list-style:none;">
+								<a class="nav-link text-white " asp-area="Admin" asp-controller="Admin" asp-action="Home">Paneli i kontrollit</a>
+							</li>
+							<li class="nav-item ">
+								<a class="nav-link text-white" asp-area="Admin" asp-controller="Report" asp-action="Index">Raportet</a>
 
-					@if (User.Identity.IsAuthenticated)
-					{
-						<button class="btn btn-success dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown"
-							aria-expanded="false">
-							<i class="bi bi-person-badge"></i>Hello @UserManager.GetUserName(User)
+							</li>
+							<li class="nav-item ">
+								<a class="nav-link text-white" asp-area="Admin" asp-controller="Afat" asp-action="Index">Afatet</a>
+
+							</li>
+							<li class="nav-item" style="list-style:none;">
+								<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Admins">Administratorët</a>
+							</li>
+							<li class="nav-item" style="list-style:none;">
+								<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Users">Përdoruesit</a>
+							</li>
+							<li class="nav-item" style="list-style:none;">
+								<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="UserRoless">Përdorues-Rol</a>
+							</li>
+							<li class="nav-item" style="list-style:none;">
+								<a class="nav-link text-white" asp-area="Admin" asp-controller="Admin" asp-action="Notat">Notat</a>
+							</li>
+						}
+
+
+					</ul>
+				}
+
+@*				@if (User.Identity.IsAuthenticated)
+				{
+					<button class="btn btn-success dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown"
+						aria-expanded="false">
+						<i class="bi bi-person-badge"></i>Hello @UserManager.GetUserName(User)
+					</button>
+					<form asp-controller="Account" asp-action="Logout">
+						<button class="btn btn-danger my-2 my-sm-0">
+							<i class="bi bi-box-arrow-in-right"></i>Log out
 						</button>
-						<form asp-controller="Account" asp-action="Logout">
-							<button class="btn btn-danger my-2 my-sm-0">
-								<i class="bi bi-box-arrow-in-right"></i>Log out
-							</button>
-						</form>
-					}
-			@if (!User.Identity.IsAuthenticated)
+					</form>
+				}*@
+					@if (User.Identity.IsAuthenticated)
 					{
-						@*
-					<span style="padding:5px;"></span>
-							<a class="btn btn-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
-							<i class="bi bi-box-arrow-in-right"></i>Login
-						</a>
-						<span style="padding:5px;"></span>
-						
-					<a class="btn btn-primary my-2 my-sm-0" asp-controller="Students" asp-action="Create">
-							<i class="bi bi-person-plus"></i>Register
-						</a>*@
+						@*						<button class="btn btn-success dropdown-toggle" style="margin-right: 15px;"type="button" id="profile-btn" data-toggle="dropdown"
+					aria-expanded="false">
+					<i class="bi bi-person-badge"></i>Hello @UserManager.GetUserName(User)
+					</button>
+					<form asp-controller="Account" asp-action="Logout">
+					<button class="btn btn-danger my-2 my-sm-0" style="margin-right: 20px;">
+					<i class="bi bi-box-arrow-in-right"></i>Log out
+					</button>
+					</form>*@
+
+						<div class="dropdown">
+							<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="bi bi-person-badge"></i> Hello @UserManager.GetUserName(User)
+							</button>
+							<div class="dropdown-menu " style="background-color:#DC3545;" aria-labelledby="dropdownMenuButton">
+								<form asp-controller="Account" asp-action="Logout">
+									<button class="dropdown-item  " style="background-color:#DC3545; color:white;">
+										<i class="bi bi-box-arrow-in-right "></i> Log out
+									</button>
+								</form>
+							</div>
+						</div>
+
+
 					}
+		
 
 
 
-				</div>
+			</div>
 			</div>
 		</nav>
 
 	</header>
-@*	@if (User.Identity.IsAuthenticated && User.IsInRole("User"))
-	{
-		<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-			<div class="position-sticky">
-				<div class="list-group list-group-flush mx-3 mt-4">
-
-					<a class="list-group-item list-group-item-action py-2 ripple active">
-						<i class="fas fa-chart-area fa-fw me-3"></i><span>Home</span>
-					</a>
-					<a asp-controller="Students" asp-action="MyProfile" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-lock fa-fw me-3"></i><span>My Profile</span></a>
-					<a asp-controller="Transkriptas" asp-action="MyTranscript" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-line fa-fw me-3"></i><span>Transkripta</span></a>
-					<a asp-controller="Transkriptas" asp-action="Create" asp-route-id="@s.Name" class="list-group-item list-group-item-action py-2 ripple">
-						<i class="fas fa-chart-pie fa-fw me-3"></i><span>Paraqit provimet</span>
-					</a>
-					<a asp-controller="Transkriptas" asp-action="ProvimetEParaqitura" class="list-group-item nav-item list-group-item-action py-2 ripple">
-						<i class="fas fa-chart-pie fa-fw me-3"></i><span>Provimet e paraqitura</span>
-					</a>
 
 
-
-				</div>
-
-			</div>
-
-		</nav>
-	}
-*@
-
-	<div class="container" >
-		<main role="main" >
+	<div class="container">
+		<main role="main">
 			<partial name="_Notification" />
 			@RenderBody()
 		</main>

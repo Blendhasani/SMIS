@@ -4,13 +4,13 @@
 @model IEnumerable<UsersRoles>
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Admins";
+    ViewData["Title"] = "Përdorues-Rol";
 }
 
 
 
-<div class="row">
-    <div class="col-md-6 offset-3">
+@*<div class="row">
+    <div class="col-md-6 offset-3">*@
         <p>
             <h4>Të gjithë përdoruesit e të gjitha roleve</h4>
          
@@ -19,7 +19,7 @@
 
         <table class="table">
             <thead>
-                <tr class="text-center">
+                <tr class="">
                     <th>@Html.DisplayNameFor(model => model.User.Email)</th>
                     <th>@Html.DisplayNameFor(model => model.Roles)</th>
                     
@@ -52,7 +52,7 @@
 
         </table>
 
-    </div>
+ @*   </div>*@
     <div class=" d-flex align-items-center justify-content-center mt-4">
         @Html.PagedListPager((IPagedList)Model, page => Url.Action("UserRoless", new { page = page }),
         new X.PagedList.Mvc.Common.PagedListRenderOptions
@@ -63,7 +63,7 @@
         PageClasses = new[] { "page-link" },
         })
     </div>
-</div>
+@*</div>*@
 
 @section Scripts{
     <script>

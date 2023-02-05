@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
+<div class="bg-light p-5 rounded">
+<h1>Krijo</h1>
 
 <h4>Fakulteti</h4>
 <hr />
@@ -28,13 +28,19 @@
                 <span asp-validation-for="Shkurtesa" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Shto" class="btn btn-primary mt-3" />
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+
+
+			}

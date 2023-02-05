@@ -24,25 +24,7 @@ namespace WebApplication5.Controllers
         }
 
 		// GET: SubjectTeachers
-		/*      public async Task<IActionResult> Index()
-			  {
-				  var applicationDbContext = _context.SubjectTeacher.Include(s => s.Subject).Include(s => s.Teacher);
-				  return View(await applicationDbContext.ToListAsync());
-			  }*/
-
-
-		/*        [Authorize(Roles = "ADMIN , Teacher")]
-				public async Task<IActionResult> Students()
-				{
-
-					var applicationDbContext = _context.Students.Where(s => s.StudentTeachers.Any(s => s.Student.Id == s.StudentId)).ToList();
-					return View(applicationDbContext);
-				}
-				public async Task<IActionResult> Index(int id)
-				{
-					var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(t => t.Teacher).Where(s => s.Student.Id == id).ToList();
-					return View(applicationDbContext);
-				}*/
+	
 
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Fakultetet()
@@ -91,23 +73,7 @@ namespace WebApplication5.Controllers
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
             return View();
         }
-        /*public IActionResult CreateFirst(int id)
-		{
-			ViewData["SubjectId"] = new SelectList(_context.Subjects.Where(s=>s.FakultetiId==id), "Id", "Name");
-			ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Name");
-			return View();
-		}*/
-        /*public IActionResult Create(int id)
-        {
-            var tcs = _context.Teachers.Where(s => s.Id.Equals(id)).ToList();
-            var tcss = _context.SubjectTeacher.FirstOrDefault(s => s.TeacherId == id);
-          
-            var data = _context.Subjects.Where(s => s.SubjectTeachers.All(t => t.Teacher.Id != tcss.TeacherId && t.Subject.Id != tcss.SubjectId)).ToList();
-      
-            ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
-            ViewData["TeacherId"] = new SelectList(tcs, "Id", "Name");
-            return View();
-        }*/
+   
 
         public IActionResult Create(int id)
 		{

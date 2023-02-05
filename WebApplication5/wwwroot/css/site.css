@@ -14,7 +14,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 145px;
 }
 *{
     margin:0;
@@ -39,3 +39,10 @@ text-decoration:none;
     text-underline-offset: 0.5rem;
     transition: .2s ease-in-out;
 }
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+
+
+
+

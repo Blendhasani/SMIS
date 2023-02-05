@@ -20,14 +20,16 @@ namespace WebApplication5.Models
         public Char Gender { get; set; }
         [Display(Name = "Data e lindjes")]
         public DateTime Birthday { get; set; }
-        /*
+		[Display(Name = "Vendbanimi")]
+		public string Residence { get; set; }
+		/*
                 public string Residence { get; set; }
                 [Display(Name = "Kombësia")]
                 public string Nationality { get; set; }
 
                         [Display(Name = "Shteti")]
                         public string State { get; set; }*/
-        [Display(Name = "NrTel")]
+		[Display(Name = "NrTel")]
         public string Phone { get; set; }
         [Display(Name="Profile Picture")]
 
@@ -39,8 +41,16 @@ namespace WebApplication5.Models
 
         public string Password { get; set; }
 
-	
-	
+
+		[Display(Name = "Confirm password")]
+		[Required(ErrorMessage = "Confirm password is required")]
+		[DataType(DataType.Password)]
+
+		[Compare("Password", ErrorMessage = "Passwords do not match")]
+		public string ConfirmPassword { get; set; }
+
+
+
 		public List<StudentTeacher> StudentTeachers { get; set; }
 		public List<Transkripta> Transkripta { get; set; }
         
@@ -56,11 +66,11 @@ namespace WebApplication5.Models
         public State State { get; set; }
 
 
-        [Display(Name = "Vendlindja")]
+       /*]
         public int ResidenceId { get; set; }
         [ForeignKey("ResidenceId")]
 
-        public Residence Residence { get; set; }
+        public Residence Residence { get; set; }*/
 
         [Display(Name = "Kombesia")]
         public int NationalityId { get; set; }

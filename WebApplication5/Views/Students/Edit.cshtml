@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<div class="bg-light p-5 rounded">
 <h1>Edit</h1>
 
 <h4>Student</h4>
@@ -100,18 +100,20 @@
 					</div>
 
 				</div>
+				<div class="col-md-6 mb-4 pb-2">
+					<div class="form-group">
+						<label asp-for="Residence" class="control-label"></label>
+						<input asp-for="Residence" class="form-control" />
+						<span asp-validation-for="Residence" class="text-danger"></span>
+					</div>
+				</div>
 				<div class="col-md-6 mb-4">
 					<div class="form-group">
 						<label asp-for="State.Name" class="control-label"></label>
 						<select asp-for="StateId" class="form-control" asp-items="ViewBag.StateId"></select>
 					</div>
 				</div>
-				<div class="col-md-6 mb-4">
-					<div class="form-group">
-						<label asp-for="Residence.Name" class="control-label"></label>
-						<select asp-for="ResidenceId" class="form-control" asp-items="ViewBag.ResidenceId"></select>
-					</div>
-				</div>
+
 				<div class="col-md-6 mb-4">
 					<div class="form-group">
 						<label asp-for="Nationality.Name" class="control-label"></label>
@@ -135,18 +137,24 @@
 
 					</div>
 				</div>
+				<div class="col-md-6 mb-4 pb-2" style="display:none;">
+					<div class="form-group">
+						<label asp-for="ConfirmPassword" class="control-label"></label>
+						<input asp-for="ConfirmPassword" type="text" class="form-control" />
+						<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+					</div>
+				</div>
 
 			</div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+				<input type="submit" value="Ruaj" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

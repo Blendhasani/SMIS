@@ -43,31 +43,7 @@ namespace WebApplication5.Controllers
             }
 			return View("~/Views/Home/Index.cshtml");
 		}
-		/*
-				[HttpPost]
-				public async Task<IActionResult> Login(LoginVM loginVM)
-				{
-					if (!ModelState.IsValid) return View(loginVM);
-
-					var user = await _userManager.FindByEmailAsync(loginVM.EmailAddress);
-					if (user != null)
-					{
-						var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
-						if (passwordCheck)
-						{
-							var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
-							if (result.Succeeded)
-							{
-
-								return RedirectToAction("Index", "Home");
-
-
-
-							}
-						}
-						TempData["Error"] = "Wrong credentials. Please, try again!";
-						return View(loginVM);
-					}*/
+	
 
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginVM loginVM)
@@ -89,8 +65,12 @@ namespace WebApplication5.Controllers
 						{
 							return RedirectToAction("Home", "Admin", new { area = "Admin" });
 						}
-						else
+						else if (role.Contains("User"))
 						{
+							return RedirectToAction("MyProfile", "Students");
+                        }
+                        else
+                        {
 							return RedirectToAction("Index", "Home");
 						}
 
@@ -109,30 +89,9 @@ namespace WebApplication5.Controllers
 
 
 
-       /* public IActionResult Register() => View(new Student());*/
+    
 
-/*
-        [HttpPost]
-        public async Task Register(Student student)
-        {
-            *//*if (!ModelState.IsValid) return View(student);
 
-            var user = await _userManager.FindByEmailAsync(student.Email);
-            if (user != null)
-            {
-                TempData["Error"] = "This email address is already in use";
-                return View(student);
-            }*//*
-
-            await _service.Register(student);
-            *//*var newUserResponse = await _userManager.CreateAsync(newUser, student.Password);
-
-            if (newUserResponse.Succeeded)
-                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
-            await _context.SaveChangesAsync();*//*
-
-        }
-*/
 
         [HttpPost]
         public async Task<IActionResult> Logout()

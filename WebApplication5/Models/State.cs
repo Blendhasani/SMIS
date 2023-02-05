@@ -9,7 +9,7 @@ namespace WebApplication5.Models
 		[Display(Name = "Shteti")]
 		public string Name { get; set; }
         public string Kodi { get; set; }
-        public List<Residence> Residence { get; set; }
+       // public List<Residence> Residence { get; set; }
         public List<Student> Students { get; set; }
 
         /*public List<Nationality> Nationality { get; set; }*/

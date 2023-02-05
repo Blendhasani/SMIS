@@ -16,7 +16,7 @@
 		</div>
 		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
 			<a asp-action="Index" asp-controller="Teachers"><img style="width:70%; height:auto;" src="../../images/teacher.png" /></a>
-			<a asp-action="Index" asp-controller="Teachers" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Mësuesit</a>
+			<a asp-action="Index" asp-controller="Teachers" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Mësimdhënësit</a>
 		</div>
 		<div style="width:30%; height:auto; display:flex;flex-direction:column;margin-bottom:5%; justify-content:center; text-align:center">
 			<a asp-action="Fakultetet" asp-controller="Subjects"><img style="width:70%; height:auto;" src="../../images/book.png" /></a>
@@ -25,11 +25,11 @@
 		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
 			<a asp-action="Fakultetet" asp-controller="StudentTeachers"><img style="width:70%; height:auto;" src="../../images/training.png" /></a>
 
-			<a asp-action="Fakultetet" asp-controller="StudentTeachers" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Student-Mësues</a>
+			<a asp-action="Fakultetet" asp-controller="StudentTeachers" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Student-Mësimdhënës</a>
 		</div>
 		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
 			<a asp-action="Fakultetet" asp-controller="SubjectTeachers"><img style="width:70%; height:auto;" src="../../images/studying.png" /></a>
-			<a asp-action="Fakultetet" asp-controller="SubjectTeachers" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Lëndë-Mësues</a>
+			<a asp-action="Fakultetet" asp-controller="SubjectTeachers" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Lëndë-Mësimdhënës</a>
 		</div>
 				<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
 			<a asp-action="Index" asp-controller="Fakultete"><img style="width:70%; height:auto;" src="../../images/university.png" /></a>
@@ -45,27 +45,16 @@
 
 			<a asp-action="Index" asp-controller="States" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Shtetet</a>
 		</div>
-		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
-			<a asp-action="Index" asp-controller="Residences"><img style="width:70%; height:auto;" src="../../images/residence.png" /></a>
-			<a asp-action="Index" asp-controller="Residences" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Vendbanimet</a>
-		</div>
+
 		<div style="width:30%; height:auto; display:flex;flex-direction:column; margin-bottom:5%; justify-content:center; text-align:center">
 			<a asp-action="Index" asp-controller="Nationalities"><img style="width:70%; height:auto;" src="../../images/nationality.png" /></a>
 			<a asp-action="Index" asp-controller="Nationalities" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Kombesite</a>
 		</div>
 
 	}
-	@*@if (User.Identity.IsAuthenticated && (User.IsInRole("Teacher")))
-	{
-	<div style="width:30%; height:auto; display:flex;flex-direction:column;margin-bottom:5%; justify-content:center; text-align:center">
-	<a asp-action="Vleresimi" asp-route-id="@t.Id" asp-controller="Transkriptas"><img style="width:70%; height:auto;" src="../../images/marking.png" /></a>
-	<a asp-action="Vleresimi" asp-route-id="@t.Id" asp-controller="Transkriptas" style="margin-top:5px;text-decoration:none; font-size:23px; color:black; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Vlerësimi</a>
-	</div>
-	}*@
+
 
 
 
 
 </div>
-
-

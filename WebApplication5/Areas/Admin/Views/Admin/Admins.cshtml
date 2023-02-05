@@ -10,8 +10,7 @@
 
 
 
-<div class="row">
-    <div class="col-md-6 offset-3">
+
         <p>
             <h4>Të gjithë administratorët</h4>
             <h4> <a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="CreateAdmin">Krijo</a></h4>
@@ -20,7 +19,7 @@
 
         <table class="table">
             <thead>
-                <tr class="text-center">
+                <tr class="">
                     <th>@Html.DisplayNameFor(model => model.FullName)</th>
                     <th>@Html.DisplayNameFor(model => model.UserName)</th>
                     <th>@Html.DisplayNameFor(model => model.Email)</th>
@@ -47,7 +46,6 @@
 
         </table>
 
-    </div>
     <div class=" d-flex align-items-center justify-content-center mt-4">
         @Html.PagedListPager((IPagedList)Model, page => Url.Action("Admins", new { page = page }),
         new X.PagedList.Mvc.Common.PagedListRenderOptions
@@ -58,7 +56,7 @@
         PageClasses = new[] { "page-link" },
         })
     </div>
-</div>
+
 @section Scripts{
         <script>
             // Workaround to fix style of text for showing items .. through ..

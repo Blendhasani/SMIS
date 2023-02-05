@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Provimet e paraqitura";
 }
+<div class="bg-light p-5 rounded">
 <h1 class="mt-3">Provimet e paraqitura</h1>
 
 <table class="table ">
@@ -26,8 +27,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @*@if (item.Nota == null)
-            {*@
+            
             @if (DateTime.Now < item.CreatedDate.AddDays(2))
             {
                 <tr class="align-middle">
@@ -77,8 +77,9 @@
                     
                 </tr>
                 }
-          @*  }*@
+         
             
         }
     </tbody>
 </table>
+</div>

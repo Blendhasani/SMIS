@@ -1,18 +1,4 @@
-﻿@*@{
-	Layout = null;
-}
-<!DOCTYPE html>
-<html>
-<head>
-	<meta name="viewport" content="width=device-width" />
-	<title>Index</title>
-</head>
-<body>
-	<div>
-		<a asp-action="Generate" asp-controller="Report">Generate</a>
-	</div>
-</body>
-</html>*@
+﻿
 @{
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 	ViewData["Title"] = "Index";
@@ -33,8 +19,8 @@
 	<div class="card col-md-5">
 
 		<div class="card-body ">
-			<h5 class="card-title">Raporti mbi të gjithë profesorët</h5>
-			<p class="card-text">Klikoni vegzën për të shkarkuar të gjithë profesorët.</p>
+			<h5 class="card-title">Raporti mbi të gjithë mësimdhënësit</h5>
+			<p class="card-text">Klikoni vegzën për të shkarkuar të gjithë mësimdhënësit.</p>
 			<a asp-action="GenerateTeacher" asp-controller="Report" class="btn btn-primary">Shkarko</a>
 		</div>
 	</div>
@@ -75,27 +61,7 @@
 	</div>
 
 
-	@*<div class="card col-md-5">
 
-
-	<div class="card-body ">
-	<form asp-action="GenerateStudentByEmail">
-	<h5 class="card-title">Informata mbi studentët</h5>
-	<input asp-for="@email.Email" id="name" class="form-control form-control-lg" />
-	<a asp-action="GenerateStudentByEmail" asp-route-id="@email.Email" type="submit" asp-controller="Report" value="Shkarko" class="btn btn-primary"></a>
-	</form>
-	</div>
-	</div>
-
-
-	<div class="card col-md-5">
-
-	<div class="card-body ">
-	<h5 class="card-title">Informata mbi profesorët</h5>
-
-	<a asp-action="GetData" asp-controller="Report" asp-area="Admin" class="btn btn-primary">Shkarko</a>
-	</div>
-	</div>*@
 </div>
 
 <div class="row mt-5" style="flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;">
@@ -103,7 +69,7 @@
 
 
 	<div class="card-body">
-			<h5 class="card-title">Shikoni lëndët e profesorit te caktuar</h5>
+			<h5 class="card-title">Shikoni lëndët e mësimdhënësit te caktuar</h5>
 			@*  <p class="card-text">Zgjedhni fakultetin</p>*@
 
 			<form asp-controller="Report" asp-action="ProfSubjectByEmail" style="display:flex;flex-direction:row;">
@@ -118,7 +84,7 @@
 
 
 		<div class="card-body">
-			<h5 class="card-title">Shikoni studentët e profesorit te caktuar</h5>
+			<h5 class="card-title">Shikoni studentët e mësimdhënësit te caktuar</h5>
 			@*  <p class="card-text">Zgjedhni fakultetin</p>*@
 
 			<form asp-controller="Report" asp-action="ProfStudentsByEmail" style="display:flex;flex-direction:row;">

@@ -31,11 +31,7 @@ namespace WebApplication5.Controllers
         }
 
 		// GET: Teachers
-		/*    [Authorize(Roles = "ADMIN")]
-			public async Task<IActionResult> Index()
-			{
-				  return View(await _context.Teachers.Include(s=>s.Fakulteti).ToListAsync());
-			}*/
+	
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Index(int? page)
 		{
@@ -95,13 +91,7 @@ namespace WebApplication5.Controllers
 			var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(s => s.Teacher).Where(x=>x.Teacher.Name.Equals(name));
             return View(await applicationDbContext.ToListAsync());
         }
-        /*public async Task<IActionResult> MyStudentsToGrade(string name)
-        {
-            var user = await GetCurrentUserAsync();
-            name = user.FullName;
-            var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(s => s.Teacher).ThenInclude(s => s.SubjectTeachers).ThenInclude(s => s.Subject).ThenInclude(s => s.Transkripta).Where(x => x.Teacher.Name == name);
-            return View(await applicationDbContext.ToListAsync());
-        }*/
+   
         // GET: Teachers/Edit/5
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Edit(int? id)

@@ -47,7 +47,7 @@ namespace WebApplication5.Data
         public DbSet<Fakulteti> Fakultetet { get; set; }
 
 		public DbSet<State> States { get; set; }
-		public DbSet<Residence> Residences { get; set; }
+		//public DbSet<Residence> Residences { get; set; }
 
 		public DbSet<Nationality> Nationalities { get; set; }
 

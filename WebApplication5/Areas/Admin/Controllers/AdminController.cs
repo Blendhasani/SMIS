@@ -181,17 +181,30 @@ namespace WebApplication5.Areas.Admin.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var transkripta = await _context.Transkripta.FindAsync(id);
-
+            var transkripta = await _context.Transkripta
+                .Include(t => t.Student)
+                .Include(t => t.Subject)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            var afatitranskripta = await _context.AfatiTranskripta.FirstOrDefaultAsync(m => m.TranskriptaId == id);
             if (transkripta == null)
             {
                 return NotFound();
             }
+            else
+            {
+                _context.AfatiTranskripta.Remove(afatitranskripta);
+                await _context.SaveChangesAsync();
+                _context.Transkripta.Remove(transkripta);
 
-            _context.Transkripta.Remove(transkripta);
+
+
+
+            }
+
+
             await _context.SaveChangesAsync();
 
-			return RedirectToAction(nameof(Notat));
+            return RedirectToAction(nameof(Notat));
         }
     }
 

@@ -22,12 +22,7 @@ namespace WebApplication5.Controllers
             _context = context;
         }
 
-		// GET: StudentTeachers
-		/* public async Task<IActionResult> Index()
-		 {
-			 var applicationDbContext = _context.StudentTeacher.Include(s => s.Student).Include(s => s.Teacher);
-			 return View(await applicationDbContext.ToListAsync());
-		 }*/
+	
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Fakultetet()
 		{

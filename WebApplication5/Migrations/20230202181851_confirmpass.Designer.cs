@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication5.Data;
 
@@ -11,9 +12,10 @@ using WebApplication5.Data;
 namespace WebApplication5.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230202181851_confirmpass")]
+    partial class confirmpass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,6 +322,32 @@ namespace WebApplication5.Migrations
                     b.ToTable("Nationalities");
                 });
 
+            modelBuilder.Entity("WebApplication5.Models.Residence", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Kodi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("Residences");
+                });
+
             modelBuilder.Entity("WebApplication5.Models.State", b =>
                 {
                     b.Property<int>("Id")
@@ -390,9 +418,8 @@ namespace WebApplication5.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Residence")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ResidenceId")
+                        .HasColumnType("int");
 
                     b.Property<int>("StateId")
                         .HasColumnType("int");
@@ -406,6 +433,8 @@ namespace WebApplication5.Migrations
                     b.HasIndex("FakultetiId");
 
                     b.HasIndex("NationalityId");
+
+                    b.HasIndex("ResidenceId");
 
                     b.HasIndex("StateId");
 
@@ -666,6 +695,17 @@ namespace WebApplication5.Migrations
                     b.Navigation("Transkripta");
                 });
 
+            modelBuilder.Entity("WebApplication5.Models.Residence", b =>
+                {
+                    b.HasOne("WebApplication5.Models.State", "State")
+                        .WithMany("Residence")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("State");
+                });
+
             modelBuilder.Entity("WebApplication5.Models.Student", b =>
                 {
                     b.HasOne("WebApplication5.Models.Fakulteti", "Fakulteti")
@@ -680,6 +720,12 @@ namespace WebApplication5.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("WebApplication5.Models.Residence", "Residence")
+                        .WithMany("Students")
+                        .HasForeignKey("ResidenceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("WebApplication5.Models.State", "State")
                         .WithMany("Students")
                         .HasForeignKey("StateId")
@@ -689,6 +735,8 @@ namespace WebApplication5.Migrations
                     b.Navigation("Fakulteti");
 
                     b.Navigation("Nationality");
+
+                    b.Navigation("Residence");
 
                     b.Navigation("State");
                 });
@@ -786,8 +834,15 @@ namespace WebApplication5.Migrations
                     b.Navigation("Students");
                 });
 
+            modelBuilder.Entity("WebApplication5.Models.Residence", b =>
+                {
+                    b.Navigation("Students");
+                });
+
             modelBuilder.Entity("WebApplication5.Models.State", b =>
                 {
+                    b.Navigation("Residence");
+
                     b.Navigation("Students");
                 });
 

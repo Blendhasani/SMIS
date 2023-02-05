@@ -48,18 +48,6 @@ namespace WebApplication5.Controllers
 		// GET: Students
 		private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-		/*      [Authorize(Roles ="ADMIN , Teacher")]
-			  public async Task<IActionResult> Index()
-			  {
-					return View(await _context.Students.Include(s=>s.Fakulteti).ToListAsync());
-			  }*/
-
-		/*	[Authorize(Roles = "ADMIN , Teacher")]
-			public async Task<IActionResult> Index(int id)
-			{
-				return View(await _context.Students.Include(s => s.Fakulteti).Where(s=>s.FakultetiId==id).ToListAsync());
-			}
-	*/
 
 		[Authorize(Roles = "ADMIN , Teacher")]
 		public async Task<IActionResult> Index(int id , int? page)
@@ -70,22 +58,13 @@ namespace WebApplication5.Controllers
 		}
 
 
-
-		/*        [Authorize(Roles = "User")]
-				public async Task<IActionResult> MyProfile(string name,string email)
-				{
-					var user = await GetCurrentUserAsync();
-					name = user.FullName;
-					email =user.Email;
-					return View(await _context.Students.Where(x=>x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
-				}*/
 		[Authorize(Roles = "User")]
 		public async Task<IActionResult> MyProfile(string name, string email)
 		{
 			var user = await GetCurrentUserAsync();
 			name = user.FullName;
 			email = user.Email;
-			return View(await _context.Students.Include(s=>s.Fakulteti).Include(s=>s.Residence).Include(t=>t.State).Include(x=>x.Nationality).Where(x => x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
+			return View(await _context.Students.Include(s=>s.Fakulteti).Include(t=>t.State).Include(x=>x.Nationality).Where(x => x.Name.Equals(name) && x.Email.Equals(email)).ToListAsync());
 		}
 
 		// GET: Students/Details/5
@@ -96,7 +75,7 @@ namespace WebApplication5.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.Include(s => s.Fakulteti).Include(s=>s.Residence).Include(s=>s.Nationality).Include(s=>s.State)
+            var student = await _context.Students.Include(s => s.Fakulteti).Include(s=>s.Nationality).Include(s=>s.State)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -107,28 +86,8 @@ namespace WebApplication5.Controllers
         }
 
 		// GET: Students/Create
-		[HttpGet]
-		public IActionResult Action(string selectedOption)
-		{
-			var options = _context.Residences.Where(x => x.Name == selectedOption).Select(x => new { Value = x.Id, Text = x.Name });
-			return Ok(options);
-		}
-		/*	public IActionResult Create()
-			{
-				var shtetet = _context.States;
-
-
-				ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
-
-				ViewData["StateId"] = new SelectList(shtetet, "Id", "Name");
-				var selectList = ViewData["StateId"] as SelectList;
-				var t = Action(selectList.SelectedValue.ToString()) as OkObjectResult;
-				var result =  t.Value as IEnumerable<Residence>;
-
-				ViewData["NationalityId"] = new SelectList(_context.Nationalities, "Id", "Name");
-				ViewData["ResidenceId"] = new SelectList(result, "Id", "Name");
-				return View();
-			}*/
+		
+		
 		public IActionResult Create()
 		{
 		
@@ -136,25 +95,16 @@ namespace WebApplication5.Controllers
 
 			ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
 
-		/*	var states = _context.States.Select(s => new SelectListItemWithAttributes
-			{
-				Value = s.Id.ToString(),
-				Text = s.Name,
-				HtmlAttributes = new Dictionary<string, string>() { { "data_url", Url.Action("GetResidencesByStateId", "YourController") } }
-			});*/
+	
 			ViewData["StateId"] = new SelectList(_context.States, "Id", "Name");
                 
 
 			ViewData["NationalityId"] = new SelectList(_context.Nationalities, "Id", "Name");
-			ViewData["ResidenceId"] = new SelectList(_context.Residences, "Id", "Name");
+		
 			return View();
 		}
 
-		public JsonResult GetResidencesByStateId(int stateId)
-		{
-			var residences = _context.Residences.Where(r => r.StateId == stateId).Select(r => new { r.Id, r.Name });
-			return Json(residences);
-		}
+	
 		public IActionResult RegisterCompleted()
         {
             return View();
@@ -168,7 +118,7 @@ namespace WebApplication5.Controllers
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,ParentName,Gender,Birthday,ResidenceId,NationalityId,StateId,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,NationalityId,StateId,Phone,ImageUrl,Email,Password,ConfirmPassword,FakultetiId")] Student student)
         {
 			
 			/*_context.Add(student);*/
@@ -190,7 +140,7 @@ namespace WebApplication5.Controllers
             ViewData["FakultetiId"] = new SelectList(_context.Fakultetet, "Id", "Emri");
             ViewData["StateId"] = new SelectList(_context.States, "Id", "Name");
             ViewData["NationalityId"] = new SelectList(_context.Nationalities, "Id", "Name");
-            ViewData["ResidenceId"] = new SelectList(_context.Residences, "Id", "Name");
+     
             if (id == null || _context.Students == null)
             {
                 return NotFound();
@@ -211,7 +161,7 @@ namespace WebApplication5.Controllers
         [ValidateAntiForgeryToken]
 		[Authorize(Roles = "ADMIN")]
      
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,ResidenceId,NationalityId,StateId,Phone,ImageUrl,Email,Password,FakultetiId")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,ParentName,Gender,Birthday,Residence,NationalityId,StateId,Phone,ImageUrl,Email,Password,ConfirmPassword,FakultetiId")] Student student)
         {
 
             if (id != student.Id)
@@ -222,20 +172,19 @@ namespace WebApplication5.Controllers
             var st = new Student()
             {
                 Id = student.Id,
-				/* Name= _context.Students.Single(x => x.Id == student.Id).Name,*/
 				 Name= student.Name,
 				Surname = student.Surname,
                 ParentName = student.ParentName,
                 Gender = student.Gender,
                 Birthday = student.Birthday,
-                ResidenceId = student.ResidenceId,
+                Residence = student.Residence,
                 NationalityId = student.NationalityId,
                 StateId = student.StateId,
                 Phone = student.Phone,
                 ImageUrl = student.ImageUrl,
-              /*  Email = _context.Students.Single(x => x.Id == student.Id).Email,*/
                 Email = student.Email,
 				Password = student.Password,
+                ConfirmPassword= student.ConfirmPassword,
 				FakultetiId =student.FakultetiId,
 
 
@@ -262,7 +211,7 @@ namespace WebApplication5.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Fakultetet));
           
         }
 
@@ -313,7 +262,7 @@ namespace WebApplication5.Controllers
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    return View("~/Views/Home/Index.cshtml");
+                    return RedirectToAction(nameof(Fakultetet));
                 }
                 foreach (var error in result.Errors)
                 {
@@ -323,30 +272,7 @@ namespace WebApplication5.Controllers
            
              return RedirectToAction(nameof(Index));
         }
-       /* [HttpPost]
-
-        public async Task<IActionResult> DeleteUser(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                ViewBag.ErrorMessage = $"User with email = {email} cannot be found";
-                return View("NotFound");
-            }
-            else
-            {
-                var result = await _userManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return View("~/Views/Home/Index.cshtml");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View("~/Views/Home/Index.cshtml");
-        }*/
+      
 
         private bool StudentExists(int id)
         {
