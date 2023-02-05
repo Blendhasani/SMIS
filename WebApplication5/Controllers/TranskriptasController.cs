@@ -290,38 +290,37 @@ namespace WebApplication5.Controllers
 			_context.Update(transkript);
 			await _context.SaveChangesAsync();
 
-			/*  Send(students.Email);*/
-			/*	try
+			try
+			{
+				using (MailMessage mail = new MailMessage())
 				{
-					using (MailMessage mail = new MailMessage())
+					mail.From = new MailAddress("mygganbu@gmail.com");
+					mail.To.Add(students.Email);
+					
+					mail.Subject = "Nota për lëndën " + subjectt.Name;
+					mail.Body = "<div>\r\n<span style=\"font-family:Arial;font-size:10pt\">\r\nI/E nderuar <strong>" + students.Name + " " + students.Surname + "</strong>,\r\n<br><br>\r\nMe datën <strong>" + transkript.CreatedDate.ToString("MM/dd/yyyy") + "</strong> në <span class=\"il\">SMIS</span> është regjistruar nota për lëndën <strong>" + subjectt.Name + "</strong>" +
+						".<br>\r\nNota e regjistruar për këtë lëndë është <strong>" + transkript.Nota + "</strong>.<br><br>\r\n\r\n" +
+						"Për më shumë informata vizitoni profilin tuaj në <span class=\"il\">SMIS</span>, ndërsa për detaje shtesë rreth notës kontaktoni profesorin.<br><br>" +
+						"\r\n\r\n<strong>Vërejtje:</strong> Përmes sistemit <span class=\"il\">SMIS</span> ju keni mundësi ta refuzoni notën deri në <strong>48 orë </strong>" +
+						"pas vendosjes së notës në sistem.<br><br>\r\n\r\n\r\nJu lutem, mos ktheni përgjigje në këtë email.<br><br>\r\n</span>\r\n<div style=\"border-top:3px solid #023164\">&nbsp;</div>\r\n© <span class=\"il\">SMIS</span> -  Student Management Information System\r\n\r\n</div>";
+					mail.IsBodyHtml = true;
+					using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
 					{
-						mail.From = new MailAddress("mygganbu@gmail.com");
-						mail.To.Add(students.Email);
-						// mail.To.Add("leadersoftx@gmail.com");
-						mail.Subject = "Nota për lëndën " + subjectt.Name;
-						mail.Body = "<div>\r\n<span style=\"font-family:Arial;font-size:10pt\">\r\nI/E nderuar <strong>" + students.Name + " " + students.Surname + "</strong>,\r\n<br><br>\r\nMe datën <strong>" + transkript.CreatedDate.ToString("MM/dd/yyyy") + "</strong> në <span class=\"il\">SMIS</span> është regjistruar nota për lëndën <strong>" + subjectt.Name + "</strong>" +
-							".<br>\r\nNota e regjistruar për këtë lëndë është <strong>" + transkript.Nota + "</strong>.<br><br>\r\n\r\n" +
-							"Për më shumë informata vizitoni profilin tuaj në <span class=\"il\">SMIS</span>, ndërsa për detaje shtesë rreth notës kontaktoni profesorin.<br><br>" +
-							"\r\n\r\n<strong>Vërejtje:</strong> Përmes sistemit <span class=\"il\">SMIS</span> ju keni mundësi ta refuzoni notën deri në <strong>48 orë </strong>" +
-							"pas vendosjes së notës në sistem.<br><br>\r\n\r\n\r\nJu lutem, mos ktheni përgjigje në këtë email.<br><br>\r\n</span>\r\n<div style=\"border-top:3px solid #023164\">&nbsp;</div>\r\n© <span class=\"il\">SMIS</span> -  Student Management Information System\r\n\r\n</div>";
-						mail.IsBodyHtml = true;
-						using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-						{
-							smtp.Credentials = new System.Net.NetworkCredential("mygganbu@gmail.com", "gqixpluokdrukpof");
-							smtp.EnableSsl = true;
-							smtp.Send(mail);
+						smtp.Credentials = new System.Net.NetworkCredential("mygganbu@gmail.com", "gqixpluokdrukpof");
+						smtp.EnableSsl = true;
+						smtp.Send(mail);
 
-						}
 					}
+				}
 
 
-				}
-				catch (Exception ex)
-				{
-					throw ex;
-				}
-				await _context.SaveChangesAsync();*/
-		
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+			await _context.SaveChangesAsync();
+
 			return RedirectToAction(nameof(Lendet));
 		}
 	
