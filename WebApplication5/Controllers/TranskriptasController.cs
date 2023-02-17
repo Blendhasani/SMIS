@@ -28,6 +28,7 @@ using FastReport.Utils;
 using Highsoft.Web.Mvc.Charts;
 using System.Composition;
 using Microsoft.Data.SqlClient;
+using System.Globalization;
 
 namespace WebApplication5.Controllers
 {
@@ -161,7 +162,8 @@ namespace WebApplication5.Controllers
 
 
 		
-			var afatii = _context.Afati.FirstOrDefault(s => s.Emri == "Afati Prill" && s.VitiAkademik=="2022/2023");
+			//var afatii = _context.Afati.FirstOrDefault(s => s.Emri == "Afati Prill" && s.VitiAkademik=="2022/2023");
+			var afatii = _context.Afati.FirstOrDefault(s => s.Hapur==true && s.VitiAkademik=="2022/2023");
 			var tr = new Transkripta()
 			{
 				Id = transkripta.Id,
@@ -296,9 +298,12 @@ namespace WebApplication5.Controllers
 				{
 					mail.From = new MailAddress("mygganbu@gmail.com");
 					mail.To.Add(students.Email);
-					
-					mail.Subject = "Nota për lëndën " + subjectt.Name;
-					mail.Body = "<div>\r\n<span style=\"font-family:Arial;font-size:10pt\">\r\nI/E nderuar <strong>" + students.Name + " " + students.Surname + "</strong>,\r\n<br><br>\r\nMe datën <strong>" + transkript.CreatedDate.ToString("MM/dd/yyyy") + "</strong> në <span class=\"il\">SMIS</span> është regjistruar nota për lëndën <strong>" + subjectt.Name + "</strong>" +
+                    CultureInfo albanianCulture = new CultureInfo("sq-AL");
+                    TextInfo textInfo = albanianCulture.TextInfo;
+                    string formattedDate = transkript.CreatedDate.ToString("d MMMM yyyy", albanianCulture);
+                    string capitalizedDate = textInfo.ToTitleCase(formattedDate);
+                    mail.Subject = "Nota për lëndën " + subjectt.Name;
+					mail.Body = "<div>\r\n<span style=\"font-family:Arial;font-size:10pt\">\r\nI/E nderuar <strong>" + students.Name + " " + students.Surname + "</strong>,\r\n<br><br>\r\nMe datën <strong>" + capitalizedDate + "</strong> në <span class=\"il\">SMIS</span> është regjistruar nota për lëndën <strong>" + subjectt.Name + "</strong>" +
 						".<br>\r\nNota e regjistruar për këtë lëndë është <strong>" + transkript.Nota + "</strong>.<br><br>\r\n\r\n" +
 						"Për më shumë informata vizitoni profilin tuaj në <span class=\"il\">SMIS</span>, ndërsa për detaje shtesë rreth notës kontaktoni profesorin.<br><br>" +
 						"\r\n\r\n<strong>Vërejtje:</strong> Përmes sistemit <span class=\"il\">SMIS</span> ju keni mundësi ta refuzoni notën deri në <strong>48 orë </strong>" +
@@ -306,7 +311,7 @@ namespace WebApplication5.Controllers
 					mail.IsBodyHtml = true;
 					using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
 					{
-						smtp.Credentials = new System.Net.NetworkCredential("mygganbu@gmail.com", "gqixpluokdrukpof");
+						smtp.Credentials = new System.Net.NetworkCredential("mygganbu@gmail.com", "esaeianojyprsawu");
 						smtp.EnableSsl = true;
 						smtp.Send(mail);
 

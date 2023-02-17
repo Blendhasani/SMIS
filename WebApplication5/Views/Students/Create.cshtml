@@ -88,17 +88,22 @@
 								</div>
 
 								<div class="row">
-									<div class="col-md-6 mb-4 pb-2">
+									<div class="col-md-6 mb-2 pb-2">
 
 										<div class="form-group">
 											<label asp-for="Email" class="control-label"></label>
-											<input asp-for="Email" class="form-control" />
+											<input asp-for="Email" class="form-control" id="Email" name="Email" onchange="UserCheck()" />
 											<span asp-validation-for="Email" class="text-danger"></span>
 										</div>
 
 
 									</div>
-
+									<div class="row">
+										<label class="col-sm-2"></label>
+										<div class="col-sm-10">
+											<p id="Status" />
+										</div>
+									</div>
 									<div class="col-md-6 mb-4 pb-2">
 
 										<div class="form-group">
@@ -115,17 +120,7 @@
 											<span asp-validation-for="Residence" class="text-danger"></span>
 										</div>
 									</div>
-									@*
-
-
-									<div class="col-md-6 mb-4" >
-									<div class="form-group">
-									<label asp-for="Residence.Name" class="control-label"></label>
-									<select asp-for="ResidenceId" class="form-control" asp-items="ViewBag.ResidenceId"></select>
-									</div>
-									</div>
-
-									*@
+								
 									<div class="col-md-6 mb-4">
 										<div class="form-group">
 											<label asp-for="State.Name" class="control-label"></label>
@@ -190,6 +185,26 @@
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	
 	}
+	<script>
 
+		function UserCheck() {
+			$("#Status").html("Checking...");
+			$.post("@Url.Action("CheckEmailAvailability", "Students")",
+				{
+					userdata: $("#Email").val()
+				},
+				function (data) {
+					if (data == 0) {
+						$("#Status").html('<font color="Green">Available!</font>');
+						$("#Email").css("border-color", "Green");
+
+					}
+					else {
+						$("#Status").html('<font color="Red">That email is taken.Try Another.</font>');
+						$("#Email").css("border-color", "Red");
+					}
+				});
+		}
+	</script>
 
 			}

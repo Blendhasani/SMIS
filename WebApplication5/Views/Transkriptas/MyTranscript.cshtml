@@ -67,12 +67,13 @@
 	<tbody>
 		@foreach (var item in Model)
 		{
-			count++;
 			
 			 
 			@if (item.Nota != null && item.Nota != 5)
 			{
-				notat.Add(item.Nota);
+					count++;
+
+					notat.Add(item.Nota);
 				ectss.Add(item.Subject.ECTS);
 				id = item.StudentId;
 			}
@@ -138,13 +139,14 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td></td>
+		
 			@if (notat.Count >= 1)
 			{
 				<td>
 					<b>@String.Format("{0:0.00}", notat.Average())</b>
 				</td>
 				<td></td>
+					<td></td>
 				if (notat != null)
 				{
 					<td><b>@ectss.Sum()</b></td>

@@ -81,8 +81,8 @@ namespace WebApplication5.Controllers
 			 }*/
 		public IActionResult CreateFirst(int id)
 		{
-			ViewData["StudentId"] = new SelectList(_context.Students.Where(s=>s.FakultetiId==id), "Id", "Name");
-			ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Name");
+			ViewData["StudentId"] = new SelectList(_context.Students.Where(s=>s.FakultetiId==id), "Id", "Email");
+			ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Email");
 			return View();
 		}
 
@@ -90,10 +90,10 @@ namespace WebApplication5.Controllers
         {
             var std = _context.Students.Where(s => s.Id.Equals(id)).ToList();
             var stds = _context.StudentTeacher.FirstOrDefault(s=>s.StudentId==id);
-            ViewData["StudentId"] = new SelectList(std, "Id", "Name");
+            ViewData["StudentId"] = new SelectList(std, "Id", "Email");
             var data = _context.Teachers.Include(x=>x.Fakulteti).Where(s => stds.Student.FakultetiId==s.Fakulteti.Id && s.StudentTeachers.All(t => t.Teacher.Id != stds.TeacherId && t.Student.Id != stds.StudentId)).ToList();
            // var tcs = _context.Teachers.Include(s => s.StudentTeachers).Where(c => c.Id != stds.TeacherId && c.);
-            ViewData["TeacherId"] = new SelectList(data, "Id", "Name");
+            ViewData["TeacherId"] = new SelectList(data, "Id", "Email");
             return View();
         }
 

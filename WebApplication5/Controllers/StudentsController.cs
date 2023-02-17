@@ -132,6 +132,24 @@ namespace WebApplication5.Controllers
 
         }
 
+
+		public JsonResult CheckEmailAvailability(string userdata)
+		{
+			System.Threading.Thread.Sleep(200);
+
+
+			var SeachData = _context.Students.Where(x => x.Email == userdata).SingleOrDefault();
+			if (SeachData != null)
+			{
+				return Json(1);
+			}
+			else
+			{
+				return Json(0);
+			}
+
+		}
+
 		// GET: Students/Edit/5
 		[Authorize(Roles = "ADMIN")]
 		public async Task<IActionResult> Edit(int? id)

@@ -143,8 +143,8 @@ namespace WebApplication5.Areas.Admin.Controllers
 
             return View(afati);
         }
-        [Route("Afat/DeleteConfirmed")]
-        [Route("Afat/DeleteConfirmed/{id?}")]
+        [Route("Afat/Delete")]
+        [Route("Afat/Delete/{id?}")]
         // POST: Admin/Afat/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

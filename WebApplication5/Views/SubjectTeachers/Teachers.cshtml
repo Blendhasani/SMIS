@@ -10,6 +10,7 @@
 	foreach(var item in Model)
 	{
 		id = item.FakultetiId;
+		t.FakultetiId = item.FakultetiId;
 	}
 }
 <div class="bg-light p-5 rounded">
@@ -17,7 +18,7 @@
 
 
 <p>
-	<a asp-action="CreateFirst" asp-controller="SubjectTeachers" style="text-decoration:none;">Krijo së pari</a>
+		<a asp-action="CreateFirst" asp-controller="SubjectTeachers" asp-route-id="@t.FakultetiId" style="text-decoration:none;">Krijo së pari</a>
 </p>
 <table class="table">
 	<thead>

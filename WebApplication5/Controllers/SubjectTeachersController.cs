@@ -66,16 +66,21 @@ namespace WebApplication5.Controllers
             return View(subjectTeacher);
         }
 
-        // GET: SubjectTeachers/Create
-        public IActionResult CreateFirst()
-        {
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Name");
-            return View();
-        }
-   
+		// GET: SubjectTeachers/Create
+		/*        public IActionResult CreateFirst()
+				{
+					ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
+					ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Email");
+					return View();
+				}*/
+		public IActionResult CreateFirst(int id)
+		{
+			ViewData["SubjectId"] = new SelectList(_context.Subjects.Where(s => s.FakultetiId == id), "Id", "Name");
+			ViewData["TeacherId"] = new SelectList(_context.Teachers.Where(s => s.FakultetiId == id), "Id", "Email");
+			return View();
+		}
 
-        public IActionResult Create(int id)
+		public IActionResult Create(int id)
 		{
 			var tcs = _context.Teachers.Where(s => s.Id.Equals(id)).ToList();
 			var tcss = _context.SubjectTeacher.FirstOrDefault(s => s.Teacher.Id == id);
@@ -83,7 +88,7 @@ namespace WebApplication5.Controllers
 			var data = _context.Subjects.Include(x => x.Fakulteti).Where(s => s.Fakulteti.Id==tcss.Teacher.FakultetiId && s.SubjectTeachers.All(t => t.Teacher.Id != tcss.TeacherId && t.Subject.Id != tcss.SubjectId)).ToList();
 
 			ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
-			ViewData["TeacherId"] = new SelectList(tcs, "Id", "Name");
+			ViewData["TeacherId"] = new SelectList(tcs, "Id", "Email");
 			return View();
 		}
 
@@ -101,7 +106,7 @@ namespace WebApplication5.Controllers
          
                 _context.Add(subjectTeacher);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Teachers));
+                return RedirectToAction(nameof(Fakultetet));
           
 
         }
@@ -197,7 +202,7 @@ namespace WebApplication5.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Fakultetet));
         }
 
         private bool SubjectTeacherExists(int id)

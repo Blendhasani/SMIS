@@ -5,6 +5,8 @@
 	Teacher t = new Teacher();
 	Subject su = new Subject();
 
+	var user = await UserManager.GetUserAsync(User);
+	var userName = user?.FullName;
 
 
 }
@@ -118,7 +120,7 @@
 
 						<div class="dropdown">
 							<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="bi bi-person-badge"></i> Hello @UserManager.GetUserName(User)
+								<i class="bi bi-person-badge"></i> Përshëndetje @userName
 							</button>
 							<div class="dropdown-menu " style="background-color:#DC3545;" aria-labelledby="dropdownMenuButton">
 								<form asp-controller="Account" asp-action="Logout">

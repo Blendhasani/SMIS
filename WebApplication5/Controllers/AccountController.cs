@@ -71,7 +71,7 @@ namespace WebApplication5.Controllers
                         }
                         else
                         {
-							return RedirectToAction("Index", "Home");
+							return RedirectToAction("MyStudents", "Teachers");
 						}
 
 

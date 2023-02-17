@@ -139,7 +139,7 @@ namespace WebApplication5.Areas.Admin.Controllers
 			var users = await _userManager.Users.ToListAsync();
 			var userRoles = new List<UsersRoles>();
             var pageNumber = page ?? 1;
-            int pageSize = 10;
+            int pageSize = 15;
             foreach (var user in users)
 			{
 				var roles = await _userManager.GetRolesAsync(user);
