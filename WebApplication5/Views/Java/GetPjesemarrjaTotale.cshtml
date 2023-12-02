@@ -1,0 +1,36 @@
+﻿@using WebApplication5.Data.ViewModel;
+@model List<PjesemarrjaTotaleVM>
+
+<div class="bg-light p-5 rounded">
+<h1>Pjesemarrja totale</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Emri</th>
+            <th>Mbiemri</th>
+            <th>RFID</th>
+            <th>Pjesemarrja totale</th>
+            <th>Perqindja</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var count = 1;
+        }
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>@count</td>
+                    <td>@item.Name</td>
+                    <td>@item.Surname</td>
+                    <td>@item.Rfid</td>
+                    <td>@item.TotalAttendance</td>
+                <td><b>@item.Percentage %</b></td>
+                </tr>
+                count++;
+        }
+    </tbody>
+</table>
+</div>

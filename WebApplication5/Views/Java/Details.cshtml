@@ -1,0 +1,47 @@
+﻿@using WebApplication5.Data.ViewModel;
+@model List<DetailsViewModel>
+
+@{
+	var data = " ";
+	var grupi = " ";
+	@foreach (var student in Model)
+	{
+		data = student.Data;
+		grupi = student.Grupi;
+	}
+	}
+<!-- Other HTML code -->
+<div class="bg-light p-5 rounded">
+	<div class="d-flex flex-column align-items-center">
+		<h3>
+			@grupi
+		</h3>
+		<h4>
+			@data
+		</h4>
+	</div>
+
+	<table class="table">
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Surname</th>
+			<th>RFID</th>
+		</tr>
+		@{
+			var count = 1;
+		}
+		@foreach (var student in Model)
+		{
+			<tr>
+				<td>@count</td>
+				<td>@student.Name</td>
+				<td>@student.Surname</td>
+				<td>@student.Rfid</td>
+			</tr>
+			count++;
+		}
+	</table>
+</div>
+
+<!-- Other HTML code -->

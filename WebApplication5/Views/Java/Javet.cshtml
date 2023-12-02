@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WebApplication5.Models.Java>
+
+@{
+	ViewData["Title"] = "Index";
+	var numri = Model.Count();
+	var grupi = 0;
+	foreach (var item in Model)
+	{
+		grupi = item.GrupiLendaId;
+	}
+}
+<div class="bg-light p-5 rounded">
+	<h1>Javet</h1>
+
+	@if (numri > 0)
+	{
+		<a asp-action="Create" asp-route-id="@grupi">Create</a>
+	}
+	else
+	{
+		<a asp-action="CreateFirst">Create New</a>
+	}
+	<p></p>
+	<table class="table">
+		<!-- Table header omitted for brevity -->
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						Java @Html.DisplayFor(modelItem => item.JavaNumri)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Data)
+					</td>
+					<td class="d-flex flex-end justify-content-end">
+
+
+						<a asp-action="GjeneroJaven" class="btn btn-success" asp-route-id="@item.Id" style="margin-bottom:10px;margin-right:4px;"><i class="bi bi-cloud-download"></i> Shkarko</a>
+						<a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id" style="margin-bottom:10px; margin-right:4px;"><i class="bi bi-pencil-square"></i> Ndrysho</a>
+						<a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id" style="margin-bottom:10px;margin-right:4px;"><i class="bi bi-info-circle"></i> Detajet</a>
+						<a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:10px;margin-right:4px;"><i class="bi bi-trash"></i> Fshij</a>
+
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	
+</div>
+
+

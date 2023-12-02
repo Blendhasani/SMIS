@@ -22,13 +22,7 @@ namespace WebApplication5.Models
         public DateTime Birthday { get; set; }
 		[Display(Name = "Vendbanimi")]
 		public string Residence { get; set; }
-		/*
-                public string Residence { get; set; }
-                [Display(Name = "Kombësia")]
-                public string Nationality { get; set; }
 
-                        [Display(Name = "Shteti")]
-                        public string State { get; set; }*/
 		[Display(Name = "NrTel")]
         public string Phone { get; set; }
         [Display(Name="Profile Picture")]
@@ -52,6 +46,7 @@ namespace WebApplication5.Models
 
 
 		public List<StudentTeacher> StudentTeachers { get; set; }
+		public List<GrupiStudenti> GrupiStudenti { get; set; }
 		public List<Transkripta> Transkripta { get; set; }
         
         public int FakultetiId { get; set; }
@@ -66,16 +61,14 @@ namespace WebApplication5.Models
         public State State { get; set; }
 
 
-       /*]
-        public int ResidenceId { get; set; }
-        [ForeignKey("ResidenceId")]
-
-        public Residence Residence { get; set; }*/
+ 
 
         [Display(Name = "Kombesia")]
         public int NationalityId { get; set; }
         [ForeignKey("NationalityId")]
         public Nationality Nationality { get; set; }
+
+        public string? Rfid { get; set; }
 
     }
 }

@@ -1,0 +1,44 @@
+﻿
+@model IEnumerable<WebApplication5.Models.GrupiLenda>
+
+@{
+    ViewData["Title"] = "Grupet e mija";
+}
+<div class="bg-light p-5 rounded">
+    <h1 class="mt-3">Grupet e mia</h1>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grupi.Emri)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subject.Name)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Grupi.Emri)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+
+               <td class="flex-end" style="display: flex; flex-direction: row; justify-content: flex-end; width: 100%;">
+    <a asp-action="Javet" class="btn btn-success me-2" asp-controller="Java" asp-route-id="@item.Id">Javet</a>
+    <a asp-action="GetPjesemarrjaTotale" class="btn btn-success" asp-controller="Java" asp-route-id="@item.Id">Pjesemarrja totale</a>
+</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

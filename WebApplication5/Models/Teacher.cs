@@ -47,6 +47,7 @@ namespace WebApplication5.Models
 		public int FakultetiId { get; set; }
 		[ForeignKey("FakultetiId")]
 		public Fakulteti Fakulteti { get; set; }
+		public List<Java> Javet { get; set; }
 
 	}
 }

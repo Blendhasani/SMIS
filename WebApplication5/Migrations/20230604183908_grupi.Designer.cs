@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication5.Data;
 
@@ -11,13 +12,14 @@ using WebApplication5.Data;
 namespace WebApplication5.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230604183908_grupi")]
+    partial class grupi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -360,39 +362,6 @@ namespace WebApplication5.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("GrupiStudentet");
-                });
-
-            modelBuilder.Entity("WebApplication5.Models.Java", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GrupiLendaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("JavaNumri")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Pjesemarrja")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GrupiLendaId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("Javet");
                 });
 
             modelBuilder.Entity("WebApplication5.Models.Nationality", b =>
@@ -767,53 +736,30 @@ namespace WebApplication5.Migrations
 
             modelBuilder.Entity("WebApplication5.Models.GrupiLenda", b =>
                 {
-                    b.HasOne("WebApplication5.Models.Grupi", "Grupi")
+                    b.HasOne("WebApplication5.Models.Grupi", null)
                         .WithMany("GrupiLenda")
                         .HasForeignKey("GrupiId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WebApplication5.Models.Subject", "Subject")
+                    b.HasOne("WebApplication5.Models.Subject", null)
                         .WithMany("GrupiLenda")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Grupi");
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("WebApplication5.Models.GrupiStudenti", b =>
                 {
-                    b.HasOne("WebApplication5.Models.Grupi", "Grupi")
+                    b.HasOne("WebApplication5.Models.Grupi", null)
                         .WithMany("GrupiStudenti")
                         .HasForeignKey("GrupiId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WebApplication5.Models.Student", "Student")
+                    b.HasOne("WebApplication5.Models.Student", null)
                         .WithMany("GrupiStudenti")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Grupi");
-
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("WebApplication5.Models.Java", b =>
-                {
-                    b.HasOne("WebApplication5.Models.GrupiLenda", null)
-                        .WithMany("Javet")
-                        .HasForeignKey("GrupiLendaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication5.Models.Teacher", null)
-                        .WithMany("Javet")
-                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -940,11 +886,6 @@ namespace WebApplication5.Migrations
                     b.Navigation("GrupiStudenti");
                 });
 
-            modelBuilder.Entity("WebApplication5.Models.GrupiLenda", b =>
-                {
-                    b.Navigation("Javet");
-                });
-
             modelBuilder.Entity("WebApplication5.Models.Nationality", b =>
                 {
                     b.Navigation("Students");
@@ -975,8 +916,6 @@ namespace WebApplication5.Migrations
 
             modelBuilder.Entity("WebApplication5.Models.Teacher", b =>
                 {
-                    b.Navigation("Javet");
-
                     b.Navigation("StudentTeachers");
 
                     b.Navigation("SubjectTeachers");

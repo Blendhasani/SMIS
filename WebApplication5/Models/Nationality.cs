@@ -11,10 +11,7 @@ namespace WebApplication5.Models
 		[Display(Name = "Kombësia")]
 		public string Name { get; set; }
         public string Kodi { get; set; }
-        /*public int StateId { get; set; }
-        [ForeignKey("StateId")]
-        public State State { get; set; }*/
-
+     
         public List<Student> Students { get; set; }
     }
 }

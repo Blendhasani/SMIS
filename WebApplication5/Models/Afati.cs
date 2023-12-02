@@ -13,6 +13,6 @@ namespace WebApplication5.Models
         public int NrProvimeve { get; set; }
 
         public string VitiAkademik { get; set; }
-/*        public List<Transkripta> Transkriptas { get; set; }*/
+
     }
 }

@@ -119,13 +119,42 @@ namespace WebApplication5.Controllers
 		}
 
 
-		
+
 
 		// GET: Transkriptas/Create origjinal
+			[Authorize(Roles = "User")]
+			public async Task<IActionResult> Create()
+			{
+				var a = _context.Afati.FirstOrDefault(a => a.Emri.Equals("Afati Shkurt"));
+				var user = await GetCurrentUserAsync();
+				var namee = user.FullName;
+
+				var st = _context.Students.Include(s => s.Fakulteti).Single(t => t.Name.Equals(namee));
+				if (a.Hapur == true)
+				{
+					ViewData["StudentId"] = new SelectList(_context.Students, "Id", namee);
+
+					var data = _context.Subjects.Include(f => f.Fakulteti).Where(s => s.FakultetiId == st.FakultetiId && s.Transkripta.All(t => t.Student.Id != st.Id && t.SubjectId == s.Id)).ToList();
+
+
+					ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
+				}
+				else
+				{
+					ViewData["message"] = "Afati nuk është hapur akoma";
+				}
+
+
+
+				return View();
+			}
+/*
+		//test
 		[Authorize(Roles = "User")]
 		public async Task<IActionResult> Create()
 		{
-			var a = _context.Afati.FirstOrDefault();
+			var a = _context.Afati.Skip(1).FirstOrDefault() ?? _context.Afati.FirstOrDefault();
+
 			var user = await GetCurrentUserAsync();
 			var namee = user.FullName;
 
@@ -139,7 +168,7 @@ namespace WebApplication5.Controllers
 
 				ViewData["SubjectId"] = new SelectList(data, "Id", "Name");
 			}
-			else
+			else if(a.Hapur==false)
 			{
 				ViewData["message"] = "Afati nuk është hapur akoma";
 			}
@@ -148,8 +177,7 @@ namespace WebApplication5.Controllers
 
 			return View();
 		}
-
-		
+*/
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[Authorize(Roles = "User")]
@@ -303,7 +331,7 @@ namespace WebApplication5.Controllers
                     string formattedDate = transkript.CreatedDate.ToString("d MMMM yyyy", albanianCulture);
                     string capitalizedDate = textInfo.ToTitleCase(formattedDate);
                     mail.Subject = "Nota për lëndën " + subjectt.Name;
-					mail.Body = "<div>\r\n<span style=\"font-family:Arial;font-size:10pt\">\r\nI/E nderuar <strong>" + students.Name + " " + students.Surname + "</strong>,\r\n<br><br>\r\nMe datën <strong>" + capitalizedDate + "</strong> në <span class=\"il\">SMIS</span> është regjistruar nota për lëndën <strong>" + subjectt.Name + "</strong>" +
+					mail.Body = "<div>\r\n<span style=\"font-family:Arial;font-size:10pt\">\r\nI/E nderuar <strong>" + students.Name + " " + students.Surname + "</strong>,\r\n<br><br>\r\nMe datën <strong>" + capitalizedDate + "</strong> në <span class=\"il\">SMIS</span> është regjistruar nota për lëndën <strong>" + subjectt.Kodi + " "+ subjectt.Name + "</strong>" +
 						".<br>\r\nNota e regjistruar për këtë lëndë është <strong>" + transkript.Nota + "</strong>.<br><br>\r\n\r\n" +
 						"Për më shumë informata vizitoni profilin tuaj në <span class=\"il\">SMIS</span>, ndërsa për detaje shtesë rreth notës kontaktoni profesorin.<br><br>" +
 						"\r\n\r\n<strong>Vërejtje:</strong> Përmes sistemit <span class=\"il\">SMIS</span> ju keni mundësi ta refuzoni notën deri në <strong>48 orë </strong>" +
@@ -311,7 +339,7 @@ namespace WebApplication5.Controllers
 					mail.IsBodyHtml = true;
 					using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
 					{
-						smtp.Credentials = new System.Net.NetworkCredential("mygganbu@gmail.com", "esaeianojyprsawu");
+						smtp.Credentials = new System.Net.NetworkCredential("mygganbu@gmail.com", "koirjottsbxsybss");
 						smtp.EnableSsl = true;
 						smtp.Send(mail);
 

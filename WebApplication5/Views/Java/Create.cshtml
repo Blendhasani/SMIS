@@ -1,0 +1,54 @@
+﻿@model WebApplication5.Models.Java
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="bg-light p-5 rounded">
+<h1>Shto</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                    <div class="form-group d-none">
+                        <label class="control-label"> Grupi </label>
+                        <select asp-for="GrupiLendaId" class="form-control" asp-items="ViewBag.GrupiLendaList"></select>
+                    </div>
+                
+              
+
+            <div class="form-group">
+
+<label class="control-label">Java :</label>
+                    <select asp-for="JavaNumri" class="form-control">
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i" selected="@(i == 1)">@i</option>
+                        }
+                    </select>
+
+
+
+              
+                <span asp-validation-for="JavaNumri" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pjesemarrja" class="control-label"></label>
+                    <textarea asp-for="Pjesemarrja" style=" min-height: 200px; " class="form-control"></textarea>
+                <span asp-validation-for="Pjesemarrja" class="text-danger"></span>
+            </div>
+         
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Lendet">Back to List</a>
+</div>
+</div>

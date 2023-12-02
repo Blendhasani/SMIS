@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebApplication5.Models.Grupi>
+
+@{
+    ViewData["Title"] = "Grupet";
+}
+
+
+
+<div class="bg-light p-5 rounded">
+<h1>Grupet</h1>
+
+<p>
+    <a asp-action="Create">Krijo</a>
+</p>
+<table class="table" style="margin: auto;text-align: center;">
+    <thead>
+        <tr>
+            <th>
+                    @Html.DisplayNameFor(model => model.Emri)
+            </th>
+            <th>Veprime</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                        @Html.DisplayFor(modelItem => item.Emri)
+                </td>
+          
+                   <td class="align-middle">
+
+
+                            <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id" style="margin-bottom:10px; margin-right:4px;"><i class="bi bi-pencil-square"></i> Ndrysho</a>
+                            <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id" style="margin-bottom:10px;margin-right:4px;"><i class="bi bi-info-circle"></i> Detajet</a>
+                            <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" style="margin-bottom:10px;margin-right:4px;"><i class="bi bi-trash"></i> Fshij</a>
+
+                        </td>
+            </tr>
+            }
+    </tbody>
+</table>
+</div>

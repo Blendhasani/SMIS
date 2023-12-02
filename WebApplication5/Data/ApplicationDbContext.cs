@@ -18,22 +18,6 @@ namespace WebApplication5.Data
 			{
 				foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
 			}
-
-		/*	modelBuilder.Entity<Nationality>()
-	   .HasOne(s => s.Student)
-	   .WithOne(ad => ad.Nationality)
-	   .HasForeignKey<Student>(ad => ad.NationalityId);
-		
-
-
-        modelBuilder.Entity<Residence>()
-       .HasOne(s => s.Student)
-       .WithOne(ad => ad.Residence)
-       .HasForeignKey<Student>(ad => ad.ResidenceId);
-            modelBuilder.Entity<State>()
-       .HasOne(s => s.Student)
-       .WithOne(ad => ad.State)
-       .HasForeignKey<Student>(ad => ad.StateId);*/
         }
 
     public DbSet<Student> Students { get; set; }
@@ -50,6 +34,11 @@ namespace WebApplication5.Data
 		//public DbSet<Residence> Residences { get; set; }
 
 		public DbSet<Nationality> Nationalities { get; set; }
+		public DbSet<Grupi> Grupet { get; set; }
+		public DbSet<GrupiStudenti> GrupiStudentet { get; set; }
+		public DbSet<Java> Javet { get; set; }
+		public DbSet<WebApplication5.Models.GrupiLenda>? GrupiLenda { get; set; }
+	
 
 	}
 }
